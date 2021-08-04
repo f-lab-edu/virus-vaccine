@@ -1,13 +1,13 @@
-package com.financialinvestment;
+package com.virusvaccine;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FinancialInvestmentApplication {
+public class VirusVaccineApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FinancialInvestmentApplication.class, args);
+        SpringApplication.run(VirusVaccineApplication.class, args);
     }
 
 }

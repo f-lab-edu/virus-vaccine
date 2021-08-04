@@ -1,10 +1,10 @@
-package com.financialinvestment;
+package com.virusvaccine;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FinancialInvestmentApplicationTests {
+class VirusVaccineApplicationTests {
 
     @Test
     void contextLoads() {

@@ -12,13 +12,13 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     public User getUserByEmail(String userEmail) {
 
         Optional<User> user = userMapper.getUserByEmail(userEmail);
 
-        if (user.isEmpty()){  // 존재하지 않는 유저, 회원가입이 안된상태
+        if (user.isEmpty()){
             throw new NoneExistentUserException();
         }
 

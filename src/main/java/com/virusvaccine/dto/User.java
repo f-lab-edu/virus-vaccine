@@ -13,111 +13,75 @@ public class User {
     private String userGu;
     private String userDong;
     private String userAddress;
-    private String userLatitude;
-    private String userLongtitude;
+    private double userLatitude;
+    private double userLongtitude;
+
+    public User(int userId, String userEmail, String userPassword, String userName, String userPhonenumber, String userIdnumber, String userZipcode, String userSi, String userGu, String userDong, String userAddress, double userLatitude, double userLongtitude) {
+        this.userId = userId;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.userName = userName;
+        this.userPhonenumber = userPhonenumber;
+        this.userIdnumber = userIdnumber;
+        this.userZipcode = userZipcode;
+        this.userSi = userSi;
+        this.userGu = userGu;
+        this.userDong = userDong;
+        this.userAddress = userAddress;
+        this.userLatitude = userLatitude;
+        this.userLongtitude = userLongtitude;
+    }
 
     public int getUserId() {
         return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getUserEmail() {
         return userEmail;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
     public String getUserPassword() {
         return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
     }
 
     public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getUserPhonenumber() {
         return userPhonenumber;
-    }
-
-    public void setUserPhonenumber(String userPhonenumber) {
-        this.userPhonenumber = userPhonenumber;
     }
 
     public String getUserIdnumber() {
         return userIdnumber;
     }
 
-    public void setUserIdnumber(String userIdnumber) {
-        this.userIdnumber = userIdnumber;
-    }
-
     public String getUserZipcode() {
         return userZipcode;
-    }
-
-    public void setUserZipcode(String userZipcode) {
-        this.userZipcode = userZipcode;
     }
 
     public String getUserSi() {
         return userSi;
     }
 
-    public void setUserSi(String userSi) {
-        this.userSi = userSi;
-    }
-
     public String getUserGu() {
         return userGu;
-    }
-
-    public void setUserGu(String userGu) {
-        this.userGu = userGu;
     }
 
     public String getUserDong() {
         return userDong;
     }
 
-    public void setUserDong(String userDong) {
-        this.userDong = userDong;
-    }
-
     public String getUserAddress() {
         return userAddress;
     }
 
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
-
-    public String getUserLatitude() {
+    public double getUserLatitude() {
         return userLatitude;
     }
 
-    public void setUserLatitude(String userLatitude) {
-        this.userLatitude = userLatitude;
-    }
-
-    public String getUserLongtitude() {
+    public double getUserLongtitude() {
         return userLongtitude;
-    }
-
-    public void setUserLongtitude(String userLongtitude) {
-        this.userLongtitude = userLongtitude;
     }
 
     @Override
@@ -134,8 +98,8 @@ public class User {
                 ", userGu='" + userGu + '\'' +
                 ", userDong='" + userDong + '\'' +
                 ", userAddress='" + userAddress + '\'' +
-                ", userLatitude='" + userLatitude + '\'' +
-                ", userLongtitude='" + userLongtitude + '\'' +
+                ", userLatitude=" + userLatitude +
+                ", userLongtitude=" + userLongtitude +
                 '}';
     }
 }

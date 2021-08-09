@@ -7,6 +7,5 @@ import java.util.Optional;
 
 @Mapper
 public interface UserMapper {
-
     Optional<User> getUserByEmail(String userEmail);
 }

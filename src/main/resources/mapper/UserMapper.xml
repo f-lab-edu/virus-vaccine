@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.virusvaccine.mapper.UserMapper">
+
+    <select id="getUserByEmail" parameterType="String" resultType="com.virusvaccine.dto.User">
+        select * from user where email = #{userEmail}
+    </select>
+
+</mapper>

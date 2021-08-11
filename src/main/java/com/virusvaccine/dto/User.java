@@ -2,104 +2,55 @@ package com.virusvaccine.dto;
 
 public class User {
 
-    private int userId;
-    private String userEmail;
-    private String userPassword;
-    private String userName;
-    private String userPhonenumber;
-    private String userIdnumber;
-    private String userZipcode;
-    private String userSi;
-    private String userGu;
-    private String userDong;
-    private String userAddress;
-    private double userLatitude;
-    private double userLongtitude;
+    private final int id;
+    private final String email;
+    private final String password;
+    private final String name;
+    private final String phoneNumber;
+    private final String idNumber;
 
-    public User(int userId, String userEmail, String userPassword, String userName, String userPhonenumber, String userIdnumber, String userZipcode, String userSi, String userGu, String userDong, String userAddress, double userLatitude, double userLongtitude) {
-        this.userId = userId;
-        this.userEmail = userEmail;
-        this.userPassword = userPassword;
-        this.userName = userName;
-        this.userPhonenumber = userPhonenumber;
-        this.userIdnumber = userIdnumber;
-        this.userZipcode = userZipcode;
-        this.userSi = userSi;
-        this.userGu = userGu;
-        this.userDong = userDong;
-        this.userAddress = userAddress;
-        this.userLatitude = userLatitude;
-        this.userLongtitude = userLongtitude;
+    public User(int id, String email, String password, String name, String phoneNumber, String idNumber) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.idNumber = idNumber;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public String getUserPhonenumber() {
-        return userPhonenumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public String getUserIdnumber() {
-        return userIdnumber;
-    }
-
-    public String getUserZipcode() {
-        return userZipcode;
-    }
-
-    public String getUserSi() {
-        return userSi;
-    }
-
-    public String getUserGu() {
-        return userGu;
-    }
-
-    public String getUserDong() {
-        return userDong;
-    }
-
-    public String getUserAddress() {
-        return userAddress;
-    }
-
-    public double getUserLatitude() {
-        return userLatitude;
-    }
-
-    public double getUserLongtitude() {
-        return userLongtitude;
+    public String getIdNumber() {
+        return idNumber;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
-                ", userEmail='" + userEmail + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", userName='" + userName + '\'' +
-                ", userPhonenumber='" + userPhonenumber + '\'' +
-                ", userIdnumber='" + userIdnumber + '\'' +
-                ", userZipcode='" + userZipcode + '\'' +
-                ", userSi='" + userSi + '\'' +
-                ", userGu='" + userGu + '\'' +
-                ", userDong='" + userDong + '\'' +
-                ", userAddress='" + userAddress + '\'' +
-                ", userLatitude=" + userLatitude +
-                ", userLongtitude=" + userLongtitude +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", idNumber='" + idNumber + '\'' +
                 '}';
     }
 }

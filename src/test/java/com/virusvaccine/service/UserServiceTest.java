@@ -3,6 +3,7 @@ package com.virusvaccine.service;
 import com.virusvaccine.dto.User;
 import com.virusvaccine.exception.NoneExistentUserException;
 import com.virusvaccine.mapper.UserMapper;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,8 +30,7 @@ class UserServiceTest {
     public void getUserByEmailTest(){
 
         User user = new User(1, "abcd@naver.com", "1234", "kim", "01022223333",
-                "980432-1023654", "030-444","seoul", "kangnamgu", "sinsadong", "house",
-                120.3, 100.8);
+                "9804321");
 
         when(userMapper.getUserByEmail("abcd@naver.com"))
                 .thenReturn(Optional.of(user));

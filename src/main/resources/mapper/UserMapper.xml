@@ -3,7 +3,7 @@
 <mapper namespace="com.virusvaccine.mapper.UserMapper">
 
     <select id="getUserByEmail" parameterType="String" resultType="com.virusvaccine.dto.User">
-        select * from user where user_email = #{userEmail}
+        select * from user where email = #{userEmail}
     </select>
 
 </mapper>

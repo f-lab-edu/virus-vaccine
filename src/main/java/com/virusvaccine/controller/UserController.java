@@ -18,6 +18,8 @@ import javax.validation.Valid;
 @RequestMapping("/api/user")
 public class UserController {
 
+    static String userKey = "USER_ID";
+
     @Autowired
     private UserService userService;
 
@@ -25,12 +27,12 @@ public class UserController {
     public User login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session){
 
         User user = userService.getUserByEmail(loginRequest.getUserEmail());
-
-        if (!user.getUserPassword().equals(loginRequest.getUserPassword())){
+        // TODO 회원가입시 암호화 적용 예정
+        if (!user.getPassword().equals(loginRequest.getUserPassword())){
             throw new WrongPasswordException();
         }
 
-        session.setAttribute("USER_ID", user.getUserId());
+        session.setAttribute(userKey, user.getId());
 
         return user;
     }
@@ -38,7 +40,7 @@ public class UserController {
     @PutMapping("/logout")
     public void logout(HttpSession session){
 
-        if (session.getAttribute("USER_ID") == null){
+        if (session.getAttribute(userKey) == null){
             throw new NotLoginException();
         }
 

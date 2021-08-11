@@ -1,6 +1,8 @@
 package com.virusvaccine.dto;
 
 
+import com.virusvaccine.controller.UserController;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 

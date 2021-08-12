@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 public class LoginRequest {
 
-    @Email
+    @Email(message = "이메일 형식을 확인 해주세요")
     @NotBlank(message = "이메일을 입력 해주세요")
     private String userEmail;
 

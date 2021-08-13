@@ -42,6 +42,51 @@ public class User {
         return idNumber;
     }
 
+    public static class Builder{
+
+        private int id;
+        private String email;
+        private String password;
+        private String name;
+        private String phoneNumber;
+        private String idNumber;
+
+        public Builder id(int id){
+            this.id = id;
+            return this;
+        }
+
+        public Builder email(String email){
+            this.email = email;
+            return this;
+        }
+
+        public Builder password(String password){
+            this.password = password;
+            return this;
+        }
+
+        public Builder name(String name){
+            this.name = name;
+            return this;
+        }
+
+        public Builder phoneNumber(String phoneNumber){
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder idNumber(String idNumber){
+            this.idNumber = idNumber;
+            return this;
+        }
+
+        public User build(){
+            return new User(id, email, password, name, phoneNumber, idNumber);
+        }
+
+    }
+
     @Override
     public String toString() {
         return "User{" +

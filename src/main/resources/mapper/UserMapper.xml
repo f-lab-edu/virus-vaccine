@@ -6,4 +6,9 @@
         select * from user where email = #{userEmail}
     </select>
 
+    <insert id="signup" parameterType="com.virusvaccine.dto.User">
+        insert into user(email, password, name, phone_number, id_number)
+        values (#{email}, #{password}, #{name}, #{phoneNumber}, #{idNumber})
+    </insert>
+
 </mapper>

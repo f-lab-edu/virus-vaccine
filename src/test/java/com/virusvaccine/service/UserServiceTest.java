@@ -1,6 +1,6 @@
 package com.virusvaccine.service;
 
-import com.virusvaccine.dto.SignupRequest;
+import com.virusvaccine.dto.UserSignupRequest;
 import com.virusvaccine.dto.User;
 import com.virusvaccine.exception.DuplicateUserException;
 import com.virusvaccine.exception.NoneExistentUserException;
@@ -50,7 +50,7 @@ class UserServiceTest {
     @DisplayName("signup 메서드 단위 테스트")
     public void signupTest(){
 
-        SignupRequest signupRequest = new SignupRequest("random@naver.com", "1234", "1234", "kim", "01033334444",
+        UserSignupRequest signupRequest = new UserSignupRequest("random@naver.com", "1234", "1234", "kim", "01033334444",
                 "9505261");
         User user = new User(1, "random@naver.com", "1234", "kim", "01033334444",
                 "9505261");
@@ -58,7 +58,7 @@ class UserServiceTest {
         when(userMapper.getUserByEmail(signupRequest.getEmail())).
                 thenReturn(Optional.of(user));
 
-        assertThrows(DuplicateUserException.class, ()->userService.signup(signupRequest));
+        assertThrows(DuplicateUserException.class, ()->userService.signupUser(signupRequest));
 
     }
 

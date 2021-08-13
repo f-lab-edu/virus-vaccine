@@ -1,9 +1,10 @@
 package com.virusvaccine.service;
 
-import com.virusvaccine.dto.SignupRequest;
-import com.virusvaccine.dto.User;
+import com.virusvaccine.dto.*;
 import com.virusvaccine.exception.DuplicateUserException;
 import com.virusvaccine.exception.NoneExistentUserException;
+import com.virusvaccine.exception.WrongPasswordException;
+import com.virusvaccine.mapper.AgencyMapper;
 import com.virusvaccine.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,10 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    private boolean validateDuplicateUser(String userEmail){
+    @Autowired
+    private AgencyMapper agencyMapper;
+
+    private boolean validateDuplicateUser(String userEmail) {
 
         Optional<User> user = userMapper.getUserByEmail(userEmail);
 
@@ -25,9 +29,9 @@ public class UserService {
 
     }
 
-    public void signup(SignupRequest signUpRequest) {
+    public void signupUser(UserSignupRequest signUpRequest) {
 
-        if (validateDuplicateUser(signUpRequest.getEmail())){
+        if (validateDuplicateUser(signUpRequest.getEmail())) {
             throw new DuplicateUserException();
         }
 
@@ -43,17 +47,66 @@ public class UserService {
 
     }
 
-    public User getUserByEmail(String userEmail) {
+    public void signupAgency(AgencySignUpRequest signUpRequest) {
 
-        Optional<User> user = userMapper.getUserByEmail(userEmail);
-
-        if (user.isEmpty()){
-            throw new NoneExistentUserException();
+        if (validateDuplicateUser(signUpRequest.getEmail())) {
+            throw new DuplicateUserException();
         }
 
-        return user.get();
+        Agency agency = new Agency.Builder()
+                .email(signUpRequest.getEmail())
+                .password(SHA256.getSHA(signUpRequest.getPassword()))
+                .name(signUpRequest.getName())
+                .phoneNumber(signUpRequest.getPhoneNumber())
+                .zipCode(signUpRequest.getZipCode())
+                .siDo(signUpRequest.getSiDo())
+                .siGunGu(signUpRequest.getSiGunGu())
+                .eupMyeonDong(signUpRequest.getEupMyeonDong())
+                .address(signUpRequest.getAddress())
+                .lat(signUpRequest.getLat())
+                .lng(signUpRequest.getLng())
+                .build();
+
+        agencyMapper.signUp(agency);
 
     }
 
+    public Long login(LoginRequest request) {
+        String password;
+        Long id;
 
+        if (request.isAgency()) {
+            User user = getUserByEmail(request.getUserEmail());
+            password = user.getPassword();
+            id = (long) user.getId();
+        } else {
+            Agency agency = getAgencyByEmail(request.getUserEmail());
+            password = agency.getPassword();
+            id = agency.getId();
+        }
+
+        if (!password.equals(SHA256.getSHA(request.getUserPassword()))) {
+            throw new WrongPasswordException();
+        }
+
+        return id;
+    }
+
+    public User getUserByEmail(String userEmail) {
+        Optional<User> user = userMapper.getUserByEmail(userEmail);
+
+        if (user.isEmpty()) {
+            throw new NoneExistentUserException();
+        }
+        return user.get();
+    }
+
+    public Agency getAgencyByEmail(String email) {
+        Optional<Agency> agency = agencyMapper.getAgencyByEmail(email);
+
+        if (agency.isEmpty()) {
+            throw new NoneExistentUserException();
+        }
+        return agency.get();
+    }
 }

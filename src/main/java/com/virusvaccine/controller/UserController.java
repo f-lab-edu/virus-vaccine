@@ -1,14 +1,17 @@
 package com.virusvaccine.controller;
 
+import com.virusvaccine.dto.AgencySignUpRequest;
 import com.virusvaccine.dto.LoginRequest;
 
-import com.virusvaccine.dto.SignupRequest;
+import com.virusvaccine.dto.UserSignupRequest;
 import com.virusvaccine.dto.User;
 import com.virusvaccine.exception.NotIdenticalPasswordException;
 import com.virusvaccine.exception.NotLoginException;
 import com.virusvaccine.exception.WrongPasswordException;
 import com.virusvaccine.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import utils.SHA256;
 
@@ -25,30 +28,35 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/signup")
-    public void signup(@RequestBody @Valid SignupRequest signUpRequest){
+    @PostMapping("/signup/user")
+    public void signup(@RequestBody @Valid UserSignupRequest signUpRequest){
 
         if (!signUpRequest.getPassword1().equals(signUpRequest.getPassword2())){
             throw new NotIdenticalPasswordException();
         }
 
-        userService.signup(signUpRequest);
+        userService.signupUser(signUpRequest);
+
+    }
+
+    @PostMapping("/signup/agency")
+    public void signup(@RequestBody @Valid AgencySignUpRequest signUpRequest){
+
+        if (!signUpRequest.getPassword().equals(signUpRequest.getValidPassword())){
+            throw new NotIdenticalPasswordException();
+        }
+
+        userService.signupAgency(signUpRequest);
 
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session){
+    public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session){
+        Long id = userService.login(loginRequest);
 
-        User user = userService.getUserByEmail(loginRequest.getUserEmail());
+        session.setAttribute(userKey, id);
 
-        if (!user.getPassword().equals(SHA256.getSHA(loginRequest.getUserPassword()))){
-            throw new WrongPasswordException();
-        }
-
-        session.setAttribute(userKey, user.getId());
-
-        return user;
-
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/logout")

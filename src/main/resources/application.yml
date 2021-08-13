@@ -1,10 +1,11 @@
-# DB
+# Profile
 spring:
+  profiles:
+    active: dev
+
+# DB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:5000/virusvaccine?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&allowMultiQueries=true
-    username: root
-    password: 1234
 
 # Mybatis
 mybatis:

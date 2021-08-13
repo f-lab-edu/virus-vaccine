@@ -1,8 +1,6 @@
 package com.virusvaccine.dto;
 
 
-import com.virusvaccine.controller.UserController;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -14,6 +12,8 @@ public class LoginRequest {
 
     @NotBlank(message = "비밀번호를 입력 해주세요")
     private String userPassword;
+
+    private Boolean isAgency;
 
     public String getUserEmail() {
         return userEmail;
@@ -31,11 +31,20 @@ public class LoginRequest {
         this.userPassword = userPassword;
     }
 
+    public Boolean isAgency() {
+        return isAgency;
+    }
+
+    public void setAgency(Boolean agency) {
+        isAgency = agency;
+    }
+
     @Override
     public String toString() {
         return "LoginRequest{" +
                 "userEmail='" + userEmail + '\'' +
                 ", userPassword='" + userPassword + '\'' +
+                ", isAgency='" + isAgency + '\'' +
                 '}';
     }
 }

@@ -31,8 +31,13 @@ public class UserService {
             throw new DuplicateUserException();
         }
 
-        User user = new User(1, signUpRequest.getEmail(), SHA256.getSHA(signUpRequest.getPassword1()), signUpRequest.getName(),
-                signUpRequest.getPhoneNumber(), signUpRequest.getIdNumber());
+        User user = new User.Builder()
+                .email(signUpRequest.getEmail())
+                .password(SHA256.getSHA(signUpRequest.getPassword1()))
+                .name(signUpRequest.getName())
+                .phoneNumber(signUpRequest.getPhoneNumber())
+                .idNumber(signUpRequest.getIdNumber())
+                .build();
 
         userMapper.signup(user);
 

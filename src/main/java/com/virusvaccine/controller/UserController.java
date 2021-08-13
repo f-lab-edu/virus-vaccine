@@ -48,6 +48,7 @@ public class UserController {
         session.setAttribute(userKey, user.getId());
 
         return user;
+
     }
 
     @PutMapping("/logout")

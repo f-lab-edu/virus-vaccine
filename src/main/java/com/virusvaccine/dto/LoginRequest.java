@@ -39,6 +39,12 @@ public class LoginRequest {
         isAgency = agency;
     }
 
+    public LoginRequest(String userEmail, String userPassword, Boolean isAgency) {
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.isAgency = isAgency;
+    }
+
     @Override
     public String toString() {
         return "LoginRequest{" +

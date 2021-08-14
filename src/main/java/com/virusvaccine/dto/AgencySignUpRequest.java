@@ -42,12 +42,12 @@ public class AgencySignUpRequest {
     private String address;    // 나머지 주소
 
     @NotBlank
-    private Float lat;    // 위도
+    private Double lat;    // 위도
 
     @NotBlank
-    private Float lng;    // 경도
+    private Double lng;    // 경도
 
-    public AgencySignUpRequest(String email, String password, String validPassword, String name, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address, Float lat, Float lng) {
+    public AgencySignUpRequest(String email, String password, String validPassword, String name, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address, Double lat, Double lng) {
         this.email = email;
         this.password = password;
         this.validPassword = validPassword;
@@ -60,6 +60,21 @@ public class AgencySignUpRequest {
         this.address = address;
         this.lat = lat;
         this.lng = lng;
+    }
+
+    private AgencySignUpRequest(Builder builder) {
+        email = builder.email;
+        password = builder.password;
+        validPassword = builder.validPassword;
+        name = builder.name;
+        phoneNumber = builder.phoneNumber;
+        zipCode = builder.zipCode;
+        siDo = builder.siDo;
+        siGunGu = builder.siGunGu;
+        eupMyeonDong = builder.eupMyeonDong;
+        address = builder.address;
+        lat = builder.lat;
+        lng = builder.lng;
     }
 
     public String getEmail() {
@@ -102,11 +117,11 @@ public class AgencySignUpRequest {
         return address;
     }
 
-    public Float getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public Float getLng() {
+    public Double getLng() {
         return lng;
     }
 
@@ -126,5 +141,88 @@ public class AgencySignUpRequest {
                 ", lat=" + lat +
                 ", lng=" + lng +
                 '}';
+    }
+
+    public static Builder builder(){
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String email;    // 이메일 (uniqe)
+        private String password;    // 비밀번호
+        private String validPassword;    // 비밀번호 확인
+        private String name;    // 기관 명
+        private String phoneNumber;    // 전화번호
+        private String zipCode;    // 우편번호
+        private String siDo;    // 시/도
+        private String siGunGu;    // 시/군/구
+        private String eupMyeonDong;    // 읍/면/동/도로명
+        private String address;    // 나머지 주소
+        private Double lat;    // 위도
+        private Double lng;    // 경도
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder validPassword(String validPassword) {
+            this.validPassword = validPassword;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder phoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder zipCode(String zipCode) {
+            this.zipCode = zipCode;
+            return this;
+        }
+
+        public Builder siDo(String siDo) {
+            this.siDo = siDo;
+            return this;
+        }
+
+        public Builder siGunGu(String siGunGu) {
+            this.siGunGu = siGunGu;
+            return this;
+        }
+
+        public Builder eupMyeonDong(String eupMyeonDong) {
+            this.eupMyeonDong = eupMyeonDong;
+            return this;
+        }
+
+        public Builder address(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public Builder lat(Double lat) {
+            this.lat = lat;
+            return this;
+        }
+
+        public Builder lng(Double lng) {
+            this.lng = lng;
+            return this;
+        }
+
+        public AgencySignUpRequest build() {
+            return new AgencySignUpRequest(this);
+        }
     }
 }

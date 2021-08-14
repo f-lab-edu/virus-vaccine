@@ -11,10 +11,10 @@ public class Agency {
     private final String siGunGu;    // 시/군/구
     private final String eupMyeonDong;    // 읍/면/동/도로명
     private final String address;    // 나머지 주소
-    private final Float lat;    // 위도
-    private final Float lng;    // 경도
+    private final Double lat;    // 위도
+    private final Double lng;    // 경도
 
-    public Agency(Long id, String email, String password, String name, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address, Float lat, Float lng) {
+    public Agency(Long id, String email, String password, String name, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address, Double lat, Double lng) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -84,11 +84,11 @@ public class Agency {
         return address;
     }
 
-    public Float getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public Float getLng() {
+    public Double getLng() {
         return lng;
     }
 
@@ -110,6 +110,10 @@ public class Agency {
                 '}';
     }
 
+    public static Builder builder(){
+        return new Builder();
+    }
+
     public static class Builder {
         private Long id;
         private String email;
@@ -121,8 +125,8 @@ public class Agency {
         private String siGunGu;
         private String eupMyeonDong;
         private String address;
-        private Float lat;
-        private Float lng;
+        private Double lat;
+        private Double lng;
 
         public Builder id(Long id) {
             this.id = id;
@@ -174,12 +178,12 @@ public class Agency {
             return this;
         }
 
-        public Builder lat(Float lat) {
+        public Builder lat(Double lat) {
             this.lat = lat;
             return this;
         }
 
-        public Builder lng(Float lng) {
+        public Builder lng(Double lng) {
             this.lng = lng;
             return this;
         }

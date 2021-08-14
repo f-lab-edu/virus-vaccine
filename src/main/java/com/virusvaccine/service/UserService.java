@@ -6,7 +6,6 @@ import com.virusvaccine.exception.NoneExistentUserException;
 import com.virusvaccine.exception.WrongPasswordException;
 import com.virusvaccine.mapper.AgencyMapper;
 import com.virusvaccine.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utils.SHA256;
 
@@ -15,17 +14,28 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private AgencyMapper agencyMapper;
+    private final AgencyMapper agencyMapper;
+
+    public UserService(UserMapper userMapper, AgencyMapper agencyMapper) {
+        this.userMapper = userMapper;
+        this.agencyMapper = agencyMapper;
+    }
 
     private boolean validateDuplicateUser(String userEmail) {
 
         Optional<User> user = userMapper.getUserByEmail(userEmail);
 
         return user.isPresent();
+
+    }
+
+    private boolean validateDuplicateAgency(String userEmail) {
+
+        Optional<Agency> agency = agencyMapper.getAgencyByEmail(userEmail);
+
+        return agency.isPresent();
 
     }
 
@@ -49,7 +59,7 @@ public class UserService {
 
     public void signupAgency(AgencySignUpRequest signUpRequest) {
 
-        if (validateDuplicateUser(signUpRequest.getEmail())) {
+        if (validateDuplicateAgency(signUpRequest.getEmail())) {
             throw new DuplicateUserException();
         }
 
@@ -76,17 +86,17 @@ public class UserService {
         Long id;
 
         if (request.isAgency()) {
-            User user = getUserByEmail(request.getUserEmail());
-            password = user.getPassword();
-            id = (long) user.getId();
-        } else {
             Agency agency = getAgencyByEmail(request.getUserEmail());
             password = agency.getPassword();
             id = agency.getId();
+        } else {
+            User user = getUserByEmail(request.getUserEmail());
+            password = user.getPassword();
+            id = user.getId();
         }
 
         if (!password.equals(SHA256.getSHA(request.getUserPassword()))) {
-            throw new WrongPasswordException();
+            throw new WrongPasswordException(password, SHA256.getSHA(request.getUserPassword()));
         }
 
         return id;

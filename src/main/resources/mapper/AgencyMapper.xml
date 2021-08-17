@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.virusvaccine.mapper.AgencyMapper">
 
-    <select id="getAgencyByEmail" parameterType="String" resultType="com.virusvaccine.dto.Agency">
+    <select id="getByEmail" parameterType="String" resultType="com.virusvaccine.dto.Agency">
         select * from agency where email = #{agencyEmail}
     </select>
 

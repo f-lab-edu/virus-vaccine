@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-public class AgencySignUpRequest {
+public class AgencySignUpRequest implements SignUpRequest{
     @Email(message = "이메일 형식을 확인해 주세요")
     @NotBlank(message = "이메일을 입력해 주세요")
     private String email;    // 이메일 (uniqe)

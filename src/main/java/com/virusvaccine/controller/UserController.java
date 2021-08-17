@@ -1,12 +1,10 @@
 package com.virusvaccine.controller;
 
-import com.virusvaccine.dto.AgencySignUpRequest;
-import com.virusvaccine.dto.LoginRequest;
+import com.virusvaccine.dto.*;
 
-import com.virusvaccine.dto.UserSignupRequest;
 import com.virusvaccine.exception.NotIdenticalPasswordException;
 import com.virusvaccine.exception.NotLoginException;
-import com.virusvaccine.service.UserService;
+import com.virusvaccine.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +20,14 @@ public class UserController {
 
     static String userKey = "USER_ID";
 
-    @Autowired
-    private UserService userService;
+    private final AccountService<User> userAccountService;
+
+    private final AccountService<Agency> agencyAccountService;
+
+    public UserController(AccountService<User> userAccountService, AccountService<Agency> agencyAccountService) {
+        this.userAccountService = userAccountService;
+        this.agencyAccountService = agencyAccountService;
+    }
 
     @PostMapping("/user")
     public ResponseEntity<Void> signupUser(@RequestBody @Valid UserSignupRequest signUpRequest) {
@@ -32,7 +36,7 @@ public class UserController {
             throw new NotIdenticalPasswordException();
         }
 
-        userService.signupUser(signUpRequest);
+        userAccountService.signup(signUpRequest);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -50,11 +54,10 @@ public class UserController {
     @PostMapping("/agency")
     public ResponseEntity<Void> signupAgency(@RequestBody @Valid AgencySignUpRequest signUpRequest) {
 
-        if (!signUpRequest.getPassword().equals(signUpRequest.getValidPassword())) {
+        if (!signUpRequest.getPassword().equals(signUpRequest.getValidPassword()))
             throw new NotIdenticalPasswordException();
-        }
 
-        userService.signupAgency(signUpRequest);
+        agencyAccountService.signup(signUpRequest);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -72,7 +75,11 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session) {
-        Long id = userService.login(loginRequest);
+        Long id;
+        if(loginRequest.isAgency())
+            id = agencyAccountService.login(loginRequest);
+        else
+            id = userAccountService.login(loginRequest);
 
         session.setAttribute(userKey, id);
 

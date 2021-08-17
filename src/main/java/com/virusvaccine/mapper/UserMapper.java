@@ -7,7 +7,7 @@ import java.util.Optional;
 
 @Mapper
 public interface UserMapper {
-    Optional<User> getUserByEmail(String userEmail);
+    Optional<User> getByEmail(String userEmail);
 
     void signup(User user);
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 @Mapper
 public interface AgencyMapper {
-    Optional<Agency> getAgencyByEmail(String agencyEmail);
+    Optional<Agency> getByEmail(String agencyEmail);
 
     void signUp(Agency agency);
 }

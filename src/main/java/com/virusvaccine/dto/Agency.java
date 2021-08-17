@@ -1,18 +1,18 @@
 package com.virusvaccine.dto;
 
-public class Agency {
-    private final Long id;    // id
-    private final String email;    // 이메일 (uniqe)
-    private final String password;    // 비밀번호
-    private final String name;    // 기관 명
-    private final String phoneNumber;    // 전화번호
-    private final String zipCode;    // 우편번호
-    private final String siDo;    // 시/도
-    private final String siGunGu;    // 시/군/구
-    private final String eupMyeonDong;    // 읍/면/동/도로명
-    private final String address;    // 나머지 주소
-    private final Double lat;    // 위도
-    private final Double lng;    // 경도
+public class Agency implements Member {
+    private final Long id;
+    private final String email;
+    private final String password;
+    private final String name;
+    private final String phoneNumber;
+    private final String zipCode;
+    private final String siDo;
+    private final String siGunGu;
+    private final String eupMyeonDong;
+    private final String address;
+    private final Double lat;
+    private final Double lng;
 
     public Agency(Long id, String email, String password, String name, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address, Double lat, Double lng) {
         this.id = id;

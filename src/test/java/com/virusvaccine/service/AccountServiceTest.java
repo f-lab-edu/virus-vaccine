@@ -3,21 +3,17 @@ package com.virusvaccine.service;
 import com.virusvaccine.dto.*;
 import com.virusvaccine.exception.DuplicateUserException;
 import com.virusvaccine.exception.NoneExistentUserException;
-import com.virusvaccine.exception.NotIdenticalPasswordException;
 import com.virusvaccine.exception.WrongPasswordException;
 import com.virusvaccine.mapper.AgencyMapper;
 import com.virusvaccine.mapper.UserMapper;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import utils.SHA256;
 
 import java.util.Optional;
@@ -29,7 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class AccountServiceTest {
 
     @Mock
     private UserMapper userMapper;
@@ -38,7 +34,10 @@ class UserServiceTest {
     private AgencyMapper agencyMapper;
 
     @InjectMocks
-    private UserService userService;
+    private UserAccountService userAccountService;
+
+    @InjectMocks
+    private AgencyAccountService agencyAccountService;
 
     private User user;
     private Agency agency;
@@ -65,41 +64,41 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("getUserByEmail 메서드 단위 테스트")
+    @DisplayName("getByEmail 메서드 단위 테스트")
     public void getUserByEmailTest() {
 
-        when(userMapper.getUserByEmail("abcd@naver.com"))
+        when(userMapper.getByEmail("abcd@naver.com"))
                 .thenReturn(Optional.of(user));
 
-        assertThat(userService.getUserByEmail("abcd@naver.com"), equalTo(user));
+        assertThat(userAccountService.getByEmail("abcd@naver.com"), equalTo(user));
 
-        when(userMapper.getUserByEmail("no@naver.com"))
+        when(userMapper.getByEmail("no@naver.com"))
                 .thenReturn(Optional.empty());
 
-        assertThrows(NoneExistentUserException.class, () -> userService.getUserByEmail("no@naver.com"));
+        assertThrows(NoneExistentUserException.class, () -> userAccountService.getByEmail("no@naver.com"));
 
     }
 
     @Test
-    @DisplayName("signupUser 메서드 단위 테스트")
+    @DisplayName("signup: user 메서드 단위 테스트")
     public void signupUserTest() {
         UserSignupRequest signupRequest = new UserSignupRequest("random@naver.com", "1234", "1234", "kim", "01033334444",
                 "9505261");
 
-        when(userMapper.getUserByEmail(signupRequest.getEmail())).
+        when(userMapper.getByEmail(signupRequest.getEmail())).
                 thenReturn(Optional.of(user));
 
-        assertThrows(DuplicateUserException.class, () -> userService.signupUser(signupRequest));
+        assertThrows(DuplicateUserException.class, () -> userAccountService.signup(signupRequest));
 
     }
 
     @Test
     @DisplayName("기관 사용자 가입 성공")
     void signupAgencyTestWhenSuccess() {
-        when(agencyMapper.getAgencyByEmail(agencySignUpRequest.getEmail())).thenReturn(Optional.empty());
+        when(agencyMapper.getByEmail(agencySignUpRequest.getEmail())).thenReturn(Optional.empty());
         doNothing().when(agencyMapper).signUp(any(Agency.class));
 
-        userService.signupAgency(agencySignUpRequest);
+        agencyAccountService.signup(agencySignUpRequest);
 
         verify(agencyMapper).signUp(any(Agency.class));
     }
@@ -107,43 +106,43 @@ class UserServiceTest {
     @Test
     @DisplayName("기관 사용자 가입 실패 : 중복된 이메일")
     void signupAgencyTestWhenFail() {
-        when(agencyMapper.getAgencyByEmail(agencySignUpRequest.getEmail())).thenReturn(Optional.of(agency));
+        when(agencyMapper.getByEmail(agencySignUpRequest.getEmail())).thenReturn(Optional.of(agency));
 
-        assertThrows(DuplicateUserException.class, () -> userService.signupAgency(agencySignUpRequest));
+        assertThrows(DuplicateUserException.class, () -> agencyAccountService.signup(agencySignUpRequest));
 
-        verify(agencyMapper).getAgencyByEmail(agencySignUpRequest.getEmail());
+        verify(agencyMapper).getByEmail(agencySignUpRequest.getEmail());
     }
 
     @Test
     @DisplayName("기관 사용자 로그인 성공")
     void loginTestWhenSuccessWithAgency() {
         LoginRequest loginRequest = new LoginRequest(agency.getEmail(), agencySignUpRequest.getPassword(), true);
-        when(agencyMapper.getAgencyByEmail(agency.getEmail())).thenReturn(Optional.of(agency));
+        when(agencyMapper.getByEmail(agency.getEmail())).thenReturn(Optional.of(agency));
 
-        assertEquals(userService.login(loginRequest), agency.getId());
+        assertEquals(agencyAccountService.login(loginRequest), agency.getId());
 
-        verify(agencyMapper).getAgencyByEmail(agency.getEmail());
+        verify(agencyMapper).getByEmail(agency.getEmail());
     }
 
     @Test
     @DisplayName("기관 사용자 로그인 실패 : 존재 하지 않는 사용자")
     void loginTestWhenFailWithAgencyBecauseNotExistEmail() {
         LoginRequest loginRequest = new LoginRequest(agency.getEmail(), agencySignUpRequest.getPassword(), true);
-        when(agencyMapper.getAgencyByEmail(agency.getEmail())).thenReturn(Optional.empty());
+        when(agencyMapper.getByEmail(agency.getEmail())).thenReturn(Optional.empty());
 
-        assertThrows(NoneExistentUserException.class, () -> userService.login(loginRequest));
+        assertThrows(NoneExistentUserException.class, () -> agencyAccountService.login(loginRequest));
 
-        verify(agencyMapper).getAgencyByEmail(agency.getEmail());
+        verify(agencyMapper).getByEmail(agency.getEmail());
     }
 
     @Test
     @DisplayName("기관 사용자 로그인 실패 : 비밀번호 불일치")
     void loginTestWhenFailWithAgencyBecausePasswordError() {
         LoginRequest loginRequest = new LoginRequest(agency.getEmail(), "FailPassword", true);
-        when(agencyMapper.getAgencyByEmail(agency.getEmail())).thenReturn(Optional.of(agency));
+        when(agencyMapper.getByEmail(agency.getEmail())).thenReturn(Optional.of(agency));
 
-        assertThrows(WrongPasswordException.class, () -> userService.login(loginRequest));
+        assertThrows(WrongPasswordException.class, () -> agencyAccountService.login(loginRequest));
 
-        verify(agencyMapper).getAgencyByEmail(agency.getEmail());
+        verify(agencyMapper).getByEmail(agency.getEmail());
     }
 }

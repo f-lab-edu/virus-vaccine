@@ -1,6 +1,6 @@
 package com.virusvaccine.dto;
 
-public class User {
+public class User implements Member {
 
     private final Long id;
     private final String email;

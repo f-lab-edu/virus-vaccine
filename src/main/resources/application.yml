@@ -1,7 +1,7 @@
 # Profile
 spring:
   profiles:
-    active: dev
+    active: local
 
 # DB
   datasource:

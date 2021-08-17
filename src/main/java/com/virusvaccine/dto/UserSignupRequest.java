@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-public class UserSignupRequest {
+public class UserSignupRequest implements SignUpRequest {
 
     @Email(message = "이메일 형식을 확인해 주세요")
     @NotBlank(message = "이메일을 입력해 주세요")
@@ -20,7 +20,7 @@ public class UserSignupRequest {
     private final String password2;
 
     @NotBlank(message = "이름을 입력해 주세요")
-    @Length(max=10,message = "이름이 10글자를 넘어가지 않게 입력해 주세요")
+    @Length(max = 10, message = "이름이 10글자를 넘어가지 않게 입력해 주세요")
     private final String name;
 
     @NotBlank(message = "휴대폰번호를 입력해 주세요")

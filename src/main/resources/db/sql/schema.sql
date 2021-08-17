@@ -1,25 +1,16 @@
 CREATE TABLE user
 (
     `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `email`        VARCHAR(30)  NOT NULL COMMENT '이메일 (unique)',
-    `password`     VARCHAR(20)  NOT NULL COMMENT '비밀번호',
+    `email`        VARCHAR(30)  NOT NULL UNIQUE COMMENT '이메일 (unique)',
+    `password`     VARCHAR(100) NOT NULL COMMENT '비밀번호',
     `name`         VARCHAR(10)  NOT NULL COMMENT '이름',
-    `phone_number` CHAR(12)     NOT NULL COMMENT '전화번호 (unique)',
-    `id_number`    CHAR(7)      NOT NULL COMMENT 'yymmdd-s 7자리 (unique)',
+    `phone_number` CHAR(12)     NOT NULL UNIQUE COMMENT '전화번호 (unique)',
+    `id_number`    CHAR(7)      NOT NULL UNIQUE COMMENT 'yymmdd-s 7자리 (unique)',
     CONSTRAINT PK_user PRIMARY KEY (id)
 );
 
 ALTER TABLE user
     COMMENT '일반 사용자';
-
-CREATE UNIQUE INDEX UQ_user_1
-    ON user (email);
-
-CREATE UNIQUE INDEX UQ_user_2
-    ON user (phone_number);
-
-CREATE UNIQUE INDEX UQ_user_3
-    ON user (id_number);
 
 -- virus Table Create SQL
 CREATE TABLE virus
@@ -38,8 +29,8 @@ ALTER TABLE virus
 CREATE TABLE agency
 (
     `id`             INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `email`          VARCHAR(30)  NOT NULL COMMENT '이메일 (uniqe)',
-    `password`       VARCHAR(20)  NOT NULL COMMENT '비밀번호',
+    `email`          VARCHAR(30)  NOT NULL UNIQUE COMMENT '이메일 (uniqe)',
+    `password`       VARCHAR(100) NOT NULL COMMENT '비밀번호',
     `name`           VARCHAR(20)  NOT NULL COMMENT '기관 명',
     `phone_number`   CHAR(12)     NOT NULL COMMENT '전화번호',
     `zip_code`       CHAR(7)      NOT NULL COMMENT '우편번호',

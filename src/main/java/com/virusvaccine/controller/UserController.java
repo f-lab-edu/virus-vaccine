@@ -1,11 +1,11 @@
 package com.virusvaccine.controller;
 
-import com.virusvaccine.dto.*;
-
+import com.virusvaccine.dto.LoginRequest;
+import com.virusvaccine.dto.SignUpRequest;
 import com.virusvaccine.exception.NotIdenticalPasswordException;
 import com.virusvaccine.exception.NotLoginException;
 import com.virusvaccine.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.virusvaccine.service.AccountServiceFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,30 +13,25 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
     static String userKey = "USER_ID";
 
-    private final AccountService<User> userAccountService;
+    private final AccountServiceFactory accountServiceFactory;
 
-    private final AccountService<Agency> agencyAccountService;
-
-    public UserController(AccountService<User> userAccountService, AccountService<Agency> agencyAccountService) {
-        this.userAccountService = userAccountService;
-        this.agencyAccountService = agencyAccountService;
+    public UserController(AccountServiceFactory accountServiceFactory) {
+        this.accountServiceFactory = accountServiceFactory;
     }
 
     @PostMapping("/user")
-    public ResponseEntity<Void> signupUser(@RequestBody @Valid UserSignupRequest signUpRequest) {
+    public ResponseEntity<Void> signupUser(@RequestBody @Valid SignUpRequest signUpRequest) {
+        AccountService accountService = accountServiceFactory.getAccountService(signUpRequest.isAgency());
 
-        if (!signUpRequest.getPassword1().equals(signUpRequest.getPassword2())) {
+        if (!signUpRequest.validatePassword())
             throw new NotIdenticalPasswordException();
-        }
-
-        userAccountService.signup(signUpRequest);
+        accountService.signup(signUpRequest);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -47,18 +42,7 @@ public class UserController {
     }
 
     // TODO: 2021/08/14 일반 회원 삭제
-    public ResponseEntity<Void> deleteUser(){
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping("/agency")
-    public ResponseEntity<Void> signupAgency(@RequestBody @Valid AgencySignUpRequest signUpRequest) {
-
-        if (!signUpRequest.getPassword().equals(signUpRequest.getValidPassword()))
-            throw new NotIdenticalPasswordException();
-
-        agencyAccountService.signup(signUpRequest);
-
+    public ResponseEntity<Void> deleteUser() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -68,32 +52,30 @@ public class UserController {
     }
 
     // TODO: 2021/08/14 기관 회원 삭제
-    public ResponseEntity<Void> deleteAgency(){
+    public ResponseEntity<Void> deleteAgency() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session) {
-        Long id;
-        if(loginRequest.isAgency())
-            id = agencyAccountService.login(loginRequest);
-        else
-            id = userAccountService.login(loginRequest);
+        System.out.println("login method called");
+        AccountService accountService = accountServiceFactory.getAccountService(loginRequest.isAgency());
+        System.out.println("accountServiceFactory.getAccountService called");
 
+        Long id = accountService.login(loginRequest);
+        System.out.println("accountService.login called");
         session.setAttribute(userKey, id);
 
+        System.out.println("session.setAttribute called");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/logout")
     public ResponseEntity<Void> logout(HttpSession session) {
-        if (session.getAttribute(userKey) == null) {
+        if (session.getAttribute(userKey) == null)
             throw new NotLoginException();
-        }
 
         session.invalidate();
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

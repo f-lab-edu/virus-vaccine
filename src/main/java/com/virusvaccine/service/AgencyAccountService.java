@@ -14,7 +14,7 @@ import utils.SHA256;
 import java.util.Optional;
 
 @Service
-public class AgencyAccountService implements AccountService<Agency> {
+public class AgencyAccountService implements AccountService {
     private final AgencyMapper mapper;
 
     public AgencyAccountService(AgencyMapper mapper) {
@@ -59,7 +59,7 @@ public class AgencyAccountService implements AccountService<Agency> {
         Long id = agency.getId();
 
         if (!password.equals(SHA256.getSHA(request.getUserPassword()))) {
-            throw new WrongPasswordException(password, SHA256.getSHA(request.getUserPassword()));
+            throw new WrongPasswordException();
         }
 
         return id;

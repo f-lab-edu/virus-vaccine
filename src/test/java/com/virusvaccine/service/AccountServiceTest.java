@@ -39,17 +39,19 @@ class AccountServiceTest {
     @InjectMocks
     private AgencyAccountService agencyAccountService;
 
+    private AccountServiceFactory accountServiceFactory;
+
     private User user;
     private Agency agency;
     private AgencySignUpRequest agencySignUpRequest;
 
     @BeforeEach
     void setUp() {
-        user = new User(1L, "abcd@naver.com", "1234", "kim", "010_2222_3333",
+        user = new User(1L, "abcd@naver.com", "1234", "kim", "01022223333",
                 "980432_1");
 
         agencySignUpRequest = AgencySignUpRequest.builder()
-                .email("test@test.com").password("1234").validPassword("1234").name("우리내과")
+                .email("test@test.com").password("1234").validPassword("1234").name("우리내과").phoneNumber("01022223333")
                 .zipCode("13338").siDo("경기도").siGunGu("성남시 분당구").eupMyeonDong("백현동").address("123-45번지 201호")
                 .lat(37.40205480597614).lng(127.10777810087137)
                 .build();
@@ -60,7 +62,7 @@ class AccountServiceTest {
                 .lat(37.40205480597614).lng(127.10777810087137)
                 .build();
 
-
+        accountServiceFactory = new AccountServiceFactory(userAccountService, agencyAccountService);
     }
 
     @Test

@@ -11,7 +11,7 @@ import utils.SHA256;
 import java.util.Optional;
 
 @Service
-public class UserAccountService implements AccountService<User> {
+public class UserAccountService implements AccountService {
     private final UserMapper mapper;
 
     public UserAccountService(UserMapper mapper) {
@@ -51,7 +51,7 @@ public class UserAccountService implements AccountService<User> {
         Long id = user.getId();
 
         if (!password.equals(SHA256.getSHA(request.getUserPassword()))) {
-            throw new WrongPasswordException(password, SHA256.getSHA(request.getUserPassword()));
+            throw new WrongPasswordException();
         }
 
         return id;

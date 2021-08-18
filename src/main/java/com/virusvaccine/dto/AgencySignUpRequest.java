@@ -1,51 +1,58 @@
 package com.virusvaccine.dto;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
-public class AgencySignUpRequest implements SignUpRequest{
+@JsonTypeName(SignUpRequest.AGENCY_TYPE)
+public class AgencySignUpRequest implements SignUpRequest {
     @Email(message = "이메일 형식을 확인해 주세요")
     @NotBlank(message = "이메일을 입력해 주세요")
-    private String email;    // 이메일 (uniqe)
+    private String email;
 
     @NotBlank(message = "비밀번호를 입력해 주세요")
     @Length(min = 4, max = 20, message = "비밀번호는 4~20 글자로 입력해 주세요")
-    private String password;    // 비밀번호
+    private String password;
 
     @NotBlank(message = "비밀번호를 입력해 주세요")
     @Length(min = 4, max = 20, message = "비밀번호는 4~20 글자로 입력해 주세요")
-    private String validPassword;    // 비밀번호 확인
+    private String validPassword;
 
     @NotBlank(message = "이름을 입력해 주세요")
     @Length(max = 20, message = "이름이 20글자를 넘어가지 않게 입력해 주세요")
-    private String name;    // 기관 명
+    private String name;
 
     @NotBlank(message = "휴대폰번호를 입력해 주세요")
     @Length(min = 11, max = 11, message = "휴대폰번호를 올바르게 입력해 주세요")
-    private String phoneNumber;    // 전화번호
+    private String phoneNumber;
 
     @NotBlank(message = "우편번호를 입력해 주세요")
-    private String zipCode;    // 우편번호
+    private String zipCode;
 
     @NotBlank(message = "시/도를 입력해 주세요")
-    private String siDo;    // 시/도
+    private String siDo;
 
     @NotBlank(message = "시/군/구를 입력해 주세요")
-    private String siGunGu;    // 시/군/구
+    private String siGunGu;
 
     @NotBlank(message = "읍/면/동/도로명을 입력해 주세요")
-    private String eupMyeonDong;    // 읍/면/동/도로명
+    private String eupMyeonDong;
 
     @NotBlank(message = "나머지 주소를 입력해 주세요")
-    private String address;    // 나머지 주소
+    private String address;
 
-    @NotBlank
-    private Double lat;    // 위도
+    @NotNull
+    private Double lat;
 
-    @NotBlank
-    private Double lng;    // 경도
+    @NotNull
+    private Double lng;
+
+    public AgencySignUpRequest() {
+    }
 
     public AgencySignUpRequest(String email, String password, String validPassword, String name, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address, Double lat, Double lng) {
         this.email = email;
@@ -143,23 +150,46 @@ public class AgencySignUpRequest implements SignUpRequest{
                 '}';
     }
 
-    public static Builder builder(){
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AgencySignUpRequest that = (AgencySignUpRequest) o;
+        return Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(validPassword, that.validPassword) && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(zipCode, that.zipCode) && Objects.equals(siDo, that.siDo) && Objects.equals(siGunGu, that.siGunGu) && Objects.equals(eupMyeonDong, that.eupMyeonDong) && Objects.equals(address, that.address) && Objects.equals(lat, that.lat) && Objects.equals(lng, that.lng);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password, validPassword, name, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong, address, lat, lng);
+    }
+
+    @Override
+    public boolean validatePassword() {
+        return password.equals(validPassword);
+    }
+
+    @Override
+    public boolean isAgency() {
+        return true;
+    }
+
+    public static Builder builder() {
         return new Builder();
     }
 
     public static class Builder {
-        private String email;    // 이메일 (uniqe)
-        private String password;    // 비밀번호
-        private String validPassword;    // 비밀번호 확인
-        private String name;    // 기관 명
-        private String phoneNumber;    // 전화번호
-        private String zipCode;    // 우편번호
-        private String siDo;    // 시/도
-        private String siGunGu;    // 시/군/구
-        private String eupMyeonDong;    // 읍/면/동/도로명
-        private String address;    // 나머지 주소
-        private Double lat;    // 위도
-        private Double lng;    // 경도
+        private String email;
+        private String password;
+        private String validPassword;
+        private String name;
+        private String phoneNumber;
+        private String zipCode;
+        private String siDo;
+        private String siGunGu;
+        private String eupMyeonDong;
+        private String address;
+        private Double lat;
+        private Double lng;
 
         public Builder email(String email) {
             this.email = email;

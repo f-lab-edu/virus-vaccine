@@ -31,7 +31,7 @@ public class UserController {
 
         if (!signUpRequest.validatePassword())
             throw new NotIdenticalPasswordException();
-        accountService.signup(signUpRequest);
+        accountService.signUp(signUpRequest);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -58,15 +58,11 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session) {
-        System.out.println("login method called");
         AccountService accountService = accountServiceFactory.getAccountService(loginRequest.isAgency());
-        System.out.println("accountServiceFactory.getAccountService called");
 
         Long id = accountService.login(loginRequest);
-        System.out.println("accountService.login called");
         session.setAttribute(userKey, id);
 
-        System.out.println("session.setAttribute called");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

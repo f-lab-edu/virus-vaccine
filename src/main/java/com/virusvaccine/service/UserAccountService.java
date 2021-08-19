@@ -1,9 +1,10 @@
 package com.virusvaccine.service;
 
-import com.virusvaccine.dto.*;
+import com.virusvaccine.dto.SignUpRequest;
+import com.virusvaccine.dto.User;
+import com.virusvaccine.dto.UserSignupRequest;
 import com.virusvaccine.exception.DuplicateUserException;
 import com.virusvaccine.exception.NoneExistentUserException;
-import com.virusvaccine.exception.WrongPasswordException;
 import com.virusvaccine.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 import utils.SHA256;
@@ -11,7 +12,7 @@ import utils.SHA256;
 import java.util.Optional;
 
 @Service
-public class UserAccountService implements AccountService {
+public class UserAccountService extends AccountService {
     private final UserMapper mapper;
 
     public UserAccountService(UserMapper mapper) {
@@ -25,7 +26,7 @@ public class UserAccountService implements AccountService {
     }
 
     @Override
-    public void signup(SignUpRequest request) {
+    public void signUp(SignUpRequest request) {
         UserSignupRequest signUpRequest = (UserSignupRequest) request;
 
         if (validateDuplicate(signUpRequest.getEmail())) {
@@ -42,19 +43,6 @@ public class UserAccountService implements AccountService {
 
         mapper.signup(user);
 
-    }
-
-    @Override
-    public Long login(LoginRequest request) {
-        User user = getByEmail(request.getUserEmail());
-        String password = user.getPassword();
-        Long id = user.getId();
-
-        if (!password.equals(SHA256.getSHA(request.getUserPassword()))) {
-            throw new WrongPasswordException();
-        }
-
-        return id;
     }
 
     @Override

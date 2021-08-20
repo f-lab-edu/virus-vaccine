@@ -11,19 +11,5 @@ import java.util.List;
 
 @Mapper
 public interface LookupMapper {
-    LinkedList<ReturnAgency> lookup(LookupRequest lookupRequest);
-
-    List<ReturnAgency> lookupWithCode(@Param("lookupRequest") LookupRequest lookupRequest, @Param("code") int code);
-
-    List<ReturnAgency> lookupWithAvailable(LookupRequest lookupRequest);
-
-    List<ReturnAgency> lookupWithCodeWithAvailable(@Param("lookupRequest") LookupRequest lookupRequest, @Param("code") int code);
-
-    List<ReturnAgency> lookupWithDate(@Param("lookupRequest") LookupRequest lookupRequest, @Param("nextDay") LocalDate nextDay);
-
-    List<ReturnAgency> lookupWithCodeWithDate(@Param("lookupRequest") LookupRequest lookupRequest, @Param("code") int code, @Param("nextDay") LocalDate nextDay);
-
-    List<ReturnAgency> lookupWithAvailableWithDate(@Param("lookupRequest") LookupRequest lookupRequest, @Param("nextDay") LocalDate plusDays);
-
-    List<ReturnAgency> lookupWithCodeWithAvailableWithDate(@Param("lookupRequest") LookupRequest lookupRequest, @Param("code") int code, @Param("nextDay") LocalDate nextDay);
+    LinkedList<ReturnAgency> lookup(@Param("lookupRequest") LookupRequest lookupRequest, @Param("code") int code, @Param("nextDay") LocalDate nextDay);
 }

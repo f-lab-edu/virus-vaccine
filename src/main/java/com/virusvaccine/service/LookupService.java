@@ -7,6 +7,7 @@ import com.virusvaccine.mapper.LookupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -18,39 +19,12 @@ public class LookupService {
     public List<ReturnForm> lookup(LookupRequest lookupRequest) {
 
         List<ReturnForm> toReturn;
-        List<ReturnAgency> returnedAgencys = new ArrayList<>();
-        // 백신종류x, 보유유무x, 날짜x
-        if(lookupRequest.getCode() == null && !lookupRequest.isAvailable() && lookupRequest.getDate() == null){
-            returnedAgencys = lookupMapper.lookup(lookupRequest);
-        }
-        // 백신종류O, 보유유무x, 날짜x
-        else if(lookupRequest.getCode() != null && !lookupRequest.isAvailable() && lookupRequest.getDate() == null){
-            returnedAgencys = lookupMapper.lookupWithCode(lookupRequest, lookupRequest.getCode().getType());
-        }
-        // 백신종류x, 보유유무O, 날짜x
-        else if(lookupRequest.getCode() == null && lookupRequest.isAvailable() && lookupRequest.getDate() == null){
-            returnedAgencys = lookupMapper.lookupWithAvailable(lookupRequest);
-        }
-        // 백신종류O, 보유유무O, 날짜x
-        else if(lookupRequest.getCode() != null && lookupRequest.isAvailable() && lookupRequest.getDate() == null){
-            returnedAgencys = lookupMapper.lookupWithCodeWithAvailable(lookupRequest, lookupRequest.getCode().getType());
-        }
-        // 백신종류x, 보유유무x, 날짜o(미래 날짜)
-        else if(lookupRequest.getCode() == null && !lookupRequest.isAvailable()){
-            returnedAgencys = lookupMapper.lookupWithDate(lookupRequest, lookupRequest.getDate().plusDays(1));
-        }
-        // 백신종류O, 보유유무x, 날짜o(미래 날짜)
-        else if(lookupRequest.getCode() != null && !lookupRequest.isAvailable()){
-            returnedAgencys = lookupMapper.lookupWithCodeWithDate(lookupRequest, lookupRequest.getCode().getType(), lookupRequest.getDate().plusDays(1));
-        }
-        // 백신종류x, 보유유무O, 날짜o(미래 날짜)
-        else if(lookupRequest.getCode() == null && lookupRequest.isAvailable()){
-            returnedAgencys = lookupMapper.lookupWithAvailableWithDate(lookupRequest, lookupRequest.getDate().plusDays(1));
-        }
-        // 백신종류O, 보유유무O, 날짜o(미래 날짜)
-        else if(lookupRequest.getCode() != null && lookupRequest.isAvailable() ){
-            returnedAgencys = lookupMapper.lookupWithCodeWithAvailableWithDate(lookupRequest, lookupRequest.getCode().getType(), lookupRequest.getDate().plusDays(1));
-        }
+        List<ReturnAgency> returnedAgencys;
+
+        int code = lookupRequest.getCode() == null ? -1: lookupRequest.getCode().getType();
+        LocalDate nextDay = lookupRequest.getDate() == null ? null: lookupRequest.getDate().plusDays(1);
+
+        returnedAgencys = lookupMapper.lookup(lookupRequest, code, nextDay);
 
         HashMap<Long, ReturnForm> agencyContainer = new HashMap<>();
         for (ReturnAgency returnAgency: returnedAgencys){

@@ -2,54 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.virusvaccine.mapper.LookupMapper">
 
-    <select id="lookup" parameterType="com.virusvaccine.dto.LookupRequest" resultType="com.virusvaccine.dto.ReturnAgency">
-        select T1.id, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
-        from (select * from agency where 5000 >= st_distance_sphere(POINT(lng,lat), POINT(#{lng},#{lat})))
-        as T1 inner join (select * from acquired_vaccine where now() > vaccinate_at) as T2 on T1.id = T2.agency_id
-    </select>
-
-    <select id="lookupWithCode" resultType="com.virusvaccine.dto.ReturnAgency">
+    <select id="lookup" resultType="com.virusvaccine.dto.ReturnAgency">
         select T1.id, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
         from (select * from agency where 5000 >= st_distance_sphere(POINT(lng,lat), POINT(#{lookupRequest.lng},#{lookupRequest.lat})))
-        as T1 inner join (select * from acquired_vaccine where now() > vaccinate_at and vaccine_id = #{code}) as T2 on T1.id = T2.agency_id
-    </select>
+        as T1 inner join (select * from acquired_vaccine where
 
-    <select id="lookupWithAvailable" parameterType="com.virusvaccine.dto.LookupRequest" resultType="com.virusvaccine.dto.ReturnAgency">
-        select T1.id, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
-        from (select * from agency where 5000 >= st_distance_sphere(POINT(lng,lat), POINT(#{lng},#{lat})))
-        as T1 inner join (select * from acquired_vaccine where now() > vaccinate_at and rest_amount > 0) as T2 on T1.id = T2.agency_id
-    </select>
-
-    <select id="lookupWithCodeWithAvailable" resultType="com.virusvaccine.dto.ReturnAgency">
-        select T1.id, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
-        from (select * from agency where 5000 >= st_distance_sphere(POINT(lng,lat), POINT(#{lookupRequest.lng},#{lookupRequest.lat})))
-        as T1 inner join (select * from acquired_vaccine where now() > vaccinate_at and vaccine_id = #{code} and rest_amount > 0) as T2 on T1.id = T2.agency_id
-    </select>
-
-    <select id="lookupWithDate" resultType="com.virusvaccine.dto.ReturnAgency">
-        select T1.id, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
-        from (select * from agency where 5000 >= st_distance_sphere(POINT(lng,lat), POINT(#{lookupRequest.lng},#{lookupRequest.lat})))
-        as T1 inner join (select * from acquired_vaccine where #{nextDay} > vaccinate_at and vaccinate_at >= #{lookupRequest.date}) as T2 on T1.id = T2.agency_id
-    </select>
-
-    <select id="lookupWithCodeWithDate" resultType="com.virusvaccine.dto.ReturnAgency">
-        select T1.id, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
-        from (select * from agency where 5000 >= st_distance_sphere(POINT(lng,lat), POINT(#{lookupRequest.lng},#{lookupRequest.lat})))
-        as T1 inner join (select * from acquired_vaccine where #{nextDay} > vaccinate_at and vaccinate_at >= #{lookupRequest.date} and vaccine_id = #{code}) as T2 on T1.id = T2.agency_id
-    </select>
-
-    <select id="lookupWithAvailableWithDate" resultType="com.virusvaccine.dto.ReturnAgency">
-        select T1.id, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
-        from (select * from agency where 5000 >= st_distance_sphere(POINT(lng,lat), POINT(#{lookupRequest.lng},#{lookupRequest.lat})))
-        as T1 inner join (select * from acquired_vaccine where #{nextDay} > vaccinate_at and vaccinate_at >= #{lookupRequest.date} and rest_amount > 0) as T2 on T1.id = T2.agency_id
-    </select>
-
-    <select id="lookupWithCodeWithAvailableWithDate" resultType="com.virusvaccine.dto.ReturnAgency">
-        select T1.id, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
-        from (select * from agency where 5000 >= st_distance_sphere(POINT(lng,lat), POINT(#{lookupRequest.lng},#{lookupRequest.lat})))
-        as T1 inner join (select * from acquired_vaccine where #{nextDay} > vaccinate_at and vaccinate_at >= #{lookupRequest.date} and vaccine_id = #{code} and rest_amount > 0) as T2 on T1.id = T2.agency_id
+        <if test="nextDay != null">
+            #{nextDay} > vaccinate_at and vaccinate_at >= #{lookupRequest.date}
+        </if>
+        <if test="nextDay == null">
+            now() >= vaccinate_at
+        </if>
+        <if test="code != -1">
+            and vaccine_id = #{code}
+        </if>
+        <if test="lookupRequest.isAvailable == true">
+            and rest_amount > 0
+        </if>
+         ) as T2 on T1.id = T2.agency_id
     </select>
 
 
 
 </mapper>
+

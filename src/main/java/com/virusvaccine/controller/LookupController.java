@@ -23,7 +23,7 @@ public class LookupController {
 
     @PostMapping("/agency")
     public List<ReturnForm> agency(@RequestBody LookupRequest lookupRequest, HttpSession session){
-        System.out.println(lookupRequest.toString());
+
         if(session.getAttribute(userKey)==null){
             throw new NotLoginException();
         }

@@ -54,4 +54,9 @@ public class UserAccountService extends AccountService {
         }
         return user.get();
     }
+
+    @Override
+    protected Role getRole() {
+        return Role.USER;
+    }
 }

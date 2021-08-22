@@ -57,11 +57,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session) {
+    public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest) {
         AccountService accountService = accountServiceFactory.getAccountService(loginRequest.isAgency());
 
-        Long id = accountService.login(loginRequest);
-        session.setAttribute(userKey, id);
+        accountService.login(loginRequest);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

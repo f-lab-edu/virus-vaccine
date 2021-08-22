@@ -58,4 +58,9 @@ public class AgencyAccountService extends AccountService {
         }
         return agency.get();
     }
+
+    @Override
+    protected Role getRole() {
+        return Role.AGENCY;
+    }
 }

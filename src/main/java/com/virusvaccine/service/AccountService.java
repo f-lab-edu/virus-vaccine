@@ -10,8 +10,8 @@ import utils.SHA256;
 import javax.servlet.http.HttpSession;
 
 public abstract class AccountService {
-    public static final String USER_KEY = "USER_ID";
-    public static final String ROLE_KEY = "AUTH_ROLE";
+    public static final String SESSION_KEY_USER = "USER_ID";
+    public static final String SESSION_KEY_ROLE = "AUTH_ROLE";
 
     public enum Role{AGENCY, USER}
 
@@ -30,8 +30,8 @@ public abstract class AccountService {
         if (!password.equals(SHA256.getSHA(request.getUserPassword())))
             throw new WrongPasswordException();
 
-        session.setAttribute(USER_KEY, id);
-        session.setAttribute(ROLE_KEY, getRole());
+        session.setAttribute(SESSION_KEY_USER, id);
+        session.setAttribute(SESSION_KEY_ROLE, getRole());
     }
 
     protected abstract Member getByEmail(String email);

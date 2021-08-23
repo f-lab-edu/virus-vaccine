@@ -1,10 +1,11 @@
 package com.virusvaccine.dto;
 
 
-import com.virusvaccine.controller.UserController;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 public class LoginRequest {
 
@@ -14,6 +15,8 @@ public class LoginRequest {
 
     @NotBlank(message = "비밀번호를 입력 해주세요")
     private String userPassword;
+
+    private Boolean isAgency;
 
     public String getUserEmail() {
         return userEmail;
@@ -31,11 +34,43 @@ public class LoginRequest {
         this.userPassword = userPassword;
     }
 
+    @JsonProperty("isAgency")
+    public Boolean isAgency() {
+        return isAgency;
+    }
+
+    public void setAgency(Boolean agency) {
+        isAgency = agency;
+    }
+
+    public LoginRequest() {
+    }
+
+    public LoginRequest(String userEmail, String userPassword, Boolean isAgency) {
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.isAgency = isAgency;
+    }
+
     @Override
     public String toString() {
         return "LoginRequest{" +
                 "userEmail='" + userEmail + '\'' +
                 ", userPassword='" + userPassword + '\'' +
+                ", isAgency='" + isAgency + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LoginRequest that = (LoginRequest) o;
+        return Objects.equals(userEmail, that.userEmail) && Objects.equals(userPassword, that.userPassword) && Objects.equals(isAgency, that.isAgency);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userEmail, userPassword, isAgency);
     }
 }

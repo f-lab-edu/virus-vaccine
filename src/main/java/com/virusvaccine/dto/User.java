@@ -1,15 +1,15 @@
 package com.virusvaccine.dto;
 
-public class User {
+public class User implements Member {
 
-    private final int id;
+    private final Long id;
     private final String email;
     private final String password;
     private final String name;
     private final String phoneNumber;
     private final String idNumber;
 
-    public User(int id, String email, String password, String name, String phoneNumber, String idNumber) {
+    public User(Long id, String email, String password, String name, String phoneNumber, String idNumber) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -18,7 +18,7 @@ public class User {
         this.idNumber = idNumber;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -44,14 +44,14 @@ public class User {
 
     public static class Builder{
 
-        private int id;
+        private Long id;
         private String email;
         private String password;
         private String name;
         private String phoneNumber;
         private String idNumber;
 
-        public Builder id(int id){
+        public Builder id(Long id){
             this.id = id;
             return this;
         }

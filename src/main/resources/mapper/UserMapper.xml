@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.virusvaccine.mapper.UserMapper">
 
-    <select id="getUserByEmail" parameterType="String" resultType="com.virusvaccine.dto.User">
+    <select id="getByEmail" parameterType="String" resultType="com.virusvaccine.dto.User">
         select * from user where email = #{userEmail}
     </select>
 

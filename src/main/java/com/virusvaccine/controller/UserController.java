@@ -1,65 +1,77 @@
 package com.virusvaccine.controller;
 
 import com.virusvaccine.dto.LoginRequest;
-
-import com.virusvaccine.dto.SignupRequest;
-import com.virusvaccine.dto.User;
+import com.virusvaccine.dto.SignUpRequest;
 import com.virusvaccine.exception.NotIdenticalPasswordException;
 import com.virusvaccine.exception.NotLoginException;
-import com.virusvaccine.exception.WrongPasswordException;
-import com.virusvaccine.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.virusvaccine.service.AccountService;
+import com.virusvaccine.service.AccountServiceFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import utils.SHA256;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 public class UserController {
 
     static String userKey = "USER_ID";
 
-    @Autowired
-    private UserService userService;
+    private final AccountServiceFactory accountServiceFactory;
 
-    @PostMapping("/signup")
-    public void signup(@RequestBody @Valid SignupRequest signUpRequest){
+    public UserController(AccountServiceFactory accountServiceFactory) {
+        this.accountServiceFactory = accountServiceFactory;
+    }
 
-        if (!signUpRequest.getPassword1().equals(signUpRequest.getPassword2())){
+    @PostMapping("/user")
+    public ResponseEntity<Void> signupUser(@RequestBody @Valid SignUpRequest signUpRequest) {
+        AccountService accountService = accountServiceFactory.getAccountService(signUpRequest.isAgency());
+
+        if (!signUpRequest.validatePassword())
             throw new NotIdenticalPasswordException();
-        }
+        accountService.signUp(signUpRequest);
 
-        userService.signup(signUpRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    // TODO: 2021/08/14 일반 회원 정보 수정
+    public ResponseEntity<Void> editUser() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // TODO: 2021/08/14 일반 회원 삭제
+    public ResponseEntity<Void> deleteUser() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // TODO: 2021/08/14 기관 회원 정보 수정
+    public ResponseEntity<Void> editAgency() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // TODO: 2021/08/14 기관 회원 삭제
+    public ResponseEntity<Void> deleteAgency() {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session){
+    public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session) {
+        AccountService accountService = accountServiceFactory.getAccountService(loginRequest.isAgency());
 
-        User user = userService.getUserByEmail(loginRequest.getUserEmail());
+        Long id = accountService.login(loginRequest);
+        session.setAttribute(userKey, id);
 
-        if (!user.getPassword().equals(SHA256.getSHA(loginRequest.getUserPassword()))){
-            throw new WrongPasswordException();
-        }
-
-        session.setAttribute(userKey, user.getId());
-
-        return user;
-
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/logout")
-    public void logout(HttpSession session){
-
-        if (session.getAttribute(userKey) == null){
+    public ResponseEntity<Void> logout(HttpSession session) {
+        if (session.getAttribute(userKey) == null)
             throw new NotLoginException();
-        }
 
         session.invalidate();
-
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

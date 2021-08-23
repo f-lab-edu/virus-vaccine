@@ -1,37 +1,43 @@
 package com.virusvaccine.dto;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
-public class SignupRequest {
+@JsonTypeName(SignUpRequest.USER_TYPE)
+public class UserSignupRequest implements SignUpRequest {
 
     @Email(message = "이메일 형식을 확인해 주세요")
     @NotBlank(message = "이메일을 입력해 주세요")
-    private final String email;
+    private String email;
 
     @NotBlank(message = "비밀번호를 입력해 주세요")
     @Length(min = 4, max = 20, message = "비밀번호는 4~20 글자로 입력해 주세요")
-    private final String password1;
+    private String password1;
 
     @NotBlank(message = "비밀번호를 재입력해 주세요")
     @Length(min = 4, max = 20, message = "비밀번호는 4~20 글자로 입력해 주세요")
-    private final String password2;
+    private String password2;
 
     @NotBlank(message = "이름을 입력해 주세요")
-    @Length(max=10,message = "이름이 10글자를 넘어가지 않게 입력해 주세요")
-    private final String name;
+    @Length(max = 10, message = "이름이 10글자를 넘어가지 않게 입력해 주세요")
+    private String name;
 
     @NotBlank(message = "휴대폰번호를 입력해 주세요")
     @Length(min = 11, max = 11, message = "휴대폰번호를 올바르게 입력해 주세요")
-    private final String phoneNumber;
+    private String phoneNumber;
 
     @NotBlank(message = "주민등록번호를 입력해 주세요")
     @Length(min = 7, max = 7, message = "주민등록번호 앞 6자리와 뒤 1자리를 올바르게 입력해 주세요")
-    private final String idNumber;
+    private String idNumber;
 
-    public SignupRequest(String email, String password1, String password2, String name, String phoneNumber, String idNumber) {
+    public UserSignupRequest() {
+    }
+
+    public UserSignupRequest(String email, String password1, String password2, String name, String phoneNumber, String idNumber) {
         this.email = email;
         this.password1 = password1;
         this.password2 = password2;
@@ -74,5 +80,28 @@ public class SignupRequest {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", idNumber='" + idNumber + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean validatePassword() {
+        return password1.equals(password2);
+    }
+
+    @Override
+    public boolean isAgency() {
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserSignupRequest that = (UserSignupRequest) o;
+        return Objects.equals(email, that.email) && Objects.equals(password1, that.password1) && Objects.equals(password2, that.password2) && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(idNumber, that.idNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password1, password2, name, phoneNumber, idNumber);
     }
 }

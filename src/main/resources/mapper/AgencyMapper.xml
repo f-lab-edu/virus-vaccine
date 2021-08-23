@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.virusvaccine.mapper.AgencyMapper">
+
+    <select id="getByEmail" parameterType="String" resultType="com.virusvaccine.dto.Agency">
+        select * from agency where email = #{agencyEmail}
+    </select>
+
+    <insert id="signUp" parameterType="com.virusvaccine.dto.Agency">
+        insert into agency(email, password, name, phone_number, zip_code, si_do, si_gun_gu, eup_myeon_dong, address,
+                           lat, lng)
+        values (#{email}, #{password}, #{name}, #{phone_number}, #{zip_code}, #{si_do}, #{si_gun_gu}, #{eup_myeon_dong},
+                #{address}, #{lat}, #{lng})
+    </insert>
+</mapper>

@@ -1,33 +1,35 @@
 package com.virusvaccine.service;
 
-import com.virusvaccine.dto.SignupRequest;
+import com.virusvaccine.dto.SignUpRequest;
 import com.virusvaccine.dto.User;
+import com.virusvaccine.dto.UserSignupRequest;
 import com.virusvaccine.exception.DuplicateUserException;
 import com.virusvaccine.exception.NoneExistentUserException;
 import com.virusvaccine.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utils.SHA256;
 
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserAccountService extends AccountService {
+    private final UserMapper mapper;
 
-    @Autowired
-    private UserMapper userMapper;
-
-    private boolean validateDuplicateUser(String userEmail){
-
-        Optional<User> user = userMapper.getUserByEmail(userEmail);
-
-        return user.isPresent();
-
+    public UserAccountService(UserMapper mapper) {
+        this.mapper = mapper;
     }
 
-    public void signup(SignupRequest signUpRequest) {
+    @Override
+    public boolean validateDuplicate(String email) {
+        Optional<User> agency = mapper.getByEmail(email);
+        return agency.isPresent();
+    }
 
-        if (validateDuplicateUser(signUpRequest.getEmail())){
+    @Override
+    public void signUp(SignUpRequest request) {
+        UserSignupRequest signUpRequest = (UserSignupRequest) request;
+
+        if (validateDuplicate(signUpRequest.getEmail())) {
             throw new DuplicateUserException();
         }
 
@@ -39,21 +41,17 @@ public class UserService {
                 .idNumber(signUpRequest.getIdNumber())
                 .build();
 
-        userMapper.signup(user);
+        mapper.signup(user);
 
     }
 
-    public User getUserByEmail(String userEmail) {
+    @Override
+    public User getByEmail(String email) {
+        Optional<User> user = mapper.getByEmail(email);
 
-        Optional<User> user = userMapper.getUserByEmail(userEmail);
-
-        if (user.isEmpty()){
+        if (user.isEmpty()) {
             throw new NoneExistentUserException();
         }
-
         return user.get();
-
     }
-
-
 }

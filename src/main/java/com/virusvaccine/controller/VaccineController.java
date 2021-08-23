@@ -1,5 +1,6 @@
 package com.virusvaccine.controller;
 
+import com.virusvaccine.controller.annotation.AccountId;
 import com.virusvaccine.controller.annotation.Authorized;
 import com.virusvaccine.dto.Vaccine;
 import com.virusvaccine.dto.VaccineRegistrationRequest;
@@ -24,19 +25,19 @@ public class VaccineController {
     }
 
     @GetMapping("/viruses")
-    public List<Virus> getViruses(){
+    public List<Virus> getViruses() {
         return vaccineService.getViruses();
     }
 
     @GetMapping
-    public List<Vaccine> getVaccines(){
+    public List<Vaccine> getVaccines() {
         return vaccineService.getVaccines();
     }
 
     @Authorized(AGENCY)
     @PostMapping
-    public ResponseEntity<Void> registryVaccine(@RequestBody @Valid VaccineRegistrationRequest request) {
-        vaccineService.register(request);
+    public ResponseEntity<Void> registryVaccine(@AccountId Long agencyId, @RequestBody @Valid VaccineRegistrationRequest request) {
+        vaccineService.register(agencyId, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

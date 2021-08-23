@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import java.util.Objects;
 
-import static com.virusvaccine.service.AccountService.ROLE_KEY;
+import static com.virusvaccine.service.AccountService.SESSION_KEY_ROLE;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
@@ -26,13 +26,15 @@ public class AuthInterceptor implements HandlerInterceptor {
         else{
             Authorized authorizedAnnotation = handlerMethod.getMethodAnnotation(Authorized.class);
             Role role = getSessionRole(request);
-            return Objects.requireNonNull(authorizedAnnotation).value() == role;
+            if (Objects.requireNonNull(authorizedAnnotation).value() != role)
+                throw new UnauthorizedException();
+            return true;
         }
     }
 
     private Role getSessionRole(HttpServletRequest request){
         HttpSession session = request.getSession();
-        Object role = session.getAttribute(ROLE_KEY);
+        Object role = session.getAttribute(SESSION_KEY_ROLE);
         if (role == null)
             throw new UnauthorizedException();
 

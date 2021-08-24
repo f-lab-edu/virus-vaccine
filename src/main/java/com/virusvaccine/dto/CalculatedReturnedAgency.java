@@ -1,19 +1,28 @@
 package com.virusvaccine.dto;
 
-import java.util.List;
-import java.util.Objects;
 
-public class ReturnAgency {
+import java.util.Arrays;
 
-    Long id;
-    String phoneNumber;
-    String zipCode;
-    String siDo;
-    String siGunGu;
-    String eupMyeonDong;
-    String address;
-    int vaccineId;
-    int restAmount;
+public class CalculatedReturnedAgency {
+
+    private final Long id;
+    private final String phoneNumber;
+    private final String zipCode;
+    private final String siDo;
+    private final String siGunGu;
+    private final String eupMyeonDong;
+    private final String address;
+    private final int[] restAmount = new int[5];
+
+    public CalculatedReturnedAgency(Long id, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address) {
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+        this.zipCode = zipCode;
+        this.siDo = siDo;
+        this.siGunGu = siGunGu;
+        this.eupMyeonDong = eupMyeonDong;
+        this.address = address;
+    }
 
     public Long getId() {
         return id;
@@ -43,17 +52,13 @@ public class ReturnAgency {
         return address;
     }
 
-    public int getVaccineId() {
-        return vaccineId;
-    }
-
-    public int getRestAmount() {
+    public int[] getRestAmount() {
         return restAmount;
     }
 
     @Override
     public String toString() {
-        return "ReturnAgency{" +
+        return "CalculatedReturnedAgency{" +
                 "id=" + id +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", zipCode='" + zipCode + '\'' +
@@ -61,8 +66,7 @@ public class ReturnAgency {
                 ", siGunGu='" + siGunGu + '\'' +
                 ", eupMyeonDong='" + eupMyeonDong + '\'' +
                 ", address='" + address + '\'' +
-                ", vaccineId=" + vaccineId +
-                ", restAmount=" + restAmount +
+                ", restAmount=" + Arrays.toString(restAmount) +
                 '}';
     }
 }

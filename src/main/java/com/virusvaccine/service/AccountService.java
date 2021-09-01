@@ -8,7 +8,6 @@ import utils.SHA256;
 
 public abstract class AccountService {
     public abstract boolean validateDuplicate(String email);
-
     public abstract void signUp(SignUpRequest signUpRequest);
 
     public Long login(LoginRequest request) {
@@ -22,5 +21,5 @@ public abstract class AccountService {
         return id;
     }
 
-    protected abstract Member getByEmail(String email);
+    protected abstract Member getByEmail(String email); // this can be the only difference from using an interface??
 }

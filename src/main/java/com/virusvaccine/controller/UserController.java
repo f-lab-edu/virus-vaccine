@@ -58,6 +58,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session) {
+
         AccountService accountService = accountServiceFactory.getAccountService(loginRequest.isAgency());
 
         Long id = accountService.login(loginRequest);

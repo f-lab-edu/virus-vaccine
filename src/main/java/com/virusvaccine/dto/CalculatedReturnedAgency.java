@@ -2,6 +2,7 @@ package com.virusvaccine.dto;
 
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class CalculatedReturnedAgency {
 
@@ -54,6 +55,21 @@ public class CalculatedReturnedAgency {
 
     public int[] getRestAmount() {
         return restAmount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CalculatedReturnedAgency)) return false;
+        CalculatedReturnedAgency that = (CalculatedReturnedAgency) o;
+        return Objects.equals(id, that.id) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(zipCode, that.zipCode) && Objects.equals(siDo, that.siDo) && Objects.equals(siGunGu, that.siGunGu) && Objects.equals(eupMyeonDong, that.eupMyeonDong) && Objects.equals(address, that.address) && Arrays.equals(restAmount, that.restAmount);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong, address);
+        result = 31 * result + Arrays.hashCode(restAmount);
+        return result;
     }
 
     @Override

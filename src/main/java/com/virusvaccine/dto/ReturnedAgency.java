@@ -1,7 +1,6 @@
 package com.virusvaccine.dto;
 
-import java.util.List;
-import java.util.Objects;
+;
 
 public class ReturnedAgency {
 

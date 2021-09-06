@@ -2,12 +2,12 @@ package com.virusvaccine.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.virusvaccine.exception.RequestException;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class VaccineRegistrationRequest {
     @JsonIgnore
@@ -18,13 +18,13 @@ public class VaccineRegistrationRequest {
     private Integer amount;
     @NotNull(message = "백신 접종 가능 시간을 입력해 주세요")
     @FutureOrPresent(message = "접종 시간은 과거일 수 없습니다")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Timestamp vaccinateAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime vaccinateAt;
 
     public VaccineRegistrationRequest() {
     }
 
-    public VaccineRegistrationRequest(Long vaccineId, Integer amount, Timestamp vaccinateAt) {
+    public VaccineRegistrationRequest(Long vaccineId, Integer amount, LocalDateTime vaccinateAt) {
         this.vaccineId = vaccineId;
         this.amount = amount;
         this.vaccinateAt = vaccinateAt;
@@ -46,7 +46,20 @@ public class VaccineRegistrationRequest {
         return amount;
     }
 
-    public Timestamp getVaccinateAt() {
+    public LocalDateTime getVaccinateAt() {
         return vaccinateAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VaccineRegistrationRequest request = (VaccineRegistrationRequest) o;
+        return Objects.equals(vaccineId, request.vaccineId) && Objects.equals(amount, request.amount) && Objects.equals(vaccinateAt, request.vaccinateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vaccineId, amount, vaccinateAt);
     }
 }

@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -27,7 +28,7 @@ class VaccineServiceTest {
     @Test
     @DisplayName("백신 등록 테스트 : 성공")
     void registerTestWhenCorrectRequestThenSuccess() {
-        VaccineRegistrationRequest request = new VaccineRegistrationRequest(1L, 10, new Timestamp(System.currentTimeMillis()));
+        VaccineRegistrationRequest request = new VaccineRegistrationRequest(1L, 10, LocalDateTime.now().plusDays(1));
         doNothing().when(vaccineMapper).insertAcquiredVaccine(request);
 
         vaccineService.register(1L, request);

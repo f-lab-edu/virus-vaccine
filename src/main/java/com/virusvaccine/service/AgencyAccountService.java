@@ -29,6 +29,8 @@ public class AgencyAccountService extends AccountService {
     public void signUp(SignUpRequest request) {
         AgencySignUpRequest signUpRequest = (AgencySignUpRequest) request;
 
+
+
         if (validateDuplicate(signUpRequest.getEmail())) {
             throw new DuplicateUserException();
         }

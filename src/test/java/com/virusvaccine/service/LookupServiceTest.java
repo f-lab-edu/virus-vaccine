@@ -3,7 +3,6 @@ package com.virusvaccine.service;
 import com.virusvaccine.dto.CalculatedReturnedAgency;
 import com.virusvaccine.dto.LookupRequest;
 import com.virusvaccine.dto.ReturnedAgency;
-import com.virusvaccine.dto.VaccineType;
 import com.virusvaccine.exception.NotFoundException;
 import com.virusvaccine.mapper.LookupMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +14,6 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
-import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -25,13 +22,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class AgencyLookupServiceTest {
+class LookupServiceTest {
 
     @Mock
     LookupMapper lookupMapper;
 
     @InjectMocks
-    AgencyLookupService agencyLookupService;
+    LookupService lookupService;
 
     private LookupRequest lookupRequest;
 
@@ -58,7 +55,7 @@ class AgencyLookupServiceTest {
         when(lookupMapper.lookup(lookupRequest, -1, null))
                 .thenReturn(returnedAgencys);
 
-        assertThat(agencyLookupService.lookup(lookupRequest), equalTo(answer));
+        assertThat(lookupService.lookup(lookupRequest), equalTo(answer));
 
     }
 
@@ -69,7 +66,7 @@ class AgencyLookupServiceTest {
         when(lookupMapper.lookup(lookupRequest, -1, null))
                 .thenReturn(List.of());
 
-        assertThrows(NotFoundException.class, () -> agencyLookupService.lookup(lookupRequest));
+        assertThrows(NotFoundException.class, () -> lookupService.lookup(lookupRequest));
 
     }
 

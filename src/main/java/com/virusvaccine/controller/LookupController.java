@@ -64,7 +64,7 @@ public class LookupController {
             throw new NotLoginException();
         }
 
-        return new ResponseEntity<>(lookupService.lookupAgencyReseravtion(agencyId), HttpStatus.OK);
+        return new ResponseEntity<>(lookupService.lookupAgencyReservation(agencyId), HttpStatus.OK);
     }
 
     @GetMapping("/agency/reservation/time/lookup")
@@ -76,7 +76,7 @@ public class LookupController {
             throw new NotLoginException();
         }
 
-        return new ResponseEntity<>(lookupService.lookupAgencyReseravtionWithTime(agencyId), HttpStatus.OK);
+        return new ResponseEntity<>(lookupService.lookupAgencyReservationWithTime(agencyId), HttpStatus.OK);
     }
 
 

@@ -36,7 +36,5 @@
         and a.id = b.acquired_vaccine_id
     </select>
 
-
-
 </mapper>
 

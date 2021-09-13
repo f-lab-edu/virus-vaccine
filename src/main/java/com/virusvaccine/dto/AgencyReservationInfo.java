@@ -1,22 +1,23 @@
 package com.virusvaccine.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 public class AgencyReservationInfo {
 
-    private final LocalDateTime vaccinateAt;
+    private final LocalDate vaccinateAt;
     private final int vaccineId;
     private final Long restAmount;
     private final Long bookedAmount;
 
-    public AgencyReservationInfo(LocalDateTime vaccinateAt, int vaccineId, Long restAmount, Long bookedAmount) {
+    public AgencyReservationInfo(LocalDate vaccinateAt, int vaccineId, Long restAmount, Long bookedAmount) {
         this.vaccinateAt = vaccinateAt;
         this.vaccineId = vaccineId;
         this.restAmount = restAmount;
         this.bookedAmount = bookedAmount;
     }
 
-    public LocalDateTime getVaccinateAt() {
+    public LocalDate getVaccinateAt() {
         return vaccinateAt;
     }
 

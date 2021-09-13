@@ -1,6 +1,7 @@
 package com.virusvaccine.dto;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class UserReservationInfo {
 
@@ -60,6 +61,29 @@ public class UserReservationInfo {
 
     public String getAddress() {
         return address;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof UserReservationInfo)) {
+            return false;
+        }
+        UserReservationInfo that = (UserReservationInfo) o;
+        return Objects.equals(vaccinateAt, that.vaccinateAt) && Objects.equals(
+            vaccineId, that.vaccineId) && Objects.equals(name, that.name)
+            && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(
+            zipCode, that.zipCode) && Objects.equals(siDo, that.siDo)
+            && Objects.equals(siGunGu, that.siGunGu) && Objects.equals(eupMyeonDong,
+            that.eupMyeonDong) && Objects.equals(address, that.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vaccinateAt, vaccineId, name, phoneNumber, zipCode, siDo, siGunGu,
+            eupMyeonDong, address);
     }
 
     @Override

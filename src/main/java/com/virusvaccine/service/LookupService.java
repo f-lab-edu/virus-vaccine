@@ -51,16 +51,27 @@ public class LookupService {
 
     public List<UserReservationInfo> lookupReservation(Long userId) {
 
-        return lookupMapper.userReservationLookup(userId);
+        List<UserReservationInfo> userReservationInfos = lookupMapper.userReservationLookup(userId);
+
+        if (userReservationInfos.isEmpty()){
+            throw new NotFoundException();
+        }
+
+        return userReservationInfos;
     }
 
-    public HashMap<LocalDate, CalculatedAgencyReservationInfo> lookupAgencyReseravtion(Long agencyId) {
+    public HashMap<LocalDate, CalculatedAgencyReservationInfo> lookupAgencyReservation(Long agencyId) {
 
         List<AgencyReservationInfo> agencyReservationInfos = lookupMapper.agencyReservationLookup(agencyId);
+
+        if (agencyReservationInfos.isEmpty()){
+            throw new NotFoundException();
+        }
+
         HashMap<LocalDate, CalculatedAgencyReservationInfo> toReturn = new HashMap<>();
 
         for (AgencyReservationInfo agencyReservationInfo: agencyReservationInfos){
-            LocalDate date = agencyReservationInfo.getVaccinateAt().toLocalDate();
+            LocalDate date = agencyReservationInfo.getVaccinateAt();
             if (!toReturn.containsKey(date)){
                 toReturn.put(date, new CalculatedAgencyReservationInfo());
             }
@@ -72,9 +83,14 @@ public class LookupService {
 
     }
 
-    public HashMap<LocalDate, HashMap<Integer, long[]>> lookupAgencyReseravtionWithTime(Long agencyId){
+    public HashMap<LocalDate, HashMap<Integer, long[]>> lookupAgencyReservationWithTime(Long agencyId){
 
         List<AgencyReservationInfoWithTime> agencyReservationInfoWithTimes = lookupMapper.agencyReservationLookupWithTime(agencyId);
+
+        if (agencyReservationInfoWithTimes.isEmpty()){
+            throw new NotFoundException();
+        }
+
         HashMap<LocalDate, HashMap<Integer, long[]>> toReturn = new HashMap<>();
 
         for (AgencyReservationInfoWithTime agencyReservationInfoWithTime: agencyReservationInfoWithTimes){

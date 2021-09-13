@@ -8,6 +8,7 @@ build/
 ### local properties file
 src/main/resources/application-local.yml
 
+
 ### STS ###
 .apt_generated
 .classpath

@@ -2,7 +2,7 @@ package com.virusvaccine.controller;
 
 import com.virusvaccine.dto.*;
 import com.virusvaccine.exception.NotLoginException;
-import com.virusvaccine.service.LookupService;
+import com.virusvaccine.service.LookupAgencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -17,14 +17,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class LookupController {
+public class LookupAgencyController {
 
     private final String userKey = UserController.userKey;
 
     @Autowired
-    private LookupService lookupService;
+    private LookupAgencyService lookupAgencyService;
 
-    @GetMapping("/agency/lookup")
+    @GetMapping("/agency")
     public ResponseEntity<List<CalculatedReturnedAgency>> lookup(@RequestParam float lat,
                                                                 @RequestParam float lng,
                                                                 @RequestParam(required = false) VaccineType code,
@@ -38,46 +38,8 @@ public class LookupController {
 
         LookupRequest lookupRequest = new LookupRequest(lat, lng, code, available, date);
 
-        return new ResponseEntity<>(lookupService.lookup(lookupRequest), HttpStatus.OK);
+        return new ResponseEntity<>(lookupAgencyService.lookup(lookupRequest), HttpStatus.OK);
 
     }
-
-    @GetMapping("/user/reservation/lookup")
-    public ResponseEntity<List<UserReservationInfo>> reservation(HttpSession session){
-
-        Long userId = (Long) session.getAttribute(userKey);
-
-        if(userId == null){
-            throw new NotLoginException();
-        }
-
-        return new ResponseEntity<>(lookupService.lookupReservation(userId), HttpStatus.OK);
-
-    }
-
-    @GetMapping("/agency/reservation/lookup")
-    public ResponseEntity<HashMap<LocalDate, CalculatedAgencyReservationInfo>> agencyreservation(HttpSession session){
-
-        Long agencyId = (Long) session.getAttribute(userKey);
-
-        if(agencyId == null){
-            throw new NotLoginException();
-        }
-
-        return new ResponseEntity<>(lookupService.lookupAgencyReservation(agencyId), HttpStatus.OK);
-    }
-
-    @GetMapping("/agency/reservation/time/lookup")
-    public ResponseEntity<HashMap<LocalDate, HashMap<Integer, long[]>>> agencyreservationnwithtime(HttpSession session){
-
-        Long agencyId = (Long) session.getAttribute(userKey);
-
-        if(agencyId == null){
-            throw new NotLoginException();
-        }
-
-        return new ResponseEntity<>(lookupService.lookupAgencyReservationWithTime(agencyId), HttpStatus.OK);
-    }
-
 
 }

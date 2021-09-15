@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.virusvaccine.mapper.LookupMapper">
+<mapper namespace="com.virusvaccine.mapper.LookupAgencyMapper">
 
     <select id="lookup" resultType="com.virusvaccine.dto.ReturnedAgency">
         select T1.id, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
@@ -19,21 +19,6 @@
             and rest_amount > 0
         </if>
          ) as T2 on T1.id = T2.agency_id
-    </select>
-
-    <select id="userReservationLookup" resultType="com.virusvaccine.dto.UserReservationInfo">
-        select b.vaccinate_at, b.acquired_vaccine_id, c.name, c.phone_number, c.zip_code,
-        c.si_do, c.si_gun_gu, c.eup_myeon_dong, c.address from booking as b inner join acquired_vaccine as a on b.acquired_vaccine_id = a.id and b.user_id = #{userId}
-        inner join agency c on a.agency_id = c.id
-    </select>
-
-    <select id="agencyReservationLookup" resultType="com.virusvaccine.dto.AgencyReservationInfo">
-        select vaccinate_at, vaccine_id, amount, amount-rest_amount from acquired_vaccine where agency_id = #{agencyId}
-    </select>
-
-    <select id="agencyReservationLookupWithTime" resultType="com.virusvaccine.dto.AgencyReservationInfoWithTime">
-        select b.vaccinate_at, a.vaccine_id from acquired_vaccine as a inner join booking as b on a.agency_id = #{agencyId}
-        and a.id = b.acquired_vaccine_id
     </select>
 
 </mapper>

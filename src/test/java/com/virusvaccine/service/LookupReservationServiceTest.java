@@ -3,18 +3,14 @@ package com.virusvaccine.service;
 import com.virusvaccine.dto.AgencyReservationInfo;
 import com.virusvaccine.dto.AgencyReservationInfoWithTime;
 import com.virusvaccine.dto.CalculatedAgencyReservationInfo;
-import com.virusvaccine.dto.CalculatedReturnedAgency;
-import com.virusvaccine.dto.LookupRequest;
-import com.virusvaccine.dto.ReturnedAgency;
 import com.virusvaccine.dto.UserReservationInfo;
 import com.virusvaccine.exception.NotFoundException;
-import com.virusvaccine.mapper.LookupMapper;
+import com.virusvaccine.mapper.LookupReservationMapper;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,66 +27,27 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class LookupServiceTest {
+class LookupReservationServiceTest {
 
-    @Mock
-    LookupMapper lookupMapper;
+  @Mock
+  private LookupReservationMapper lookupReservationMapper;
 
-    @InjectMocks
-    LookupService lookupService;
+  @InjectMocks
+  private LookupReservationService lookupReservationService;
 
-    private LookupRequest lookupRequest;
+  @Test
+  @DisplayName("lookupReservation 메서드 단위 테스트 : 예약한 내역이 있을경우")
+  public void lookupReservationFoundTest(){
 
-    @BeforeEach
-    private void setUp(){
-        lookupRequest = new LookupRequest((float) 60.3, (float) 102.3, null, true, null);
-    }
-
-    @Test
-    @DisplayName("lookup 메서드 단위 테스트 : 조건에 맞는 기관을 찾았을때")
-    public void lookupFoundTest(){
-
-        List<CalculatedReturnedAgency> answer = List.of(
-                new CalculatedReturnedAgency(1L, "01022223333", "000-111", "seoul", "seoul", "seoul", "seoul"),
-                new CalculatedReturnedAgency(2L, "01022223333", "000-111", "seoul", "seoul", "seoul", "seoul"));
-        answer.get(0).getRestAmount()[2] += 100;
-        answer.get(0).getRestAmount()[3] += 100;
-        answer.get(1).getRestAmount()[0] += 100;
-
-        List<ReturnedAgency> returnedAgencys = List.of(new ReturnedAgency(1L,"01022223333", "000-111", "seoul","seoul","seoul", "seoul",3, 100),
-                new ReturnedAgency(1L,"01022223333", "000-111", "seoul","seoul","seoul", "seoul",4, 100),
-                new ReturnedAgency(2L,"01022223333", "000-111", "seoul","seoul","seoul", "seoul",1, 100));
-
-        when(lookupMapper.lookup(lookupRequest, -1, null))
-                .thenReturn(returnedAgencys);
-
-        assertThat(lookupService.lookup(lookupRequest), equalTo(answer));
-
-    }
-
-    @Test
-    @DisplayName("lookup 메서드 단위 테스트 : 조건에 맞는 기관을 못찾았을때")
-    public void lookupNotFoundTest(){
-
-        when(lookupMapper.lookup(lookupRequest, -1, null))
-                .thenReturn(List.of());
-
-        assertThrows(NotFoundException.class, () -> lookupService.lookup(lookupRequest));
-
-    }
-
-    @Test
-    @DisplayName("lookupReservation 메서드 단위 테스트 : 예약한 내역이 있을경우")
-    public void lookupReservationFoundTest(){
 
         List<UserReservationInfo> answer = List.of(new UserReservationInfo(null, 1L, null, null, null, null, null, null, null),
                                                    new UserReservationInfo(null, 2L, null, null, null, null, null, null, null));
 
-        when(lookupMapper.userReservationLookup(1L))
+        when(lookupReservationMapper.userReservationLookup(1L))
             .thenReturn(List.of(new UserReservationInfo(null, 1L, null, null, null, null, null, null, null),
                                 new UserReservationInfo(null, 2L, null, null, null, null, null, null, null)));
 
-        assertThat(lookupService.lookupReservation(1L), equalTo(answer));
+        assertThat(lookupReservationService.lookupReservation(1L), equalTo(answer));
 
     }
 
@@ -98,10 +55,10 @@ class LookupServiceTest {
     @DisplayName("lookupReservation 메서드 단위 테스트 : 예약한 내역이 없는경우")
     public void lookupReservationNotFoundTest(){
 
-        when(lookupMapper.userReservationLookup(1L))
+        when(lookupReservationMapper.userReservationLookup(1L))
             .thenReturn(List.of());
 
-        assertThrows(NotFoundException.class, ()->lookupService.lookupReservation(1L));
+        assertThrows(NotFoundException.class, ()-> lookupReservationService.lookupReservation(1L));
 
     }
 
@@ -123,13 +80,13 @@ class LookupServiceTest {
         case2.getBookedAmount()[2] += 1;
         answer.put(LocalDate.of(2021,9,2), case2);
 
-        when(lookupMapper.agencyReservationLookup(1L))
+        when(lookupReservationMapper.agencyReservationLookup(1L))
             .thenReturn(List.of(new AgencyReservationInfo(LocalDate.of(2021,9,2), 3, 200L, 1L),
                                 new AgencyReservationInfo(LocalDate.of(2021,9,2), 1, 200L, 1L),
                                 new AgencyReservationInfo(LocalDate.of(2021,9,10), 1, 200L, 1L)
                 ));
 
-        assertThat(lookupService.lookupAgencyReservation(1L), equalTo(answer));
+        assertThat(lookupReservationService.lookupAgencyReservation(1L), equalTo(answer));
 
     }
 
@@ -137,10 +94,10 @@ class LookupServiceTest {
     @DisplayName("lookupAgencyReservation 메서드 단위 테스트 : 해당 기관이 확보한 백신 물량이 없는경우")
     public void lookupAgencyReservationNotFoundTest(){
 
-        when(lookupMapper.agencyReservationLookup(1L))
+        when(lookupReservationMapper.agencyReservationLookup(1L))
             .thenReturn(List.of());
 
-        assertThrows(NotFoundException.class, ()->lookupService.lookupAgencyReservation(1L));
+        assertThrows(NotFoundException.class, ()-> lookupReservationService.lookupAgencyReservation(1L));
 
     }
 
@@ -165,12 +122,12 @@ class LookupServiceTest {
         case2.get(7)[0] += 1;
         answer.put(LocalDate.of(2021,9,2), case2);
 
-        when(lookupMapper.agencyReservationLookupWithTime(1L))
+        when(lookupReservationMapper.agencyReservationLookupWithTime(1L))
             .thenReturn(List.of(new AgencyReservationInfoWithTime(LocalDateTime.of(2021,9,2,5,10,24), 3),
                                 new AgencyReservationInfoWithTime(LocalDateTime.of(2021,9,2,7,29,45), 1),
                                 new AgencyReservationInfoWithTime(LocalDateTime.of(2021,9,10,13,32,11), 1)));
 
-        HashMap<LocalDate, HashMap<Integer, long[]>> output = lookupService.lookupAgencyReservationWithTime(1L);
+        HashMap<LocalDate, HashMap<Integer, long[]>> output = lookupReservationService.lookupAgencyReservationWithTime(1L);
 
         for (Map.Entry<LocalDate, HashMap<Integer, long[]>> entry : output.entrySet()){ // 각 날짜당 시간별 예약수(배열) 비교 검증
             LocalDate key = entry.getKey();
@@ -188,11 +145,12 @@ class LookupServiceTest {
     @DisplayName("lookupAgencyReservationWithTime 메서드 단위 테스트 : 해당 기관이 확보한 백신 물량이 없는경우")
     public void lookupAgencyReservationWithTimeNotFoundTest(){
 
-        when(lookupMapper.agencyReservationLookupWithTime(1L))
+        when(lookupReservationMapper.agencyReservationLookupWithTime(1L))
             .thenReturn(List.of());
 
-        assertThrows(NotFoundException.class, ()->lookupService.lookupAgencyReservationWithTime(1L));
+        assertThrows(NotFoundException.class, ()-> lookupReservationService.lookupAgencyReservationWithTime(1L));
 
     }
+
 
 }

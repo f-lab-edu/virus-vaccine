@@ -39,9 +39,9 @@ public class LookupAgencyService {
                         returnedAgency.getEupMyeonDong(),
                         returnedAgency.getAddress()));
             }
-
-            agencyContainer.get(returnedAgency.getId()).getRestAmount()[returnedAgency.getVaccineId()-1] += returnedAgency.getRestAmount();
-
+            CalculatedReturnedAgency calculatedReturnedAgency = agencyContainer.get(returnedAgency.getId());
+            calculatedReturnedAgency.getRestAmount()[returnedAgency.getVaccineId()-1] += returnedAgency.getRestAmount();
+            calculatedReturnedAgency.addTotal(returnedAgency.getRestAmount());
         }
 
         return new ArrayList<>(agencyContainer.values());

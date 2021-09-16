@@ -14,6 +14,7 @@ public class CalculatedReturnedAgency {
     private final String eupMyeonDong;
     private final String address;
     private final int[] restAmount = new int[5];
+    private Integer totalAmount = 0;
 
     public CalculatedReturnedAgency(Long id, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address) {
         this.id = id;
@@ -57,17 +58,35 @@ public class CalculatedReturnedAgency {
         return restAmount;
     }
 
+    public Integer getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void addTotal(int num){
+        totalAmount += num;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CalculatedReturnedAgency)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CalculatedReturnedAgency)) {
+            return false;
+        }
         CalculatedReturnedAgency that = (CalculatedReturnedAgency) o;
-        return Objects.equals(id, that.id) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(zipCode, that.zipCode) && Objects.equals(siDo, that.siDo) && Objects.equals(siGunGu, that.siGunGu) && Objects.equals(eupMyeonDong, that.eupMyeonDong) && Objects.equals(address, that.address) && Arrays.equals(restAmount, that.restAmount);
+        return Objects.equals(id, that.id) && Objects.equals(phoneNumber,
+            that.phoneNumber) && Objects.equals(zipCode, that.zipCode)
+            && Objects.equals(siDo, that.siDo) && Objects.equals(siGunGu,
+            that.siGunGu) && Objects.equals(eupMyeonDong, that.eupMyeonDong)
+            && Objects.equals(address, that.address) && Arrays.equals(restAmount,
+            that.restAmount) && Objects.equals(totalAmount, that.totalAmount);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong, address);
+        int result = Objects.hash(id, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong, address,
+            totalAmount);
         result = 31 * result + Arrays.hashCode(restAmount);
         return result;
     }
@@ -75,14 +94,15 @@ public class CalculatedReturnedAgency {
     @Override
     public String toString() {
         return "CalculatedReturnedAgency{" +
-                "id=" + id +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", siDo='" + siDo + '\'' +
-                ", siGunGu='" + siGunGu + '\'' +
-                ", eupMyeonDong='" + eupMyeonDong + '\'' +
-                ", address='" + address + '\'' +
-                ", restAmount=" + Arrays.toString(restAmount) +
-                '}';
+            "id=" + id +
+            ", phoneNumber='" + phoneNumber + '\'' +
+            ", zipCode='" + zipCode + '\'' +
+            ", siDo='" + siDo + '\'' +
+            ", siGunGu='" + siGunGu + '\'' +
+            ", eupMyeonDong='" + eupMyeonDong + '\'' +
+            ", address='" + address + '\'' +
+            ", restAmount=" + Arrays.toString(restAmount) +
+            ", totalAmount=" + totalAmount +
+            '}';
     }
 }

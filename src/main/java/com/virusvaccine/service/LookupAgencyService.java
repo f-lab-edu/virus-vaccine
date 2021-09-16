@@ -1,10 +1,8 @@
 package com.virusvaccine.service;
 
-import com.virusvaccine.dto.LookupRequest;
-import com.virusvaccine.dto.ReturnedAgency;
-import com.virusvaccine.dto.CalculatedReturnedAgency;
+import com.virusvaccine.dto.*;
 import com.virusvaccine.exception.NotFoundException;
-import com.virusvaccine.mapper.LookupMapper;
+import com.virusvaccine.mapper.LookupAgencyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +10,10 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Service
-public class AgencyLookupService {
+public class LookupAgencyService {
 
     @Autowired
-    private LookupMapper lookupMapper;
+    private LookupAgencyMapper lookupAgencyMapper;
 
     public List<CalculatedReturnedAgency> lookup(LookupRequest lookupRequest) {
 
@@ -24,7 +22,7 @@ public class AgencyLookupService {
         int code = lookupRequest.getCode() == null ? -1: lookupRequest.getCode().getType();
         LocalDate nextDay = lookupRequest.getDate() == null ? null: lookupRequest.getDate().plusDays(1);
 
-        returnedAgencys = lookupMapper.lookup(lookupRequest, code, nextDay);
+        returnedAgencys = lookupAgencyMapper.lookup(lookupRequest, code, nextDay);
 
         if (returnedAgencys.isEmpty()){
             throw new NotFoundException();
@@ -49,4 +47,5 @@ public class AgencyLookupService {
         return new ArrayList<>(agencyContainer.values());
 
     }
+
 }

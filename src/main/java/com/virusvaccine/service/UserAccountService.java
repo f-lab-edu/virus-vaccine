@@ -27,6 +27,7 @@ public class UserAccountService extends AccountService {
 
     @Override
     public void signUp(SignUpRequest request) {
+
         UserSignupRequest signUpRequest = (UserSignupRequest) request;
 
         if (validateDuplicate(signUpRequest.getEmail())) {

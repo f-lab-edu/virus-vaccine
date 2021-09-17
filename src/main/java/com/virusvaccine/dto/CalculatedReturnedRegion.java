@@ -1,8 +1,9 @@
 package com.virusvaccine.dto;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class CalculatedReturnedRegion {
+public class CalculatedReturnedRegion implements Serializable {
 
   private final String siDo;
   private Integer totalAmount = 0;

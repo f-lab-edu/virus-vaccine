@@ -1,10 +1,11 @@
 package com.virusvaccine.dto;
 
-
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class CalculatedReturnedAgency {
+
+public class CalculatedReturnedAgency implements Serializable {
 
     private final Long id;
     private final String phoneNumber;

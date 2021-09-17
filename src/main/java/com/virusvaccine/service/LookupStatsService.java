@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +21,7 @@ public class LookupStatsService {
   @Autowired
   LookupStatsMapper lookupStatsMapper;
 
+  @Cacheable("quantity")
   public Long[][] getQuantityOfVaccines() {
 
     List<VaccineQuantity> vaccineQuantities = lookupStatsMapper.getQuantityOfVaccines();
@@ -34,6 +36,7 @@ public class LookupStatsService {
     return quantity;
   }
 
+  @Cacheable("bookedquantity")
   public Long[][] getQuantityOfBookedVaccines() {
 
     List<VaccineQuantity> vaccineQuantities = lookupStatsMapper.getQuantityOfBookedVaccines();
@@ -48,6 +51,7 @@ public class LookupStatsService {
     return bookedquantity;
   }
 
+  @Cacheable("CalculatedReturnedAgency")
   public List<CalculatedReturnedAgency> getAgencysWithRestAmount() {
 
     List<ReturnedAgency> returnedAgencies = lookupStatsMapper.getAgencysWithRestAmount();
@@ -74,6 +78,7 @@ public class LookupStatsService {
     return calculatedReturnedAgencies.size() > 5 ? calculatedReturnedAgencies.subList(0, 5) : calculatedReturnedAgencies;
   }
 
+  @Cacheable("CalculatedReturnedRegion")
   public List<CalculatedReturnedRegion> getRegionsWithRestAmount() {
 
     List<ReturnedRegion> returnedRegions = lookupStatsMapper.getRegionsWithRestAmount();

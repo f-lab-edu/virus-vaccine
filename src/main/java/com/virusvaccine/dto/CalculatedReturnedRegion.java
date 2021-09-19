@@ -1,13 +1,12 @@
 package com.virusvaccine.dto;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.Objects;
 
 public class CalculatedReturnedRegion implements Serializable {
 
   private final String siDo;
   private Integer totalAmount = 0;
-  private final int[] restAmount = new int[5];
 
   public CalculatedReturnedRegion(String siDo) {
     this.siDo = siDo;
@@ -21,12 +20,26 @@ public class CalculatedReturnedRegion implements Serializable {
     return totalAmount;
   }
 
-  public int[] getRestAmount() {
-    return restAmount;
-  }
-
   public void addTotal(int num){
     totalAmount += num;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof CalculatedReturnedRegion)) {
+      return false;
+    }
+    CalculatedReturnedRegion that = (CalculatedReturnedRegion) o;
+    return Objects.equals(siDo, that.siDo) && Objects.equals(totalAmount,
+        that.totalAmount);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(siDo, totalAmount);
   }
 
   @Override
@@ -34,7 +47,6 @@ public class CalculatedReturnedRegion implements Serializable {
     return "CalculatedReturnedRegion{" +
         "siDo='" + siDo + '\'' +
         ", totalAmount=" + totalAmount +
-        ", restAmount=" + Arrays.toString(restAmount) +
         '}';
   }
 

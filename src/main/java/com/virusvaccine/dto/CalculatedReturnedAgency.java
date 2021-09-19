@@ -8,6 +8,7 @@ import java.util.Objects;
 public class CalculatedReturnedAgency implements Serializable {
 
     private final Long id;
+    private final String name;
     private final String phoneNumber;
     private final String zipCode;
     private final String siDo;
@@ -17,8 +18,9 @@ public class CalculatedReturnedAgency implements Serializable {
     private final int[] restAmount = new int[5];
     private Integer totalAmount = 0;
 
-    public CalculatedReturnedAgency(Long id, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address) {
+    public CalculatedReturnedAgency(Long id, String name, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address) {
         this.id = id;
+        this.name = name;
         this.phoneNumber = phoneNumber;
         this.zipCode = zipCode;
         this.siDo = siDo;
@@ -29,6 +31,10 @@ public class CalculatedReturnedAgency implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getPhoneNumber() {
@@ -76,17 +82,19 @@ public class CalculatedReturnedAgency implements Serializable {
             return false;
         }
         CalculatedReturnedAgency that = (CalculatedReturnedAgency) o;
-        return Objects.equals(id, that.id) && Objects.equals(phoneNumber,
-            that.phoneNumber) && Objects.equals(zipCode, that.zipCode)
-            && Objects.equals(siDo, that.siDo) && Objects.equals(siGunGu,
-            that.siGunGu) && Objects.equals(eupMyeonDong, that.eupMyeonDong)
-            && Objects.equals(address, that.address) && Arrays.equals(restAmount,
-            that.restAmount) && Objects.equals(totalAmount, that.totalAmount);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name)
+            && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(
+            zipCode, that.zipCode) && Objects.equals(siDo, that.siDo)
+            && Objects.equals(siGunGu, that.siGunGu) && Objects.equals(eupMyeonDong,
+            that.eupMyeonDong) && Objects.equals(address, that.address)
+            && Arrays.equals(restAmount, that.restAmount) && Objects.equals(
+            totalAmount, that.totalAmount);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong, address,
+        int result = Objects.hash(id, name, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong,
+            address,
             totalAmount);
         result = 31 * result + Arrays.hashCode(restAmount);
         return result;
@@ -96,6 +104,7 @@ public class CalculatedReturnedAgency implements Serializable {
     public String toString() {
         return "CalculatedReturnedAgency{" +
             "id=" + id +
+            ", name='" + name + '\'' +
             ", phoneNumber='" + phoneNumber + '\'' +
             ", zipCode='" + zipCode + '\'' +
             ", siDo='" + siDo + '\'' +

@@ -42,8 +42,8 @@ class LookupAgencyServiceTest {
     public void lookupFoundTest(){
 
         List<CalculatedReturnedAgency> answer = List.of(
-                new CalculatedReturnedAgency(1L, "01022223333", "000-111", "seoul", "seoul", "seoul", "seoul"),
-                new CalculatedReturnedAgency(2L, "01022223333", "000-111", "seoul", "seoul", "seoul", "seoul"));
+                new CalculatedReturnedAgency(1L, null, "01022223333", "000-111", "seoul", "seoul", "seoul", "seoul"),
+                new CalculatedReturnedAgency(2L, null, "01022223333", "000-111", "seoul", "seoul", "seoul", "seoul"));
         answer.get(0).getRestAmount()[2] += 100;
         answer.get(0).addTotal(100);
         answer.get(0).getRestAmount()[3] += 100;
@@ -52,9 +52,9 @@ class LookupAgencyServiceTest {
         answer.get(1).addTotal(100);
 
 
-        List<ReturnedAgency> returnedAgencys = List.of(new ReturnedAgency(1L,"01022223333", "000-111", "seoul","seoul","seoul", "seoul",3, 100),
-                new ReturnedAgency(1L,"01022223333", "000-111", "seoul","seoul","seoul", "seoul",4, 100),
-                new ReturnedAgency(2L,"01022223333", "000-111", "seoul","seoul","seoul", "seoul",1, 100));
+        List<ReturnedAgency> returnedAgencys = List.of(new ReturnedAgency(1L,null,"01022223333", "000-111", "seoul","seoul","seoul", "seoul",3, 100),
+                new ReturnedAgency(1L,null, "01022223333", "000-111", "seoul","seoul","seoul", "seoul",4, 100),
+                new ReturnedAgency(2L,null, "01022223333", "000-111", "seoul","seoul","seoul", "seoul",1, 100));
 
         when(lookupAgencyMapper.lookup(lookupRequest, -1, null))
                 .thenReturn(returnedAgencys);

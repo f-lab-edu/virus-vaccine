@@ -1,10 +1,10 @@
 package com.virusvaccine.dto;
 
-;
 
 public class ReturnedAgency {
 
     private final Long id;
+    private final String name;
     private final String phoneNumber;
     private final String zipCode;
     private final String siDo;
@@ -14,8 +14,11 @@ public class ReturnedAgency {
     private final int vaccineId;
     private final int restAmount;
 
-    public ReturnedAgency(Long id, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address, int vaccineId, int restAmount) {
+    public ReturnedAgency(Long id, String name, String phoneNumber, String zipCode,
+        String siDo, String siGunGu, String eupMyeonDong, String address, int vaccineId,
+        int restAmount) {
         this.id = id;
+        this.name = name;
         this.phoneNumber = phoneNumber;
         this.zipCode = zipCode;
         this.siDo = siDo;
@@ -28,6 +31,10 @@ public class ReturnedAgency {
 
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getPhoneNumber() {
@@ -65,15 +72,17 @@ public class ReturnedAgency {
     @Override
     public String toString() {
         return "ReturnedAgency{" +
-                "id=" + id +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", siDo='" + siDo + '\'' +
-                ", siGunGu='" + siGunGu + '\'' +
-                ", eupMyeonDong='" + eupMyeonDong + '\'' +
-                ", address='" + address + '\'' +
-                ", vaccineId=" + vaccineId +
-                ", restAmount=" + restAmount +
-                '}';
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", phoneNumber='" + phoneNumber + '\'' +
+            ", zipCode='" + zipCode + '\'' +
+            ", siDo='" + siDo + '\'' +
+            ", siGunGu='" + siGunGu + '\'' +
+            ", eupMyeonDong='" + eupMyeonDong + '\'' +
+            ", address='" + address + '\'' +
+            ", vaccineId=" + vaccineId +
+            ", restAmount=" + restAmount +
+            '}';
     }
+
 }

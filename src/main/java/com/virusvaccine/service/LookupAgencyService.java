@@ -32,6 +32,7 @@ public class LookupAgencyService {
         for (ReturnedAgency returnedAgency : returnedAgencys){
             if(!agencyContainer.containsKey(returnedAgency.getId())){
                 agencyContainer.put(returnedAgency.getId(), new CalculatedReturnedAgency(returnedAgency.getId(),
+                        returnedAgency.getName(),
                         returnedAgency.getPhoneNumber(),
                         returnedAgency.getZipCode(),
                         returnedAgency.getSiDo(),

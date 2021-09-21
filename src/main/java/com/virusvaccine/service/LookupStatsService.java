@@ -1,5 +1,6 @@
 package com.virusvaccine.service;
 
+import com.virusvaccine.config.CacheScheduleConfig;
 import com.virusvaccine.dto.CalculatedReturnedAgency;
 import com.virusvaccine.dto.CalculatedReturnedRegion;
 import com.virusvaccine.dto.RankedReturnedAgency;
@@ -22,13 +23,12 @@ public class LookupStatsService {
   @Autowired
   LookupStatsMapper lookupStatsMapper;
 
-  @Cacheable("quantity")
+  @Cacheable(CacheScheduleConfig.value1)
   public Long[] getQuantityOfVaccines() {
 
     List<VaccineQuantity> vaccineQuantities = lookupStatsMapper.getQuantityOfVaccines();
 
     Long[][] quantity = {{1L, 0L}, {2L, 0L}, {3L, 0L}, {4L, 0L}, {5L, 0L}};
-
     for (VaccineQuantity vaccineQuantity: vaccineQuantities){
       quantity[vaccineQuantity.getVaccineId()-1][1] += vaccineQuantity.getAmount();
     }
@@ -43,7 +43,7 @@ public class LookupStatsService {
     return ranking;
   }
 
-  @Cacheable("bookedquantity")
+  @Cacheable("QuantityOfBookedVaccines")
   public Long[] getQuantityOfBookedVaccines() {
 
     List<VaccineQuantity> vaccineQuantities = lookupStatsMapper.getQuantityOfBookedVaccines();
@@ -64,7 +64,7 @@ public class LookupStatsService {
     return ranking;
   }
 
-  @Cacheable("CalculatedReturnedAgency")
+  @Cacheable("AgencysWithRestAmount")
   public List<RankedReturnedAgency> getAgencysWithRestAmount() {
 
     List<ReturnedAgency> returnedAgencies = lookupStatsMapper.getAgencysWithRestAmount();
@@ -99,7 +99,7 @@ public class LookupStatsService {
 
   }
 
-  @Cacheable("CalculatedReturnedRegion")
+  @Cacheable("RegionsWithRestAmount")
   public List<String> getRegionsWithRestAmount() {
 
     List<ReturnedRegion> returnedRegions = lookupStatsMapper.getRegionsWithRestAmount();

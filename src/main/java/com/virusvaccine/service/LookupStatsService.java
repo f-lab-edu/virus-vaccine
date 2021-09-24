@@ -23,7 +23,7 @@ public class LookupStatsService {
   @Autowired
   LookupStatsMapper lookupStatsMapper;
 
-  @Cacheable(CacheScheduleConfig.value1)
+  @Cacheable(CacheScheduleConfig.VALUE_RANKING_QUANTITY)
   public Long[] getQuantityOfVaccines() {
 
     List<VaccineQuantity> vaccineQuantities = lookupStatsMapper.getQuantityOfVaccines();
@@ -43,7 +43,7 @@ public class LookupStatsService {
     return ranking;
   }
 
-  @Cacheable("QuantityOfBookedVaccines")
+  @Cacheable(CacheScheduleConfig.VALUE_RANKING_BOOKEDNUM)
   public Long[] getQuantityOfBookedVaccines() {
 
     List<VaccineQuantity> vaccineQuantities = lookupStatsMapper.getQuantityOfBookedVaccines();
@@ -64,7 +64,7 @@ public class LookupStatsService {
     return ranking;
   }
 
-  @Cacheable("AgencysWithRestAmount")
+  @Cacheable(CacheScheduleConfig.VALUE_RANKING_AGENCY)
   public List<RankedReturnedAgency> getAgencysWithRestAmount() {
 
     List<ReturnedAgency> returnedAgencies = lookupStatsMapper.getAgencysWithRestAmount();
@@ -99,7 +99,7 @@ public class LookupStatsService {
 
   }
 
-  @Cacheable("RegionsWithRestAmount")
+  @Cacheable(CacheScheduleConfig.VALUE_RANKING_REGION)
   public List<String> getRegionsWithRestAmount() {
 
     List<ReturnedRegion> returnedRegions = lookupStatsMapper.getRegionsWithRestAmount();

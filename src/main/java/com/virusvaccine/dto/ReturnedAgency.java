@@ -85,4 +85,76 @@ public class ReturnedAgency {
             '}';
     }
 
+    public static final class ReturnedAgencyBuilder {
+
+        private Long id;
+        private String name;
+        private String phoneNumber;
+        private String zipCode;
+        private String siDo;
+        private String siGunGu;
+        private String eupMyeonDong;
+        private String address;
+        private int vaccineId;
+        private int restAmount;
+
+        public static ReturnedAgencyBuilder aReturnedAgency() {
+            return new ReturnedAgencyBuilder();
+        }
+
+        public ReturnedAgencyBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public ReturnedAgencyBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public ReturnedAgencyBuilder withPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public ReturnedAgencyBuilder withZipCode(String zipCode) {
+            this.zipCode = zipCode;
+            return this;
+        }
+
+        public ReturnedAgencyBuilder withSiDo(String siDo) {
+            this.siDo = siDo;
+            return this;
+        }
+
+        public ReturnedAgencyBuilder withSiGunGu(String siGunGu) {
+            this.siGunGu = siGunGu;
+            return this;
+        }
+
+        public ReturnedAgencyBuilder withEupMyeonDong(String eupMyeonDong) {
+            this.eupMyeonDong = eupMyeonDong;
+            return this;
+        }
+
+        public ReturnedAgencyBuilder withAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public ReturnedAgencyBuilder withVaccineId(int vaccineId) {
+            this.vaccineId = vaccineId;
+            return this;
+        }
+
+        public ReturnedAgencyBuilder withRestAmount(int restAmount) {
+            this.restAmount = restAmount;
+            return this;
+        }
+
+        public ReturnedAgency build() {
+            return new ReturnedAgency(id, name, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong,
+                address, vaccineId, restAmount);
+        }
+    }
 }

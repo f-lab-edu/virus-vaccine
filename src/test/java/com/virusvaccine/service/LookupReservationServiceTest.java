@@ -39,13 +39,12 @@ class LookupReservationServiceTest {
   @DisplayName("lookupReservation 메서드 단위 테스트 : 예약한 내역이 있을경우")
   public void lookupReservationFoundTest(){
 
-
-        List<UserReservationInfo> answer = List.of(new UserReservationInfo(null, 1L, null, null, null, null, null, null, null),
-                                                   new UserReservationInfo(null, 2L, null, null, null, null, null, null, null));
+        List<UserReservationInfo> answer = List.of(UserReservationInfo.UserReservationInfoBuilder.anUserReservationInfo().withVaccineId(1L).build(),
+            UserReservationInfo.UserReservationInfoBuilder.anUserReservationInfo().withVaccineId(2L).build());
 
         when(lookupReservationMapper.userReservationLookup(1L))
-            .thenReturn(List.of(new UserReservationInfo(null, 1L, null, null, null, null, null, null, null),
-                                new UserReservationInfo(null, 2L, null, null, null, null, null, null, null)));
+            .thenReturn(List.of(UserReservationInfo.UserReservationInfoBuilder.anUserReservationInfo().withVaccineId(1L).build(),
+                UserReservationInfo.UserReservationInfoBuilder.anUserReservationInfo().withVaccineId(2L).build()));
 
         assertThat(lookupReservationService.lookupReservation(1L), equalTo(answer));
 

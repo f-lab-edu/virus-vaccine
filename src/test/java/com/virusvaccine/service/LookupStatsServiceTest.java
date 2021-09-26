@@ -59,19 +59,20 @@ class LookupStatsServiceTest {
   @DisplayName("getAgencysWithRestAmount 메서드 단위 테스트")
   public void getAgencysWithRestAmountTest(){
 
-    List<RankedReturnedAgency> answer = List.of(new RankedReturnedAgency("기관6", null, null,null,null,null,null),
-                                                new RankedReturnedAgency("기관5", null, null,null,null,null,null),
-                                                new RankedReturnedAgency("기관4", null, null,null,null,null,null),
-                                                new RankedReturnedAgency("기관3", null, null,null,null,null,null),
-                                                new RankedReturnedAgency("기관2", null, null,null,null,null,null));
+    List<RankedReturnedAgency> answer = List.of(RankedReturnedAgency.RankedReturnedAgencyBuilder.aRankedReturnedAgency().withName("기관6").build(),
+        RankedReturnedAgency.RankedReturnedAgencyBuilder.aRankedReturnedAgency().withName("기관5").build(),
+        RankedReturnedAgency.RankedReturnedAgencyBuilder.aRankedReturnedAgency().withName("기관4").build(),
+        RankedReturnedAgency.RankedReturnedAgencyBuilder.aRankedReturnedAgency().withName("기관3").build(),
+        RankedReturnedAgency.RankedReturnedAgencyBuilder.aRankedReturnedAgency().withName("기관2").build()
+        );
 
     when(lookupStatsMapper.getAgencysWithRestAmount())
-        .thenReturn(List.of(new ReturnedAgency(1L,"기관1",null,null,null,null,null,null,3,100),
-                            new ReturnedAgency(2L,"기관2",null,null,null,null,null,null,1,200),
-                            new ReturnedAgency(3L,"기관3",null,null,null,null,null,null,1,300),
-                            new ReturnedAgency(4L,"기관4",null,null,null,null,null,null,1,400),
-                            new ReturnedAgency(5L,"기관5",null,null,null,null,null,null,1,500),
-                            new ReturnedAgency(6L,"기관6",null,null,null,null,null,null,1,600)));
+        .thenReturn(List.of(ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(1L).withName("기관1").withVaccineId(3).withRestAmount(100).build(),
+            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(2L).withName("기관2").withVaccineId(1).withRestAmount(200).build(),
+            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(3L).withName("기관3").withVaccineId(1).withRestAmount(300).build(),
+            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(4L).withName("기관4").withVaccineId(1).withRestAmount(400).build(),
+            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(5L).withName("기관5").withVaccineId(1).withRestAmount(500).build(),
+            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(6L).withName("기관6").withVaccineId(1).withRestAmount(600).build()));
 
     assertThat(lookupStatsService.getAgencysWithRestAmount(), equalTo(answer));
 

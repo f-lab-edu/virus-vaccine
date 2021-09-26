@@ -115,4 +115,69 @@ public class CalculatedReturnedAgency implements Serializable {
             ", totalAmount=" + totalAmount +
             '}';
     }
+
+
+    public static final class CalculatedReturnedAgencyBuilder {
+
+        private Long id;
+        private String name;
+        private String phoneNumber;
+        private String zipCode;
+        private String siDo;
+        private String siGunGu;
+        private String eupMyeonDong;
+        private String address;
+
+        private CalculatedReturnedAgencyBuilder() {
+        }
+
+        public static CalculatedReturnedAgencyBuilder aCalculatedReturnedAgency() {
+            return new CalculatedReturnedAgencyBuilder();
+        }
+
+        public CalculatedReturnedAgencyBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public CalculatedReturnedAgencyBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public CalculatedReturnedAgencyBuilder withPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public CalculatedReturnedAgencyBuilder withZipCode(String zipCode) {
+            this.zipCode = zipCode;
+            return this;
+        }
+
+        public CalculatedReturnedAgencyBuilder withSiDo(String siDo) {
+            this.siDo = siDo;
+            return this;
+        }
+
+        public CalculatedReturnedAgencyBuilder withSiGunGu(String siGunGu) {
+            this.siGunGu = siGunGu;
+            return this;
+        }
+
+        public CalculatedReturnedAgencyBuilder withEupMyeonDong(String eupMyeonDong) {
+            this.eupMyeonDong = eupMyeonDong;
+            return this;
+        }
+
+        public CalculatedReturnedAgencyBuilder withAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public CalculatedReturnedAgency build() {
+            return new CalculatedReturnedAgency(id, name, phoneNumber, zipCode, siDo, siGunGu,
+                eupMyeonDong, address);
+        }
+    }
 }

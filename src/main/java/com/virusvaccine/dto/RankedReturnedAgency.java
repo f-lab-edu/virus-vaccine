@@ -86,4 +86,58 @@ public class RankedReturnedAgency implements Serializable {
         '}';
   }
 
+  public static final class RankedReturnedAgencyBuilder {
+
+    private String name;
+    private String phoneNumber;
+    private String zipCode;
+    private String siDo;
+    private String siGunGu;
+    private String eupMyeonDong;
+    private String address;
+
+    public static RankedReturnedAgencyBuilder aRankedReturnedAgency() {
+      return new RankedReturnedAgencyBuilder();
+    }
+
+    public RankedReturnedAgencyBuilder withName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public RankedReturnedAgencyBuilder withPhoneNumber(String phoneNumber) {
+      this.phoneNumber = phoneNumber;
+      return this;
+    }
+
+    public RankedReturnedAgencyBuilder withZipCode(String zipCode) {
+      this.zipCode = zipCode;
+      return this;
+    }
+
+    public RankedReturnedAgencyBuilder withSiDo(String siDo) {
+      this.siDo = siDo;
+      return this;
+    }
+
+    public RankedReturnedAgencyBuilder withSiGunGu(String siGunGu) {
+      this.siGunGu = siGunGu;
+      return this;
+    }
+
+    public RankedReturnedAgencyBuilder withEupMyeonDong(String eupMyeonDong) {
+      this.eupMyeonDong = eupMyeonDong;
+      return this;
+    }
+
+    public RankedReturnedAgencyBuilder withAddress(String address) {
+      this.address = address;
+      return this;
+    }
+
+    public RankedReturnedAgency build() {
+      return new RankedReturnedAgency(name, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong,
+          address);
+    }
+  }
 }

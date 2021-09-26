@@ -42,8 +42,8 @@ class LookupAgencyServiceTest {
     public void lookupFoundTest(){
 
         List<CalculatedReturnedAgency> answer = List.of(
-                new CalculatedReturnedAgency(1L, null, "01022223333", "000-111", "seoul", "seoul", "seoul", "seoul"),
-                new CalculatedReturnedAgency(2L, null, "01022223333", "000-111", "seoul", "seoul", "seoul", "seoul"));
+            CalculatedReturnedAgency.CalculatedReturnedAgencyBuilder.aCalculatedReturnedAgency().withId(1L).build(),
+            CalculatedReturnedAgency.CalculatedReturnedAgencyBuilder.aCalculatedReturnedAgency().withId(2L).build());
         answer.get(0).getRestAmount()[2] += 100;
         answer.get(0).addTotal(100);
         answer.get(0).getRestAmount()[3] += 100;
@@ -52,9 +52,10 @@ class LookupAgencyServiceTest {
         answer.get(1).addTotal(100);
 
 
-        List<ReturnedAgency> returnedAgencys = List.of(new ReturnedAgency(1L,null,"01022223333", "000-111", "seoul","seoul","seoul", "seoul",3, 100),
-                new ReturnedAgency(1L,null, "01022223333", "000-111", "seoul","seoul","seoul", "seoul",4, 100),
-                new ReturnedAgency(2L,null, "01022223333", "000-111", "seoul","seoul","seoul", "seoul",1, 100));
+        List<ReturnedAgency> returnedAgencys = List.of(
+            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(1L).withVaccineId(3).withRestAmount(100).build(),
+            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(1L).withVaccineId(4).withRestAmount(100).build(),
+            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(2L).withVaccineId(1).withRestAmount(100).build());
 
         when(lookupAgencyMapper.lookup(lookupRequest, -1, null))
                 .thenReturn(returnedAgencys);

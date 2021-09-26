@@ -5,6 +5,7 @@ import com.virusvaccine.exception.DuplicateUserException;
 import com.virusvaccine.exception.NoneExistentUserException;
 import com.virusvaccine.exception.WrongPasswordException;
 import com.virusvaccine.mapper.UserMapper;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ class UserAccountServiceTest {
     }
 
     @Test
-    @DisplayName("signup: user 메서드 단위 테스트")
+    @DisplayName("일반 사용자 회원가입 실패 : 이미 회원가입 되어있는 경우")
     public void signupUserTestWhenCorrectRequestThenSuccess() {
         when(userMapper.getByEmail(signupRequest.getEmail())).
                 thenReturn(Optional.of(user));
@@ -59,7 +60,6 @@ class UserAccountServiceTest {
 
         assertThrows(NoneExistentUserException.class, () -> userAccountService.login(loginRequest));
 
-        verify(userMapper).getByEmail(user.getEmail());
     }
 
     @Test
@@ -70,7 +70,6 @@ class UserAccountServiceTest {
 
         assertThrows(WrongPasswordException.class, () -> userAccountService.login(loginRequest));
 
-        verify(userMapper).getByEmail(user.getEmail());
     }
 
     @Test
@@ -91,6 +90,7 @@ class UserAccountServiceTest {
     @DisplayName("일반 사용자 가입 성공")
     void signupuserTestWhenCorrectRequestThenSuccess() {
         when(userMapper.getByEmail(signupRequest.getEmail())).thenReturn(Optional.empty());
+
         doNothing().when(userMapper).signup(any(User.class));
 
         userAccountService.signUp(signupRequest);
@@ -105,7 +105,6 @@ class UserAccountServiceTest {
 
         assertThrows(DuplicateUserException.class, () -> userAccountService.signUp(signupRequest));
 
-        verify(userMapper).getByEmail(signupRequest.getEmail());
     }
 
     @Test

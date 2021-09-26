@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AgencyAccountServiceTest {
+
     @Mock
     private AgencyMapper agencyMapper;
 
@@ -58,7 +59,6 @@ class AgencyAccountServiceTest {
 
         agencyAccountService.login(loginRequest);
 
-        verify(agencyMapper).getByEmail(agency.getEmail());
     }
 
     @Test
@@ -69,7 +69,6 @@ class AgencyAccountServiceTest {
 
         assertThrows(NoneExistentUserException.class, () -> agencyAccountService.login(loginRequest));
 
-        verify(agencyMapper).getByEmail(agency.getEmail());
     }
 
     @Test
@@ -80,7 +79,6 @@ class AgencyAccountServiceTest {
 
         assertThrows(WrongPasswordException.class, () -> agencyAccountService.login(loginRequest));
 
-        verify(agencyMapper).getByEmail(agency.getEmail());
     }
 
     @Test
@@ -115,7 +113,6 @@ class AgencyAccountServiceTest {
 
         assertThrows(DuplicateUserException.class, () -> agencyAccountService.signUp(agencySignUpRequest));
 
-        verify(agencyMapper).getByEmail(agencySignUpRequest.getEmail());
     }
 
     @Test

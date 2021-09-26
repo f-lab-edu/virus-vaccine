@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.virusvaccine.mapper.LookupAgencyMapper">
+
+    <select id="lookup" resultType="com.virusvaccine.dto.ReturnedAgency">
+        select T1.id, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
+        from (select * from agency where 5000 >= st_distance_sphere(POINT(lng,lat), POINT(#{lookupRequest.lng},#{lookupRequest.lat})))
+        as T1 inner join (select * from acquired_vaccine where
+        <if test="nextDay != null">
+            #{nextDay} > vaccinate_at and vaccinate_at >= #{lookupRequest.date}
+        </if>
+        <if test="nextDay == null">
+            now() >= vaccinate_at
+        </if>
+        <if test="code != -1">
+            and vaccine_id = #{code}
+        </if>
+        <if test="lookupRequest.available == true">
+            and rest_amount > 0
+        </if>
+         ) as T2 on T1.id = T2.agency_id
+    </select>
+
+</mapper>
+

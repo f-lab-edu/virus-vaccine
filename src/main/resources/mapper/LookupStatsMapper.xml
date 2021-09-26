@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.virusvaccine.mapper.LookupStatsMapper">
+
+  <select id="getQuantityOfVaccines" resultType="com.virusvaccine.dto.VaccineQuantity">
+    select vaccine_id, amount from acquired_vaccine
+  </select>
+
+  <select id="getQuantityOfBookedVaccines" resultType="com.virusvaccine.dto.VaccineQuantity">
+    select vaccine_id, (amount - rest_amount) from acquired_vaccine where (amount - rest_amount) > 0
+  </select>
+
+  <select id="getAgencysWithRestAmount" resultType="com.virusvaccine.dto.ReturnedAgency">
+    select T1.id, T1.name, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
+    from agency as T1 inner join acquired_vaccine as T2 on T2.rest_amount > 0 and T1.id = T2.agency_id
+  </select>
+
+  <select id="getRegionsWithRestAmount" resultType="com.virusvaccine.dto.ReturnedRegion">
+    select T1.si_do, T2.rest_amount
+    from agency as T1 inner join acquired_vaccine as T2 on T2.rest_amount > 0 and T1.id = T2.agency_id
+  </select>
+
+</mapper>

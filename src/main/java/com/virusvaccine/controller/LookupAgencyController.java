@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -21,8 +20,11 @@ public class LookupAgencyController {
 
     private final String userKey = UserController.userKey;
 
-    @Autowired
-    private LookupAgencyService lookupAgencyService;
+    private final LookupAgencyService lookupAgencyService;
+
+    public LookupAgencyController(LookupAgencyService lookupAgencyService) {
+        this.lookupAgencyService = lookupAgencyService;
+    }
 
     @GetMapping("/agency")
     public ResponseEntity<List<CalculatedReturnedAgency>> lookup(@RequestParam float lat,

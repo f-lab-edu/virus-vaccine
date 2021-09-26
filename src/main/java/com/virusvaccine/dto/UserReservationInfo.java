@@ -100,4 +100,75 @@ public class UserReservationInfo {
                 ", address='" + address + '\'' +
                 '}';
     }
+
+
+    public static final class UserReservationInfoBuilder {
+
+        private LocalDateTime vaccinateAt;
+        private Long vaccineId;
+        private String name;
+        private String phoneNumber;
+        private String zipCode;
+        private String siDo;
+        private String siGunGu;
+        private String eupMyeonDong;
+        private String address;
+
+        private UserReservationInfoBuilder() {
+        }
+
+        public static UserReservationInfoBuilder anUserReservationInfo() {
+            return new UserReservationInfoBuilder();
+        }
+
+        public UserReservationInfoBuilder withVaccinateAt(LocalDateTime vaccinateAt) {
+            this.vaccinateAt = vaccinateAt;
+            return this;
+        }
+
+        public UserReservationInfoBuilder withVaccineId(Long vaccineId) {
+            this.vaccineId = vaccineId;
+            return this;
+        }
+
+        public UserReservationInfoBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public UserReservationInfoBuilder withPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public UserReservationInfoBuilder withZipCode(String zipCode) {
+            this.zipCode = zipCode;
+            return this;
+        }
+
+        public UserReservationInfoBuilder withSiDo(String siDo) {
+            this.siDo = siDo;
+            return this;
+        }
+
+        public UserReservationInfoBuilder withSiGunGu(String siGunGu) {
+            this.siGunGu = siGunGu;
+            return this;
+        }
+
+        public UserReservationInfoBuilder withEupMyeonDong(String eupMyeonDong) {
+            this.eupMyeonDong = eupMyeonDong;
+            return this;
+        }
+
+        public UserReservationInfoBuilder withAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public UserReservationInfo build() {
+            return new UserReservationInfo(vaccinateAt, vaccineId, name, phoneNumber, zipCode, siDo,
+                siGunGu, eupMyeonDong, address);
+        }
+    }
 }

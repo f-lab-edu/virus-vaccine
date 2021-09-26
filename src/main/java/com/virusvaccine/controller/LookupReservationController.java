@@ -21,8 +21,11 @@ public class LookupReservationController {
 
   private final String userKey = UserController.userKey;
 
-  @Autowired
-  LookupReservationService lookupReservationService;
+  private final LookupReservationService lookupReservationService;
+
+  public LookupReservationController(LookupReservationService lookupReservationService) {
+    this.lookupReservationService = lookupReservationService;
+  }
 
   @GetMapping("/reservation/user")
   public ResponseEntity<List<UserReservationInfo>> reservation(HttpSession session){

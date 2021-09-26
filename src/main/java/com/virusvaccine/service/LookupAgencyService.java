@@ -12,8 +12,11 @@ import java.util.*;
 @Service
 public class LookupAgencyService {
 
-    @Autowired
-    private LookupAgencyMapper lookupAgencyMapper;
+    private final LookupAgencyMapper lookupAgencyMapper;
+
+    public LookupAgencyService(LookupAgencyMapper lookupAgencyMapper) {
+        this.lookupAgencyMapper = lookupAgencyMapper;
+    }
 
     public List<CalculatedReturnedAgency> lookup(LookupRequest lookupRequest) {
 
@@ -32,6 +35,7 @@ public class LookupAgencyService {
         for (ReturnedAgency returnedAgency : returnedAgencys){
             if(!agencyContainer.containsKey(returnedAgency.getId())){
                 agencyContainer.put(returnedAgency.getId(), new CalculatedReturnedAgency(returnedAgency.getId(),
+                        returnedAgency.getName(),
                         returnedAgency.getPhoneNumber(),
                         returnedAgency.getZipCode(),
                         returnedAgency.getSiDo(),
@@ -39,9 +43,9 @@ public class LookupAgencyService {
                         returnedAgency.getEupMyeonDong(),
                         returnedAgency.getAddress()));
             }
-
-            agencyContainer.get(returnedAgency.getId()).getRestAmount()[returnedAgency.getVaccineId()-1] += returnedAgency.getRestAmount();
-
+            CalculatedReturnedAgency calculatedReturnedAgency = agencyContainer.get(returnedAgency.getId());
+            calculatedReturnedAgency.getRestAmount()[returnedAgency.getVaccineId()-1] += returnedAgency.getRestAmount();
+            calculatedReturnedAgency.addTotal(returnedAgency.getRestAmount());
         }
 
         return new ArrayList<>(agencyContainer.values());

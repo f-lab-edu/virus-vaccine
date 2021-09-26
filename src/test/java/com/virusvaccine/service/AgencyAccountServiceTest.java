@@ -57,7 +57,7 @@ class AgencyAccountServiceTest {
         LoginRequest loginRequest = new LoginRequest(agency.getEmail(), agencySignUpRequest.getPassword(), true);
         when(agencyMapper.getByEmail(agency.getEmail())).thenReturn(Optional.of(agency));
 
-        assertEquals(agencyAccountService.login(loginRequest), agency.getId());
+        agencyAccountService.login(loginRequest);
 
     }
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.virusvaccine.mapper.VaccineMapper">
+
+    <select id="getViruses" resultType="com.virusvaccine.dto.Virus">
+        select *
+        from virus;
+
+    </select>
+
+    <select id="getVaccines" resultType="com.virusvaccine.dto.Vaccine">
+        select *
+        from vaccine;
+
+    </select>
+
+    <insert id="insertAcquiredVaccine" parameterType="com.virusvaccine.dto.VaccineRegistrationRequest">
+        insert into acquired_vaccine(agency_id, vaccine_id, amount, vaccinate_at, rest_amount)
+            value (#{agencyId}, #{vaccineId}, #{amount}, #{vaccinateAt}, #{amount});
+    </insert>
+</mapper>

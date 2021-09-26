@@ -12,8 +12,11 @@ import java.util.*;
 @Service
 public class LookupAgencyService {
 
-    @Autowired
-    private LookupAgencyMapper lookupAgencyMapper;
+    private final LookupAgencyMapper lookupAgencyMapper;
+
+    public LookupAgencyService(LookupAgencyMapper lookupAgencyMapper) {
+        this.lookupAgencyMapper = lookupAgencyMapper;
+    }
 
     public List<CalculatedReturnedAgency> lookup(LookupRequest lookupRequest) {
 

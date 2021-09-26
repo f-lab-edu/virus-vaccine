@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class LookupStatsController {
 
-  @Autowired
-  LookupStatsService lookupStatsService;
+  private final LookupStatsService lookupStatsService;
+
+  public LookupStatsController(LookupStatsService lookupStatsService) {
+    this.lookupStatsService = lookupStatsService;
+  }
 
   @GetMapping("/stats/vaccines/quantity")
   public ResponseEntity<Long[]> getQuantityOfVaccines(){ // 각 백신당 확보된 물량 많은순으로 조회

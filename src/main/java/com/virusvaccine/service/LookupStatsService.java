@@ -20,8 +20,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class LookupStatsService {
 
-  @Autowired
-  LookupStatsMapper lookupStatsMapper;
+  private final LookupStatsMapper lookupStatsMapper;
+
+  public LookupStatsService(LookupStatsMapper lookupStatsMapper) {
+    this.lookupStatsMapper = lookupStatsMapper;
+  }
 
   @Cacheable(CacheScheduleConfig.VALUE_RANKING_QUANTITY)
   public Long[] getQuantityOfVaccines() {

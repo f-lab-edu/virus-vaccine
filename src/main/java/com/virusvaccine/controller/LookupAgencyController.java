@@ -20,8 +20,11 @@ public class LookupAgencyController {
 
     private final String userKey = UserController.userKey;
 
-    @Autowired
-    private LookupAgencyService lookupAgencyService;
+    private final LookupAgencyService lookupAgencyService;
+
+    public LookupAgencyController(LookupAgencyService lookupAgencyService) {
+        this.lookupAgencyService = lookupAgencyService;
+    }
 
     @GetMapping("/agency")
     public ResponseEntity<List<CalculatedReturnedAgency>> lookup(@RequestParam float lat,

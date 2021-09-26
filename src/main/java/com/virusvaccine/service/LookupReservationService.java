@@ -15,8 +15,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class LookupReservationService {
 
-  @Autowired
-  LookupReservationMapper lookupReservationMapper;
+  private final LookupReservationMapper lookupReservationMapper;
+
+  public LookupReservationService(LookupReservationMapper lookupReservationMapper) {
+    this.lookupReservationMapper = lookupReservationMapper;
+  }
 
   public List<UserReservationInfo> lookupReservation(Long userId) {
 

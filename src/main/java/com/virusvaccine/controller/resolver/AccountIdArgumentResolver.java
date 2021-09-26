@@ -23,7 +23,7 @@ public class AccountIdArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasMethodAnnotation(AccountId.class);
+        return parameter.getParameterAnnotation(AccountId.class) != null;
     }
 
     @Override

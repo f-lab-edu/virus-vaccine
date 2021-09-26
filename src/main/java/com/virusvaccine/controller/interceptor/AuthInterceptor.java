@@ -1,6 +1,7 @@
 package com.virusvaccine.controller.interceptor;
 
 import com.virusvaccine.controller.annotation.Authorized;
+import com.virusvaccine.exception.NotLoginException;
 import com.virusvaccine.exception.UnauthorizedException;
 import com.virusvaccine.service.AccountService.Role;
 import org.springframework.stereotype.Component;
@@ -36,7 +37,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         Object role = session.getAttribute(SESSION_KEY_ROLE);
         if (role == null)
-            throw new UnauthorizedException();
+            throw new NotLoginException();
 
         return (Role) role;
     }

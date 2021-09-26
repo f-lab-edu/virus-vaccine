@@ -2,8 +2,8 @@ package com.virusvaccine.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.virusvaccine.dto.VaccineRegistrationRequest;
+import com.virusvaccine.exception.NotLoginException;
 import com.virusvaccine.exception.UnauthorizedException;
-import com.virusvaccine.mapper.VaccineMapper;
 import com.virusvaccine.service.AccountService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -22,14 +21,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import static com.virusvaccine.service.AccountService.SESSION_KEY_ROLE;
 import static com.virusvaccine.service.AccountService.SESSION_KEY_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,12 +40,8 @@ class VaccineControllerTest {
     @Autowired
     private WebApplicationContext ctx;
 
-
     @Autowired
     private ObjectMapper objectMapper;
-
-    @MockBean
-    private VaccineMapper vaccineMapper;
 
     @BeforeEach
     void setup() {
@@ -66,7 +59,6 @@ class VaccineControllerTest {
 
         perform(content, AccountService.Role.AGENCY, status().isOk(), null);
 
-        verify(vaccineMapper, times(1)).insertAcquiredVaccine(request);
     }
 
     @Test
@@ -76,8 +68,6 @@ class VaccineControllerTest {
         String content = objectMapper.writeValueAsString(request);
 
         perform(content, AccountService.Role.AGENCY, status().isBadRequest(), MethodArgumentNotValidException.class);
-
-        verify(vaccineMapper, times(0)).insertAcquiredVaccine(request);
     }
 
     @Test
@@ -86,9 +76,7 @@ class VaccineControllerTest {
         VaccineRegistrationRequest request = getGivenRequest(RequestDate.FUTURE);
         String content = objectMapper.writeValueAsString(request);
 
-        perform(content, null, status().isForbidden(), UnauthorizedException.class);
-
-        verify(vaccineMapper, times(0)).insertAcquiredVaccine(request);
+        perform(content, null, status().isUnauthorized(), NotLoginException.class);
     }
 
     @Test
@@ -98,18 +86,15 @@ class VaccineControllerTest {
         String content = objectMapper.writeValueAsString(request);
 
         perform(content, AccountService.Role.USER, status().isForbidden(), UnauthorizedException.class);
-
-        verify(vaccineMapper, times(0)).insertAcquiredVaccine(request);
     }
 
     private VaccineRegistrationRequest getGivenRequest(RequestDate date) {
         VaccineRegistrationRequest request;
-        if(date == RequestDate.PAST)
+        if (date == RequestDate.PAST)
             request = new VaccineRegistrationRequest(1L, 10, LocalDate.now().minusDays(1).atStartOfDay());
         else
             request = new VaccineRegistrationRequest(1L, 10, LocalDate.now().plusDays(1).atStartOfDay());
 
-        doNothing().when(vaccineMapper).insertAcquiredVaccine(request);
         return request;
     }
 

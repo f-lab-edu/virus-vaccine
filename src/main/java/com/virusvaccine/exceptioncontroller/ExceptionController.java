@@ -1,5 +1,6 @@
 package com.virusvaccine.exceptioncontroller;
 
+import com.virusvaccine.exception.NotLoginException;
 import com.virusvaccine.exception.RequestException;
 import com.virusvaccine.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
@@ -51,5 +52,14 @@ public class ExceptionController {
         errors.put("ExceptionType", ex.getClass().getSimpleName());
         errors.put("ExceptionMessage", ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errors);
+    }
+
+    @ExceptionHandler(NotLoginException.class)
+    public ResponseEntity<Map<String, String>> handleNotLoginException(NotLoginException ex){
+        Map<String, String> errors = new HashMap<>();
+
+        errors.put("ExceptionType", ex.getClass().getSimpleName());
+        errors.put("ExceptionMessage", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
     }
 }

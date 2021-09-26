@@ -16,6 +16,6 @@
 
     <insert id="insertAcquiredVaccine" parameterType="com.virusvaccine.dto.VaccineRegistrationRequest">
         insert into acquired_vaccine(agency_id, vaccine_id, amount, vaccinate_at, rest_amount)
-            value (#{agency_id}, #{vaccine_id}, #{amount}, #{vaccinate_at}, 0);
+            value (#{agencyId}, #{vaccineId}, #{amount}, #{vaccinateAt}, 0);
     </insert>
 </mapper>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.virusvaccine.mapper.UserMapper">
+<mapper namespace="com.virusvaccine.user.mapper.UserMapper">
 
-    <select id="getByEmail" parameterType="String" resultType="com.virusvaccine.dto.User">
+    <select id="getByEmail" parameterType="String" resultType="com.virusvaccine.user.dto.User">
         select * from user where email = #{userEmail}
     </select>
 
-    <insert id="signup" parameterType="com.virusvaccine.dto.User">
+    <insert id="signup" parameterType="com.virusvaccine.user.dto.User">
         insert into user(email, password, name, phone_number, id_number)
         values (#{email}, #{password}, #{name}, #{phoneNumber}, #{idNumber})
     </insert>

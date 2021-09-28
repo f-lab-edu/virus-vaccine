@@ -22,7 +22,7 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import utils.SHA256;
+import com.virusvaccine.common.utils.SHA256;
 
 import java.util.Optional;
 

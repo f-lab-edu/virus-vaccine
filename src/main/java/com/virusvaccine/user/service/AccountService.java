@@ -5,7 +5,7 @@ import com.virusvaccine.user.dto.Member;
 import com.virusvaccine.user.dto.SignUpRequest;
 import com.virusvaccine.common.exception.WrongPasswordException;
 import org.springframework.beans.factory.annotation.Autowired;
-import utils.SHA256;
+import com.virusvaccine.common.utils.SHA256;
 
 import javax.servlet.http.HttpSession;
 

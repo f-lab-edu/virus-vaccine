@@ -7,7 +7,7 @@ import com.virusvaccine.common.exception.DuplicateUserException;
 import com.virusvaccine.common.exception.NoneExistentUserException;
 import com.virusvaccine.user.mapper.UserMapper;
 import org.springframework.stereotype.Service;
-import utils.SHA256;
+import com.virusvaccine.common.utils.SHA256;
 
 import java.util.Optional;
 

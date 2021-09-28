@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Configuration
-@ComponentScan("com.virusvaccine.controller")
+@ComponentScan("com.virusvaccine")
 public class WebConfig implements WebMvcConfigurer {
 
     private final AuthInterceptor authInterceptor;

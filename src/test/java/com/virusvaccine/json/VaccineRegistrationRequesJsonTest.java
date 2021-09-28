@@ -2,13 +2,12 @@ package com.virusvaccine.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.virusvaccine.dto.VaccineRegistrationRequest;
+import com.virusvaccine.vaccine.dto.VaccineRegistrationRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;

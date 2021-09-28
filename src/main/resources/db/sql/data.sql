@@ -4,6 +4,7 @@ insert into virus (code, name) VALUE ('COVID', '코로나바이러스감염증-1
 INSERT INTO vaccine (virus_id, dose, name, code)
 VALUES (1, 2, '화이자', 'Pf'),
        (1, 2, '모더나', 'Md'),
+       (1, 2, '아스트라제네카', 'Az'),
        (1, 1, '얀센', 'Js'),
        (1, 2, '노바백스', 'Nv');
 

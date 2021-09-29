@@ -16,7 +16,7 @@ public abstract class AccountService {
     public enum Role{AGENCY, USER}
 
     @Autowired
-    private HttpSession session;
+    public HttpSession session;
 
     public abstract boolean validateDuplicate(String email);
 

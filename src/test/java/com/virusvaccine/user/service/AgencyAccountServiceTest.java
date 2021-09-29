@@ -7,6 +7,7 @@ import com.virusvaccine.common.exception.DuplicateUserException;
 import com.virusvaccine.common.exception.NoneExistentUserException;
 import com.virusvaccine.common.exception.WrongPasswordException;
 import com.virusvaccine.user.mapper.AgencyMapper;
+import javax.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.virusvaccine.common.utils.SHA256;
 
 import java.util.Optional;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,6 +31,9 @@ class AgencyAccountServiceTest {
 
     @Mock
     private AgencyMapper agencyMapper;
+
+    @Mock
+    private HttpSession session;
 
     @InjectMocks
     private AgencyAccountService agencyAccountService;
@@ -56,6 +61,7 @@ class AgencyAccountServiceTest {
     void agencyLoginTestWhenCorrectRequestThenSuccess() {
         LoginRequest loginRequest = new LoginRequest(agency.getEmail(), agencySignUpRequest.getPassword(), true);
         when(agencyMapper.getByEmail(agency.getEmail())).thenReturn(Optional.of(agency));
+        agencyAccountService.session = session;
 
         agencyAccountService.login(loginRequest);
 

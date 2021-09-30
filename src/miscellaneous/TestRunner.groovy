@@ -172,8 +172,8 @@ class TestRunner {
             email = emailaddress[0]
         }
 
-        float lat = rnd.nextFloat() * (rnd.nextInt(15)+24)//24<= <= 38  우리나라 최소 최대 위도
-        float lng = rnd.nextFloat() * (rnd.nextInt(130)+20)//20<= <=129 우리나라 최소 최대 경도
+        float lat = rnd.nextFloat() + (rnd.nextInt(15)+24)//24<= <= 38  우리나라 최소 최대 위도
+        float lng = rnd.nextFloat() + (rnd.nextInt(110)+20)//20<= <=129 우리나라 최소 최대 경도
 
         grinder.logger.info(String.format("Sign up with -> %s", email))
 
@@ -276,8 +276,8 @@ class TestRunner {
 
         Random rnd = new Random()
 
-        float lat = rnd.nextFloat() * (rnd.nextInt(15)+24)//24<= <= 38  우리나라 최소 최대 위도
-        float lng = rnd.nextFloat() * (rnd.nextInt(130)+20)//20<= <=129 우리나라 최소 최대 경도
+        float lat = rnd.nextFloat() + (rnd.nextInt(15)+24)//24<= <= 38  우리나라 최소 최대 위도
+        float lng = rnd.nextFloat() + (rnd.nextInt(110)+20)//20<= <=129 우리나라 최소 최대 경도
 
         List<String> vaccineCode = ["PF","MD","AZ","JS","NV",""]
         String code = vaccineCode[rnd.nextInt(6)]

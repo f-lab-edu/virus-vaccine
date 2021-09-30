@@ -16,6 +16,7 @@ public class LoginRequest {
     @NotBlank(message = "비밀번호를 입력 해주세요")
     private String userPassword;
 
+    @JsonProperty("isAgency")
     private Boolean isAgency;
 
     public String getUserEmail() {
@@ -34,7 +35,6 @@ public class LoginRequest {
         this.userPassword = userPassword;
     }
 
-    @JsonProperty("isAgency")
     public Boolean isAgency() {
         return isAgency;
     }

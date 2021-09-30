@@ -9,7 +9,7 @@
     <insert id="signUp" parameterType="com.virusvaccine.user.dto.Agency">
         insert into agency(email, password, name, phone_number, zip_code, si_do, si_gun_gu, eup_myeon_dong, address,
                            lat, lng)
-        values (#{email}, #{password}, #{name}, #{phone_number}, #{zip_code}, #{si_do}, #{si_gun_gu}, #{eup_myeon_dong},
+        values (#{email}, #{password}, #{name}, #{phoneNumber}, #{zipCode}, #{siDo}, #{siGunGu}, #{eupMyeonDong},
                 #{address}, #{lat}, #{lng})
     </insert>
 </mapper>

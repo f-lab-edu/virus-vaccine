@@ -72,20 +72,20 @@ class TestRunner {
             signupAgency()
         }
         else if(num==2){
-            getViruses()
-        }
-        else if(num==3){
-            getVaccines()
-        }
-        else if(num==4){
             loginAgency()
             registryVaccine()
             logout()
         }
-        else if(num==5){
+        else if(num==3){
             loginUser()
             lookup()
             logout()
+        }
+        else if(num==4){
+            getViruses()
+        }
+        else if(num==5){
+            getVaccines()
         }
         else if(num==6){
             loginUser()
@@ -117,14 +117,19 @@ class TestRunner {
 
     }
 
-    public void signupUser(){
+    public void signupUser(String... emailaddress){
 
         printstart("signupUser")
 
         Random rnd = new Random()
-
-        Integer num = rnd.nextInt(50000000) //우리나라 국민 5천만명
-        String email = num.toString() + "@naver.com"
+        String email = ""
+        if (emailaddress.length == 0){
+            Integer num = rnd.nextInt(50000000) //우리나라 국민 5천만명
+            email = "test"+num.toString() + "@test.test"
+        }
+        else{
+            email = emailaddress[0]
+        }
 
         StringBuilder phonenums = new StringBuilder("010");
         for (int i=0; i<8; i++){
@@ -153,17 +158,22 @@ class TestRunner {
 
     }
 
-    public void signupAgency(){
+    public void signupAgency(String... emailaddress){
 
         printstart("signupAgency")
 
         Random rnd = new Random()
-
+        String email = ''
         Integer num = rnd.nextInt(5000000) // 우리나라 기관수 약500만개로 추정?
-        String email = num.toString() + "@naver.com"
+        if(emailaddress.length == 0){
+            email = "test"+num.toString() + "@test.test"
+        }
+        else{
+            email = emailaddress[0]
+        }
 
-        float lat = rnd.nextFloat() * (rnd.nextInt(63)-24)//24<= <= 38  우리나라 최소 최대 위도
-        float lng = rnd.nextFloat() * (rnd.nextInt(150)-20)//20<= <=129 우리나라 최소 최대 경도
+        float lat = rnd.nextFloat() * (rnd.nextInt(15)+24)//24<= <= 38  우리나라 최소 최대 위도
+        float lng = rnd.nextFloat() * (rnd.nextInt(130)+20)//20<= <=129 우리나라 최소 최대 경도
 
         grinder.logger.info(String.format("Sign up with -> %s", email))
 
@@ -187,15 +197,37 @@ class TestRunner {
 
     public void loginUser(){
         printstart("loginUser")
-        def json = '{"userEmail": "fuckd@naver.com", "userPassword": "1234",  "isAgency": false}';
+
+        Random rnd = new Random()
+
+        Integer num = rnd.nextInt(50000000)+1 //우리나라 국민 5천만명
+        String email = "test"+num.toString() + "@test.test"
+
+        def json = String.format('{"userEmail": "%s", "userPassword": "1234",  "isAgency": false}', email);
+        grinder.logger.info("login with -> "+json)
         headers.put("Content-type", "application/json;charset=UTF-8")
         HTTPResponse response = request.POST(baseUrl+"/api/login", json.getBytes(), headers)
+
         printend("loginUser")
         if (response.statusCode == 200){
             grinder.logger.warn("loginUser success", response.statusCode)
         }
-        else{
+        else{// 해당 유저가 없어서 로그인실패시 해당 유저 회원가입시키고 다시 로그인
             grinder.logger.warn("loginUser fail", response.statusCode)
+            signupUser(email)
+
+            printstart("Re loginUser")
+            grinder.logger.info("Re login with -> "+json)
+            HTTPResponse response2 = request.POST(baseUrl+"/api/login", json.getBytes(), headers)
+            printend("Re loginUser")
+
+            if (response2.statusCode == 200){
+                grinder.logger.warn("Re loginUser success", response2.statusCode)
+            }
+            else{
+                grinder.logger.warn("Re loginUser fail", response2.statusCode)
+            }
+
         }
         grinder.logger.info("")
 
@@ -204,7 +236,13 @@ class TestRunner {
     public void loginAgency(){
         printstart("loginAgency")
 
-        def json = '{"userEmail": "test1@test.test", "userPassword": "1234",  "isAgency": true}';
+        Random rnd = new Random()
+
+        Integer num = rnd.nextInt(500000) +1// 우리나라 기관수 약500만개로 추정?
+        String email = "test"+num.toString() + "@test.test"
+
+        def json = String.format('{"userEmail": "%s", "userPassword": "1234",  "isAgency": true}', email);
+        grinder.logger.info("login with -> "+json)
         headers.put("Content-type", "application/json;charset=UTF-8")
         HTTPResponse response = request.POST(baseUrl+"/api/login", json.getBytes(), headers)
 
@@ -212,8 +250,22 @@ class TestRunner {
         if (response.statusCode == 200){
             grinder.logger.warn("loginAgency success", response.statusCode)
         }
-        else{
+        else{// 해당 유저가 없어서 로그인실패시 해당 유저 회원가입시키고 다시 로그인
             grinder.logger.warn("loginAgency fail", response.statusCode)
+            signupAgency(email)
+
+            printstart("Re loginAgency")
+            grinder.logger.info("Re login with -> "+json)
+            HTTPResponse response2 = request.POST(baseUrl+"/api/login", json.getBytes(), headers)
+            printend("Re loginAgency")
+
+            if (response2.statusCode == 200){
+                grinder.logger.warn("Re loginAgency success", response2.statusCode)
+            }
+            else{
+                grinder.logger.warn("Re loginAgency fail", response2.statusCode)
+            }
+
         }
         grinder.logger.info("")
 
@@ -224,8 +276,8 @@ class TestRunner {
 
         Random rnd = new Random()
 
-        float lat = rnd.nextFloat() * (rnd.nextInt(63)-24)//24<= <= 38  우리나라 최소 최대 위도
-        float lng = rnd.nextFloat() * (rnd.nextInt(150)-20)//20<= <=129 우리나라 최소 최대 경도
+        float lat = rnd.nextFloat() * (rnd.nextInt(15)+24)//24<= <= 38  우리나라 최소 최대 위도
+        float lng = rnd.nextFloat() * (rnd.nextInt(130)+20)//20<= <=129 우리나라 최소 최대 경도
 
         List<String> vaccineCode = ["PF","MD","AZ","JS","NV",""]
         String code = vaccineCode[rnd.nextInt(6)]

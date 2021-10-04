@@ -102,10 +102,11 @@ ALTER TABLE acquired_vaccine
 -- booking Table Create SQL
 CREATE TABLE booking
 (
+    id                  BIGINT       NOT NULL AUTO_INCREMENT COMMENT 'id',
     user_id             INT UNSIGNED NOT NULL COMMENT '사용자 id',
     acquired_vaccine_id BIGINT       NOT NULL COMMENT '확보 백신 id',
     vaccinate_at        TIMESTAMP    NOT NULL COMMENT '백신 접종 시간',
-    CONSTRAINT PK_booking PRIMARY KEY (user_id, acquired_vaccine_id)
+    CONSTRAINT PK_booking PRIMARY KEY (id)
 );
 
 ALTER TABLE booking

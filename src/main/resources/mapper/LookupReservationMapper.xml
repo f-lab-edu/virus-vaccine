@@ -3,7 +3,7 @@
 <mapper namespace="com.virusvaccine.lookupReservation.mapper.LookupReservationMapper">
 
   <select id="userReservationLookup" resultType="com.virusvaccine.lookupReservation.dto.UserReservationInfo">
-    select b.vaccinate_at, b.acquired_vaccine_id, c.name, c.phone_number, c.zip_code,
+    select b.vaccinate_at, a.vaccine_id, c.name, c.phone_number, c.zip_code,
     c.si_do, c.si_gun_gu, c.eup_myeon_dong, c.address from booking as b inner join acquired_vaccine as a on b.acquired_vaccine_id = a.id and b.user_id = #{userId}
     inner join agency c on a.agency_id = c.id
   </select>

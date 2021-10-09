@@ -2,8 +2,7 @@ package com.virusvaccine.bookVaccine.controller;
 
 import com.virusvaccine.bookVaccine.dto.ReservationRequest;
 import com.virusvaccine.bookVaccine.dto.SearchResult;
-import com.virusvaccine.bookVaccine.service.BookVaccineBookingService;
-import com.virusvaccine.bookVaccine.service.BookVaccineSearchService;
+import com.virusvaccine.bookVaccine.service.BookVaccineService;
 import com.virusvaccine.common.annotation.AccountId;
 import com.virusvaccine.common.annotation.Authorized;
 import static com.virusvaccine.user.service.AccountService.Role.USER;
@@ -18,13 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/reservation")
 public class BookVaccineController {
 
-  private final BookVaccineSearchService searchService;
-  private final BookVaccineBookingService bookingService;
+  private final BookVaccineService bookingService;
 
-  public BookVaccineController(
-      BookVaccineSearchService searchService,
-      BookVaccineBookingService bookingService) {
-    this.searchService = searchService;
+  public BookVaccineController(BookVaccineService bookingService) {
     this.bookingService = bookingService;
   }
 
@@ -32,10 +27,9 @@ public class BookVaccineController {
   @PutMapping
   public ResponseEntity<Void> bookVaccine(@AccountId Long userId, @RequestBody ReservationRequest request){
 
-    synchronized (this) {
-      SearchResult searchResult = searchService.search(request); // 해당 기관에 잔여백신이 있는지 확인
-      bookingService.bookVaccine(userId, searchResult); // 백신 예약
-    }
+    SearchResult searchResult = bookingService.searchAvailable(request);
+
+    bookingService.bookVaccine(userId, searchResult); // 백신 예약
 
     return new ResponseEntity<>(HttpStatus.OK);
 

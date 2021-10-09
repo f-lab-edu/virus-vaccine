@@ -2,17 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.virusvaccine.bookVaccine.mapper.ReservationMapper">
 
-  <select id="search" resultType="com.virusvaccine.bookVaccine.dto.SearchResult">
-    select id, vaccinate_at, vaccine_id from acquired_vaccine
+  <select id="searchAvailable" resultType="com.virusvaccine.bookVaccine.dto.SearchResult">
+    select id, vaccine_id, vaccinate_at, rest_amount from acquired_vaccine
     where agency_id = #{agencyId}
     <if test="vaccineId != 0">
       and vaccine_id = #{vaccineId}
     </if>
+    and vaccinate_at >= #{today}
     and rest_amount > 0 limit 1
   </select>
 
-  <update id="decreaseRestAmount" parameterType="Long">
-    update acquired_vaccine set rest_amount = rest_amount-1 where id = #{id}
+  <update id="decreaseRestAmount">
+    update acquired_vaccine set rest_amount = rest_amount-1 where id = #{id} and rest_amount = #{restAmount}
   </update>
 
   <insert id="bookVaccine">

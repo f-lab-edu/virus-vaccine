@@ -5,13 +5,11 @@
     <select id="getViruses" resultType="com.virusvaccine.vaccine.dto.Virus">
         select *
         from virus;
-
     </select>
 
     <select id="getVaccines" resultType="com.virusvaccine.vaccine.dto.Vaccine">
         select *
         from vaccine;
-
     </select>
 
     <insert id="insertAcquiredVaccine" parameterType="com.virusvaccine.vaccine.dto.VaccineRegistrationRequest">

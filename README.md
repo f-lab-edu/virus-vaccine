@@ -19,7 +19,8 @@
 ---
 ### 시스템 구조
 
-![Image of Yaktocat](https://github.com/f-lab-edu/virus-vaccine/tree/main/pictures/Architecture.png)
+![GitHub Logo](https://github.com/f-lab-edu/virus-vaccine/tree/main/pictures/Architecture.png)
+Format: ![Alt Text](url)
 
 ---
 ### 사용자 공통

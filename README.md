@@ -17,6 +17,9 @@
 
 
 ---
+### 시스템 구조
+![Image of Yaktocat](https://github.com/f-lab-edu/virus-vaccine/tree/main/pictures/Architecture.png)
+---
 ### 사용자 공통
 - [ ] 회원 가입, 로그인
    - [ ] 기관 회원 시 위치(위경도,  EPSG:4326), 전화번호, 주소 등록 

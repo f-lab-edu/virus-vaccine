@@ -19,7 +19,7 @@
 ---
 ### 시스템 구조
 
-![alt text](https://github.com/f-lab-edu/virus-vaccine/tree/main/pictures/Architecture.png)
+![alt text](https://github.com/f-lab-edu/virus-vaccine/blob/main/pictures/Architecture.png)
 
 ---
 ### 사용자 공통

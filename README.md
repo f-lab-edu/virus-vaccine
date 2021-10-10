@@ -19,8 +19,7 @@
 ---
 ### 시스템 구조
 
-![GitHub Logo](https://github.com/f-lab-edu/virus-vaccine/tree/main/pictures/Architecture.png)
-Format: ![Alt Text](url)
+![alt text](https://github.com/f-lab-edu/virus-vaccine/tree/main/pictures/Architecture.png)
 
 ---
 ### 사용자 공통

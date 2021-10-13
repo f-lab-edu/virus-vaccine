@@ -64,7 +64,7 @@ class TestRunner {
     @Test
     public void test() {
         Random rnd = new Random()
-        int num = rnd.nextInt(13) // 0 <= num <= 12
+        int num = rnd.nextInt(20) // 0 <= num <= 12
         if (num==0){
             signupUser()
         }
@@ -114,6 +114,41 @@ class TestRunner {
         else if(num==12){
             getRegionsWithRestAmount()
         }
+        else if(num==13){
+            loginAgency()
+            registryVaccine()
+            logout()
+        }
+        else if(num==14){
+            loginAgency()
+            registryVaccine()
+            logout()
+        }
+        else if(num==15){
+            loginUser()
+            bookVaccine()
+            logout()
+        }
+        else if(num==16){
+            loginUser()
+            bookVaccine()
+            logout()
+        }
+        else if(num==17){
+            loginUser()
+            bookVaccine()
+            logout()
+        }
+        else if(num==18){
+            loginUser()
+            bookVaccine()
+            logout()
+        }
+        else if(num==19){
+            loginUser()
+            bookVaccine()
+            logout()
+        }
 
     }
 
@@ -124,7 +159,7 @@ class TestRunner {
         Random rnd = new Random()
         String email = ""
         if (emailaddress.length == 0){
-            Integer num = rnd.nextInt(50000000) //우리나라 국민 5천만명
+            Integer num = rnd.nextInt(50000000)+1 //우리나라 국민 5천만명
             email = "test"+num.toString() + "@test.test"
         }
         else{
@@ -164,7 +199,7 @@ class TestRunner {
 
         Random rnd = new Random()
         String email = ''
-        Integer num = rnd.nextInt(5000000) // 우리나라 기관수 약500만개로 추정?
+        Integer num = rnd.nextInt(500000) +1// 우리나라 기관수 약50만개로 추정?
         if(emailaddress.length == 0){
             email = "test"+num.toString() + "@test.test"
         }
@@ -238,7 +273,7 @@ class TestRunner {
 
         Random rnd = new Random()
 
-        Integer num = rnd.nextInt(500000) +1// 우리나라 기관수 약500만개로 추정?
+        Integer num = rnd.nextInt(500000) +1// 우리나라 기관수 약50만개로 추정?
         String email = "test"+num.toString() + "@test.test"
 
         def json = String.format('{"userEmail": "%s", "userPassword": "1234",  "isAgency": true}', email);
@@ -288,7 +323,7 @@ class TestRunner {
         String date =  rnd.nextInt(2) == 0 ? "" : futuredate
 
         String url = baseUrl + String.format("/api/agency?lat=%f&lng=%f&code=%s&available=%s&date=%s",
-        lat, lng, code, available, date)
+                lat, lng, code, available, date)
 
         grinder.logger.info("lookup with -> "+url)
 
@@ -438,7 +473,7 @@ class TestRunner {
 
         Random rnd = new Random()
         int vaccineId = rnd.nextInt(5) + 1
-        int amount = rnd.nextInt(9991) + 100
+        int amount = rnd.nextInt(101) + 100
         int extraDay = rnd.nextInt(30)+1
 
         LocalDateTime time = LocalDateTime.now().plusDays(extraDay);
@@ -454,6 +489,31 @@ class TestRunner {
         }
         else{
             grinder.logger.warn("registryVaccine fail", response.statusCode)
+        }
+        grinder.logger.info("")
+    }
+
+    public void bookVaccine(){
+        printstart("bookVaccine")
+
+        Random rnd = new Random()
+        int agencyId = rnd.nextInt(500000) + 1
+
+        List<String> vaccineCode = ["PF","MD","AZ","JS","NV",""]
+        String code = vaccineCode[rnd.nextInt(6)]
+
+        def json = code.equals("") ? String.format('{"agencyId": %d, "vaccineType": null}', agencyId): String.format('{"agencyId": %d, "vaccineType": "%s"}', agencyId, code)
+
+        grinder.logger.info("bookVaccine with -> "+json)
+        headers.put("Content-type", "application/json;charset=UTF-8")
+        HTTPResponse response = request.PUT(baseUrl+"/api/reservation", json.getBytes(), headers)
+
+        printend("bookVaccine")
+        if (response.statusCode == 200){
+            grinder.logger.warn("bookVaccine success", response.statusCode)
+        }
+        else{
+            grinder.logger.warn("bookVaccine fail", response.statusCode)
         }
         grinder.logger.info("")
     }

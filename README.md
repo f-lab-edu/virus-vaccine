@@ -19,6 +19,7 @@
 ### 프로젝트 목표
 - 대용량 트래픽을 가정하여 구현합니다.
 - 스레드세이프한 어플리케이션을 구현합니다.
+- 객체지향 원리를 지키며 구현합니다.
 
 
 
@@ -27,6 +28,13 @@
 ### 시스템 구조
 
 ![alt text](https://github.com/f-lab-edu/virus-vaccine/blob/main/pictures/Architecture.png)
+
+---
+
+### 기술적 이슈 해결 사항
+Coming soon
+
+
 
 ---
 ### 사용자 공통

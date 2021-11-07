@@ -30,9 +30,6 @@ public class AccountIdArgumentResolver implements HandlerMethodArgumentResolver 
     public Long resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         Object accountId = session.getAttribute(SESSION_KEY_USER);
 
-        if (accountId == null) {
-            throw new UnauthorizedException();
-        }
 
         return (Long) accountId;
     }

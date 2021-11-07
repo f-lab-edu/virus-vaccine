@@ -1,6 +1,7 @@
 package com.virusvaccine.common.interceptor;
 
 import com.virusvaccine.common.annotation.Authorized;
+import com.virusvaccine.common.exception.NotFoundException;
 import com.virusvaccine.common.exception.NotLoginException;
 import com.virusvaccine.common.exception.UnauthorizedException;
 import com.virusvaccine.user.service.AccountService.Role;
@@ -34,10 +35,11 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     private Role getSessionRole(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        Object role = session.getAttribute(SESSION_KEY_ROLE);
-        if (role == null)
+        HttpSession session = request.getSession(false);
+        if (session == null){
             throw new NotLoginException();
+        }
+        Object role = session.getAttribute(SESSION_KEY_ROLE);
 
         return (Role) role;
     }

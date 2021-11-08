@@ -19,8 +19,12 @@
 ---
 
 ### 기술적 이슈 해결 사항
-Coming soon
-
+- [#1] 대용량 트래픽을 처리하기 위한 서버 확장
+https://applecv3.tistory.com/3
+- [#2] 분산서버 환경에서 세션 관리
+https://applecv3.tistory.com/2
+- [#3] AOP 개념을 적용해 중복되는 로직 개선 (with HandlerInterceptor, HandlerMethodArgumentResolver)
+https://applecv3.tistory.com/4
 
 
 ---

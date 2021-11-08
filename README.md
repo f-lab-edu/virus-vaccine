@@ -19,14 +19,18 @@
 ---
 
 ### 기술적 이슈 해결 사항
-- [#1] 대용량 트래픽을 처리하기 위한 서버 확장
+- [#1] 대용량 트래픽을 처리하기 위해 서버확장을 어떻게 해야 할까?
 https://applecv3.tistory.com/3
-- [#2] 분산서버 환경에서 세션 관리
+- [#2] 분산서버 환경에서 세션 관리를 어떻게 하면 좋을까?
 https://applecv3.tistory.com/2
-- [#3] AOP 개념을 적용해 중복되는 로직 개선 (with HandlerInterceptor, HandlerMethodArgumentResolver)
+- [#3] AOP 개념을 적용해 중복되는 로직을 개선해보자! (with HandlerInterceptor, HandlerMethodArgumentResolver)
 https://applecv3.tistory.com/4
-
-
+- [#4] 객체지향적 설계를 적용해 구조를 리팩토링을 해보자! 
+- [#5] 분산서버 환경에서 요청 분배를 어떻게 하는게 좋을까?
+- [#6] 분산서버 환경에서 동시성 이슈를 효율적으로 해결해봅시다 (낙관적 락킹 vs 비관적 락킹)
+- [#7] 데이터베이스 서버에 집중되는 부하를 분산하자 (Master-Slave)
+- [#8] 레디스 성능향상을 위해 캐시저장소와 세션저장소를 분리해봅시다
+- [#9] 부하테스트를 해보자!
 ---
 ### 어플리케이션 기능
 - 사용자는 일반 사용자와 기관 사용자가 있습니다.

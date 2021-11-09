@@ -31,6 +31,7 @@ public class UserController {
 
         if (!signUpRequest.validatePassword())
             throw new NotIdenticalPasswordException();
+
         accountService.signUp(signUpRequest);
 
         return new ResponseEntity<>(HttpStatus.OK);

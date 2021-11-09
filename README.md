@@ -13,11 +13,11 @@
 
 ### 기술적 이슈 해결 사항
 - [#1] 대용량 트래픽을 처리하기 위해 서버확장을 어떻게 해야 할까?
-https://applecv3.tistory.com/3
+<br /> https://applecv3.tistory.com/3
 - [#2] 분산서버 환경에서 세션 관리를 어떻게 하면 좋을까?
-https://applecv3.tistory.com/2
+<br /> https://applecv3.tistory.com/2
 - [#3] AOP 개념을 적용해 중복되는 로직을 개선해보자! (with HandlerInterceptor, HandlerMethodArgumentResolver)
-https://applecv3.tistory.com/4
+<br /> https://applecv3.tistory.com/4
 - [#4] 객체지향적 설계를 적용해 나쁜냄새나는 구조를 리팩토링 해보자! 
 - [#5] 분산서버 환경에서 요청 분배를 어떻게 하는게 좋을까?
 - [#6] 분산서버 환경에서 동시성 이슈를 효율적으로 해결해봅시다 (낙관적 락킹 vs 비관적 락킹)

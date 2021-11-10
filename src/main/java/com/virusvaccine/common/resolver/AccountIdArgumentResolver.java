@@ -1,6 +1,7 @@
 package com.virusvaccine.common.resolver;
 
 import com.virusvaccine.common.annotation.AccountId;
+import com.virusvaccine.common.annotation.Authorized;
 import com.virusvaccine.common.exception.UnauthorizedException;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,6 @@ public class AccountIdArgumentResolver implements HandlerMethodArgumentResolver 
     @Override
     public Long resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         Object accountId = session.getAttribute(SESSION_KEY_USER);
-
 
         return (Long) accountId;
     }

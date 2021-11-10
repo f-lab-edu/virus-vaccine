@@ -37,12 +37,12 @@ public class BookVaccineService {
   }
 
   @Transactional
-  public void bookVaccine(Long userId, SearchResult searchResult){
+  public boolean bookVaccine(Long userId, SearchResult searchResult){
 
     int rowCount = reservationMapper.decreaseRestAmount(searchResult.getId(), searchResult.getRestAmount()); // 백신 수량 1개 감소
 
     if(rowCount == 0){
-      throw new NotFoundException();
+      return false;
     }
 
     Random rnd = new Random(); // 접종 가능 시간대 오전 9시 ~ 오후 18시
@@ -55,11 +55,12 @@ public class BookVaccineService {
       reservationMapper.bookVaccine(userId, searchResult.getId(), vaccinate_at); // 백신예약 기록 저장
     }
     catch (Exception e){
-      throw new DuplicateDateException();
+      throw new DuplicateDateException(); // 같은 날짜 예약 방지..
     }
 
     reservationMapper.updateState(userId, searchResult.getVaccineId()); // 해당유저 백신 접종 횟수 업데이트
-
+    return true;
   }
+
 
 }

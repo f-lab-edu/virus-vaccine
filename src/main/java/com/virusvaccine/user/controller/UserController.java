@@ -27,6 +27,7 @@ public class UserController {
 
     @PostMapping("/user")
     public ResponseEntity<Void> signupUser(@RequestBody @Valid SignUpRequest signUpRequest) {
+
         AccountService accountService = accountServiceFactory.getAccountService(signUpRequest.isAgency());
 
         if (!signUpRequest.validatePassword())
@@ -59,6 +60,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest) {
+
         AccountService accountService = accountServiceFactory.getAccountService(loginRequest.isAgency());
 
         accountService.login(loginRequest);
@@ -74,4 +76,8 @@ public class UserController {
         session.invalidate();
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+
+
 }

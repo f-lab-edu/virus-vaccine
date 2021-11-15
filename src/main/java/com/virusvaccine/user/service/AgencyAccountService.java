@@ -13,10 +13,33 @@ import java.util.Optional;
 
 @Service
 public class AgencyAccountService extends AccountService {
+
     private final AgencyMapper mapper;
 
     public AgencyAccountService(AgencyMapper mapper) {
         this.mapper = mapper;
+    }
+
+    @Override
+    public void signUp(SignUpRequest request) {
+        AgencySignUpRequest signUpRequest = (AgencySignUpRequest) request;
+        if (validateDuplicate(signUpRequest.getEmail())) {
+            throw new DuplicateUserException();
+        }
+        Agency agency = new Agency.Builder()
+            .email(signUpRequest.getEmail())
+            .password(SHA256.getSHA(signUpRequest.getPassword()))
+            .name(signUpRequest.getName())
+            .phoneNumber(signUpRequest.getPhoneNumber())
+            .zipCode(signUpRequest.getZipCode())
+            .siDo(signUpRequest.getSiDo())
+            .siGunGu(signUpRequest.getSiGunGu())
+            .eupMyeonDong(signUpRequest.getEupMyeonDong())
+            .address(signUpRequest.getAddress())
+            .lat(signUpRequest.getLat())
+            .lng(signUpRequest.getLng())
+            .build();
+        mapper.signUp(agency);
     }
 
     @Override
@@ -25,32 +48,7 @@ public class AgencyAccountService extends AccountService {
         return agency.isPresent();
     }
 
-    @Override
-    public void signUp(SignUpRequest request) {
-        AgencySignUpRequest signUpRequest = (AgencySignUpRequest) request;
 
-
-
-        if (validateDuplicate(signUpRequest.getEmail())) {
-            throw new DuplicateUserException();
-        }
-
-        Agency agency = new Agency.Builder()
-                .email(signUpRequest.getEmail())
-                .password(SHA256.getSHA(signUpRequest.getPassword()))
-                .name(signUpRequest.getName())
-                .phoneNumber(signUpRequest.getPhoneNumber())
-                .zipCode(signUpRequest.getZipCode())
-                .siDo(signUpRequest.getSiDo())
-                .siGunGu(signUpRequest.getSiGunGu())
-                .eupMyeonDong(signUpRequest.getEupMyeonDong())
-                .address(signUpRequest.getAddress())
-                .lat(signUpRequest.getLat())
-                .lng(signUpRequest.getLng())
-                .build();
-
-        mapper.signUp(agency);
-    }
 
     public Agency getByEmail(String email) {
         Optional<Agency> agency = mapper.getByEmail(email);

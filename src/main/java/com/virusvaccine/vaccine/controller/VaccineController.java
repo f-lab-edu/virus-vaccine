@@ -40,4 +40,5 @@ public class VaccineController {
         vaccineService.register(agencyId, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

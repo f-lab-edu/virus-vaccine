@@ -63,122 +63,10 @@ class TestRunner {
 
     @Test
     public void test() {
-        Random rnd = new Random()
-        int num = rnd.nextInt(26) // 0 <= num <= 12
-        if (num==0){
-            signupUser()
-        }
-        else if(num==1){
-            signupAgency()
-        }
-        else if(num==2){
-            loginAgency()
-            registryVaccine()
-            logout()
-        }
-        else if(num==3){
-            loginUser()
-            lookup()
-            logout()
-        }
-        else if(num==4){
-            getViruses()
-        }
-        else if(num==5){
-            getVaccines()
-        }
-        else if(num==6){
-            loginUser()
-            reservation()
-            logout()
-        }
-        else if(num==7){
-            loginAgency()
-            agencyreservation()
-            logout()
-        }
-        else if(num==8){
-            loginAgency()
-            agencyreservationnwithtime()
-            logout()
-        }
-        else if(num==9){
-            getQuantityOfVaccines()
-        }
-        else if(num==10){
-            getQuantityOfBookedVaccines()
-        }
-        else if(num==11){
-            getAgencysWithRestAmount()
-        }
-        else if(num==12){
-            getRegionsWithRestAmount()
-        }
-        else if(num==13){
-            loginAgency()
-            registryVaccine()
-            logout()
-        }
-        else if(num==14){
-            loginAgency()
-            registryVaccine()
-            logout()
-        }
-        else if(num==15){
-            loginUser()
-            bookVaccine()
-            logout()
-        }
-        else if(num==16){
-            loginUser()
-            bookVaccine()
-            logout()
-        }
-        else if(num==17){
-            loginUser()
-            bookVaccine()
-            logout()
-        }
-        else if(num==18){
-            loginUser()
-            bookVaccine()
-            logout()
-        }
-        else if(num==19){
-            loginUser()
-            bookVaccine()
-            logout()
-        }
-        else if(num==20){
-            loginUser()
-            reservation()
-            logout()
-        }
-        else if(num==21){
-            loginAgency()
-            agencyreservation()
-            logout()
-        }
-        else if(num==22){
-            loginAgency()
-            agencyreservationnwithtime()
-            logout()
-        }
-        else if(num==23){
-            loginUser()
-            reservation()
-            logout()
-        }
-        else if(num==24){
-            loginAgency()
-            agencyreservation()
-            logout()
-        }
-        else if(num==25){
-            loginAgency()
-            agencyreservationnwithtime()
-            logout()
-        }
+
+        loginUser()
+        bookVaccine()
+        logout()
 
     }
 
@@ -330,7 +218,7 @@ class TestRunner {
 
         Random rnd = new Random()
 
-        Integer num = rnd.nextInt(50000000)+1 //우리나라 국민 5천만명
+        Integer num = rnd.nextInt(500000)+1
         String email = "test"+num.toString() + "@test.test"
 
         def json = String.format('{"userEmail": "%s", "userPassword": "1234",  "isAgency": false}', email);

@@ -19,6 +19,7 @@
 - [#3] AOP 개념을 적용해 중복되는 로직을 개선해보자! (with HandlerInterceptor, HandlerMethodArgumentResolver)
 <br /> https://applecv3.tistory.com/4
 - [#4] 객체지향적 설계를 적용해 나쁜냄새나는 구조를 리팩토링 해보자! 
+<br /> https://applecv3.tistory.com/5
 - [#5] 분산서버 환경에서 요청 분배를 어떻게 하는게 좋을까?
 - [#6] 분산서버 환경에서 동시성 이슈를 효율적으로 해결해봅시다 (낙관적 락킹 vs 비관적 락킹)
 - [#7] 데이터베이스 서버에 집중되는 부하를 분산하자 (Master-Slave)

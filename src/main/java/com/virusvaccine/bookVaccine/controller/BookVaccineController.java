@@ -29,15 +29,7 @@ public class BookVaccineController {
   @PutMapping
   public ResponseEntity<Void> bookVaccine(@AccountId Long userId, @RequestBody ReservationRequest request){
 
-    while(true) {
-
-      SearchResult searchResult = bookingService.searchAvailable(request);
-
-      if(bookingService.bookVaccine(userId, searchResult)){ // 백신 예약(실패시 재시도)
-        break;
-      }
-
-    }
+    bookingService.bookVaccine(userId, request);
 
     return new ResponseEntity<>(HttpStatus.OK);
 

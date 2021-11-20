@@ -2,22 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.virusvaccine.lookupStats.mapper.LookupStatsMapper">
 
-  <select id="getQuantityOfVaccines" resultType="com.virusvaccine.lookupStats.dto.VaccineQuantity">
-    select vaccine_id, amount from acquired_vaccine
+  <select id="getQuantityOfVaccines" resultType="Integer">
+    select vaccine_id from acquired_vaccine group by vaccine_id order by sum(amount) desc
   </select>
 
-  <select id="getQuantityOfBookedVaccines" resultType="com.virusvaccine.lookupStats.dto.VaccineQuantity">
-    select vaccine_id, (amount - rest_amount) from acquired_vaccine where (amount - rest_amount) > 0
+  <select id="getQuantityOfBookedVaccines" resultType="Integer">
+    select vaccine_id from acquired_vaccine where (amount - rest_amount) > 0 group by vaccine_id
+    order by sum((amount - rest_amount)) desc
   </select>
 
-  <select id="getAgencysWithRestAmount" resultType="com.virusvaccine.lookupAgency.dto.ReturnedAgency">
-    select T1.id, T1.name, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address, T2.vaccine_id, T2.rest_amount
+  <select id="getAgencysWithRestAmount" resultType="com.virusvaccine.lookupStats.dto.ReturnedSortedAgency">
+    select T1.name, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address
+    from virusvaccine.agency as T1 inner join virusvaccine.acquired_vaccine as T2 on T2.rest_amount > 0 and T1.id = T2.agency_id
+    group by T1.name, T1.phone_number, T1.zip_code, T1.si_do, T1.si_gun_gu, T1.eup_myeon_dong, T1.address
+    order by sum(T2.rest_amount) desc limit 5
+  </select>
+
+  <select id="getRegionsWithRestAmount" resultType="String">
+    select T1.si_do
     from agency as T1 inner join acquired_vaccine as T2 on T2.rest_amount > 0 and T1.id = T2.agency_id
-  </select>
-
-  <select id="getRegionsWithRestAmount" resultType="com.virusvaccine.lookupStats.dto.ReturnedRegion">
-    select T1.si_do, T2.rest_amount
-    from agency as T1 inner join acquired_vaccine as T2 on T2.rest_amount > 0 and T1.id = T2.agency_id
+    group by T1.si_do order by sum(T2.rest_amount) desc limit 5
   </select>
 
 </mapper>

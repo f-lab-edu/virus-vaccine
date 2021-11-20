@@ -1,19 +1,18 @@
 package com.virusvaccine.lookupStats.mapper;
 
-import com.virusvaccine.lookupAgency.dto.ReturnedAgency;
-import com.virusvaccine.lookupStats.dto.ReturnedRegion;
-import com.virusvaccine.lookupStats.dto.VaccineQuantity;
+import com.virusvaccine.lookupStats.dto.ReturnedSortedAgency;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface LookupStatsMapper {
 
-  List<VaccineQuantity> getQuantityOfVaccines();
+  List<Integer> getQuantityOfVaccines();
 
-  List<VaccineQuantity> getQuantityOfBookedVaccines();
+  List<Integer> getQuantityOfBookedVaccines();
 
-  List<ReturnedAgency> getAgencysWithRestAmount();
+  List<ReturnedSortedAgency> getAgencysWithRestAmount();
 
-  List<ReturnedRegion> getRegionsWithRestAmount();
+  List<String> getRegionsWithRestAmount();
+
 }

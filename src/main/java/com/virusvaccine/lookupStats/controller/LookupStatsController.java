@@ -1,6 +1,6 @@
 package com.virusvaccine.lookupStats.controller;
 
-import com.virusvaccine.lookupStats.dto.RankedReturnedAgency;
+import com.virusvaccine.lookupStats.dto.ReturnedSortedAgency;
 import com.virusvaccine.lookupStats.service.LookupStatsService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -20,21 +20,21 @@ public class LookupStatsController {
   }
 
   @GetMapping("/stats/vaccines/quantity")
-  public ResponseEntity<Long[]> getQuantityOfVaccines(){ // 각 백신당 확보된 물량 많은순으로 조회
+  public ResponseEntity<List<Integer>> getQuantityOfVaccines(){ // 각 백신당 확보된 물량 많은순으로 조회
 
     return new ResponseEntity<>(lookupStatsService.getQuantityOfVaccines(), HttpStatus.OK);
 
   }
 
   @GetMapping("/stats/vaccines/quantity/booked")
-  public ResponseEntity<Long[]> getQuantityOfBookedVaccines(){ // 각 백신당 에약된 수량 많은순으로 조회
+  public ResponseEntity<List<Integer>> getQuantityOfBookedVaccines(){ // 각 백신당 에약된 수량 많은순으로 조회
 
     return new ResponseEntity<>(lookupStatsService.getQuantityOfBookedVaccines(), HttpStatus.OK);
 
   }
 
   @GetMapping("/stats/agencys/restamount")
-  public ResponseEntity<List<RankedReturnedAgency>> getAgencysWithRestAmount(){  // 남아있는 백신물량이 가장 많은 상위 5개 기관 조회
+  public ResponseEntity<List<ReturnedSortedAgency>> getAgencysWithRestAmount(){  // 남아있는 백신물량이 가장 많은 상위 5개 기관 조회
 
     return new ResponseEntity<>(lookupStatsService.getAgencysWithRestAmount(), HttpStatus.OK);
 
@@ -46,5 +46,6 @@ public class LookupStatsController {
     return new ResponseEntity<>(lookupStatsService.getRegionsWithRestAmount(), HttpStatus.OK);
 
   }
+
 
 }

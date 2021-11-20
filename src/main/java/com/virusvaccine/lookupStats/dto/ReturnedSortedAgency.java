@@ -3,7 +3,7 @@ package com.virusvaccine.lookupStats.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class RankedReturnedAgency implements Serializable {
+public class ReturnedSortedAgency implements Serializable {
 
   private final String name;
   private final String phoneNumber;
@@ -13,8 +13,8 @@ public class RankedReturnedAgency implements Serializable {
   private final String eupMyeonDong;
   private final String address;
 
-  public RankedReturnedAgency(String name, String phoneNumber, String zipCode,
-      String siDo, String siGunGu, String eupMyeonDong, String address) {
+  public ReturnedSortedAgency(String name, String phoneNumber, String zipCode, String siDo,
+      String siGunGu, String eupMyeonDong, String address) {
     this.name = name;
     this.phoneNumber = phoneNumber;
     this.zipCode = zipCode;
@@ -57,10 +57,10 @@ public class RankedReturnedAgency implements Serializable {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof RankedReturnedAgency)) {
+    if (!(o instanceof ReturnedSortedAgency)) {
       return false;
     }
-    RankedReturnedAgency that = (RankedReturnedAgency) o;
+    ReturnedSortedAgency that = (ReturnedSortedAgency) o;
     return Objects.equals(name, that.name) && Objects.equals(phoneNumber,
         that.phoneNumber) && Objects.equals(zipCode, that.zipCode)
         && Objects.equals(siDo, that.siDo) && Objects.equals(siGunGu,
@@ -73,20 +73,7 @@ public class RankedReturnedAgency implements Serializable {
     return Objects.hash(name, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong, address);
   }
 
-  @Override
-  public String toString() {
-    return "RankedReturnedAgency{" +
-        "name='" + name + '\'' +
-        ", phoneNumber='" + phoneNumber + '\'' +
-        ", zipCode='" + zipCode + '\'' +
-        ", siDo='" + siDo + '\'' +
-        ", siGunGu='" + siGunGu + '\'' +
-        ", eupMyeonDong='" + eupMyeonDong + '\'' +
-        ", address='" + address + '\'' +
-        '}';
-  }
-
-  public static final class RankedReturnedAgencyBuilder {
+  public static final class ReturnedSortedAgencyBuilder {
 
     private String name;
     private String phoneNumber;
@@ -96,47 +83,50 @@ public class RankedReturnedAgency implements Serializable {
     private String eupMyeonDong;
     private String address;
 
-    public static RankedReturnedAgencyBuilder aRankedReturnedAgency() {
-      return new RankedReturnedAgencyBuilder();
+    private ReturnedSortedAgencyBuilder() {
     }
 
-    public RankedReturnedAgencyBuilder withName(String name) {
+    public static ReturnedSortedAgencyBuilder aReturnedSortedAgency() {
+      return new ReturnedSortedAgencyBuilder();
+    }
+
+    public ReturnedSortedAgencyBuilder withName(String name) {
       this.name = name;
       return this;
     }
 
-    public RankedReturnedAgencyBuilder withPhoneNumber(String phoneNumber) {
+    public ReturnedSortedAgencyBuilder withPhoneNumber(String phoneNumber) {
       this.phoneNumber = phoneNumber;
       return this;
     }
 
-    public RankedReturnedAgencyBuilder withZipCode(String zipCode) {
+    public ReturnedSortedAgencyBuilder withZipCode(String zipCode) {
       this.zipCode = zipCode;
       return this;
     }
 
-    public RankedReturnedAgencyBuilder withSiDo(String siDo) {
+    public ReturnedSortedAgencyBuilder withSiDo(String siDo) {
       this.siDo = siDo;
       return this;
     }
 
-    public RankedReturnedAgencyBuilder withSiGunGu(String siGunGu) {
+    public ReturnedSortedAgencyBuilder withSiGunGu(String siGunGu) {
       this.siGunGu = siGunGu;
       return this;
     }
 
-    public RankedReturnedAgencyBuilder withEupMyeonDong(String eupMyeonDong) {
+    public ReturnedSortedAgencyBuilder withEupMyeonDong(String eupMyeonDong) {
       this.eupMyeonDong = eupMyeonDong;
       return this;
     }
 
-    public RankedReturnedAgencyBuilder withAddress(String address) {
+    public ReturnedSortedAgencyBuilder withAddress(String address) {
       this.address = address;
       return this;
     }
 
-    public RankedReturnedAgency build() {
-      return new RankedReturnedAgency(name, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong,
+    public ReturnedSortedAgency build() {
+      return new ReturnedSortedAgency(name, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong,
           address);
     }
   }

@@ -3,11 +3,7 @@ package com.virusvaccine.lookupStats.service;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
-import com.virusvaccine.lookupStats.dto.RankedReturnedAgency;
-import com.virusvaccine.lookupAgency.dto.ReturnedAgency;
-import com.virusvaccine.lookupStats.dto.ReturnedRegion;
-import com.virusvaccine.lookupStats.dto.VaccineQuantity;
-import com.virusvaccine.lookupStats.service.LookupStatsService;
+import com.virusvaccine.lookupStats.dto.ReturnedSortedAgency;
 import com.virusvaccine.lookupStats.mapper.LookupStatsMapper;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -30,12 +26,10 @@ class LookupStatsServiceTest {
   @DisplayName("getQuantityOfVaccines 메서드 단위 테스트")
   public void getQuantityOfVaccinesTest(){
 
-    Long[] answer = {1L, 3L, 2L, 4L, 5L};
+    List<Integer> answer = List.of(5,3,1,3,2);
 
     when(lookupStatsMapper.getQuantityOfVaccines())
-        .thenReturn(List.of(new VaccineQuantity(3, 200L),
-                            new VaccineQuantity(1, 200L),
-                            new VaccineQuantity(1, 200L)));
+        .thenReturn(List.of(5,3,1,3,2));
 
     assertThat(lookupStatsService.getQuantityOfVaccines(), equalTo(answer));
 
@@ -45,14 +39,13 @@ class LookupStatsServiceTest {
   @DisplayName("getQuantityOfBookedVaccines 메서드 단위 테스트")
   public void getQuantityOfBookedVaccinesTest(){
 
-    Long[] answer = {1L, 3L, 2L, 4L, 5L};
+    List<Integer> answer = List.of(5,4,3,2,1);
 
     when(lookupStatsMapper.getQuantityOfBookedVaccines())
-        .thenReturn(List.of(new VaccineQuantity(3, 1L),
-                            new VaccineQuantity(1, 1L),
-                            new VaccineQuantity(1, 1L)));
+        .thenReturn(List.of(5,4,3,2,1));
 
     assertThat(lookupStatsService.getQuantityOfBookedVaccines(), equalTo(answer));
+
 
   }
 
@@ -60,20 +53,19 @@ class LookupStatsServiceTest {
   @DisplayName("getAgencysWithRestAmount 메서드 단위 테스트")
   public void getAgencysWithRestAmountTest(){
 
-    List<RankedReturnedAgency> answer = List.of(RankedReturnedAgency.RankedReturnedAgencyBuilder.aRankedReturnedAgency().withName("기관6").build(),
-        RankedReturnedAgency.RankedReturnedAgencyBuilder.aRankedReturnedAgency().withName("기관5").build(),
-        RankedReturnedAgency.RankedReturnedAgencyBuilder.aRankedReturnedAgency().withName("기관4").build(),
-        RankedReturnedAgency.RankedReturnedAgencyBuilder.aRankedReturnedAgency().withName("기관3").build(),
-        RankedReturnedAgency.RankedReturnedAgencyBuilder.aRankedReturnedAgency().withName("기관2").build()
+    List<ReturnedSortedAgency> answer = List.of(ReturnedSortedAgency.ReturnedSortedAgencyBuilder.aReturnedSortedAgency().withName("기관4").build(),
+        ReturnedSortedAgency.ReturnedSortedAgencyBuilder.aReturnedSortedAgency().withName("기관1").build(),
+        ReturnedSortedAgency.ReturnedSortedAgencyBuilder.aReturnedSortedAgency().withName("기관3").build(),
+        ReturnedSortedAgency.ReturnedSortedAgencyBuilder.aReturnedSortedAgency().withName("기관2").build(),
+        ReturnedSortedAgency.ReturnedSortedAgencyBuilder.aReturnedSortedAgency().withName("기관5").build()
         );
 
     when(lookupStatsMapper.getAgencysWithRestAmount())
-        .thenReturn(List.of(ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(1L).withName("기관1").withVaccineId(3).withRestAmount(100).build(),
-            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(2L).withName("기관2").withVaccineId(1).withRestAmount(200).build(),
-            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(3L).withName("기관3").withVaccineId(1).withRestAmount(300).build(),
-            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(4L).withName("기관4").withVaccineId(1).withRestAmount(400).build(),
-            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(5L).withName("기관5").withVaccineId(1).withRestAmount(500).build(),
-            ReturnedAgency.ReturnedAgencyBuilder.aReturnedAgency().withId(6L).withName("기관6").withVaccineId(1).withRestAmount(600).build()));
+        .thenReturn(List.of(ReturnedSortedAgency.ReturnedSortedAgencyBuilder.aReturnedSortedAgency().withName("기관4").build(),
+            ReturnedSortedAgency.ReturnedSortedAgencyBuilder.aReturnedSortedAgency().withName("기관1").build(),
+            ReturnedSortedAgency.ReturnedSortedAgencyBuilder.aReturnedSortedAgency().withName("기관3").build(),
+            ReturnedSortedAgency.ReturnedSortedAgencyBuilder.aReturnedSortedAgency().withName("기관2").build(),
+            ReturnedSortedAgency.ReturnedSortedAgencyBuilder.aReturnedSortedAgency().withName("기관5").build()));
 
     assertThat(lookupStatsService.getAgencysWithRestAmount(), equalTo(answer));
 
@@ -86,12 +78,7 @@ class LookupStatsServiceTest {
     List<String> answer = List.of("서울6", "서울3", "서울5", "서울2", "서울4");
 
     when(lookupStatsMapper.getRegionsWithRestAmount())
-        .thenReturn(List.of(new ReturnedRegion("서울1", 10),
-                            new ReturnedRegion("서울2", 200),
-                            new ReturnedRegion("서울3", 350),
-                            new ReturnedRegion("서울4", 50),
-                            new ReturnedRegion("서울5", 230),
-                            new ReturnedRegion("서울6", 1000)));
+        .thenReturn(List.of("서울6", "서울3", "서울5", "서울2", "서울4"));
 
     assertThat(lookupStatsService.getRegionsWithRestAmount(), equalTo(answer));
 

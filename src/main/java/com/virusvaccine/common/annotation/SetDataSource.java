@@ -12,6 +12,6 @@ public @interface SetDataSource {
     DataSourceType dataSourceType();
 
     enum DataSourceType {
-        MASTER, SLAVE;
+        MASTER, SLAVE, BOTH;
     }
 }

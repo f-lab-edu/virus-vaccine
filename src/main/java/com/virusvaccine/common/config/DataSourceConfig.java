@@ -2,10 +2,13 @@ package com.virusvaccine.common.config;
 
 import com.virusvaccine.common.annotation.SetDataSource.DataSourceType;
 import com.virusvaccine.common.utils.RoutingDataSourceManager;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
@@ -15,7 +18,9 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
+@Configuration
 public class DataSourceConfig {
 
     @Bean
@@ -49,6 +54,14 @@ public class DataSourceConfig {
                     } else {
                         dataSourceType = DataSourceType.MASTER;
                     }
+                } else if (dataSourceType == DataSourceType.BOTH){
+                    Random r = new Random();
+                    int i = r.nextInt(2);
+                    if(i == 1) {
+                        dataSourceType = DataSourceType.MASTER;
+                    } else {
+                        dataSourceType = DataSourceType.SLAVE;
+                    }
                 }
 
                 RoutingDataSourceManager.removeCurrentDataSourceName();
@@ -65,19 +78,5 @@ public class DataSourceConfig {
         routingDataSource.setDefaultTargetDataSource(masterDataSource);
 
         return routingDataSource;
-    }
-
-    @Bean
-    public DataSource lazyRoutingDataSource(
-            @Qualifier(value = "routingDataSource") DataSource routingDataSource) {
-        return new LazyConnectionDataSourceProxy(routingDataSource);
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager(
-            @Qualifier(value = "lazyRoutingDataSource") DataSource lazyRoutingDataSource) {
-        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
-        transactionManager.setDataSource(lazyRoutingDataSource);
-        return transactionManager;
     }
 }

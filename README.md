@@ -28,7 +28,7 @@
 <br /> Coming Soon
 - [#8] 레디스 성능향상을 위해 캐시저장소와 세션저장소를 분리해봅시다
 - [#9] OutOfMemory 에러를 해결해보자 ㅠㅠ
-<br /> Coming Soon
+<br /> https://applecv3.tistory.com/8
 ---
 ### 어플리케이션 기능
 - 사용자는 일반 사용자와 기관 사용자가 있습니다.

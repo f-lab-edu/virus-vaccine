@@ -20,15 +20,14 @@
 <br /> https://applecv3.tistory.com/4
 - [#4] 디자인 패턴을 적용해 나쁜냄새나는 구조를 리팩토링 해보자! 
 <br /> https://applecv3.tistory.com/5
-- [#5] 분산서버 환경에서 요청 분배를 어떻게 하는게 좋을까?
-<br /> Coming Soon
-- [#6] 분산서버 환경에서 동시성 이슈를 효율적으로 해결해봅시다 (낙관적 락킹 vs 비관적 락킹)
+- [#5] 분산서버 환경에서 동시성 이슈를 효율적으로 해결해봅시다 (낙관적 락킹 vs 비관적 락킹)
 <br /> https://applecv3.tistory.com/6
+- [#6] OutOfMemory 에러를 해결해보자 ㅠㅠ
+<br /> https://applecv3.tistory.com/8
 - [#7] 데이터베이스 서버에 집중되는 부하를 분산하자 (Master-Slave)
 <br /> Coming Soon
 - [#8] 레디스 성능향상을 위해 캐시저장소와 세션저장소를 분리해봅시다
-- [#9] OutOfMemory 에러를 해결해보자 ㅠㅠ
-<br /> https://applecv3.tistory.com/8
+
 ---
 ### 어플리케이션 기능
 - 사용자는 일반 사용자와 기관 사용자가 있습니다.

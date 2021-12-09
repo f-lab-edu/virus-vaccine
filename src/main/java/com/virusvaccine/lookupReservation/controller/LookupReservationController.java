@@ -35,6 +35,8 @@ public class LookupReservationController {
   public ResponseEntity<List<UserReservationInfo>> reservation(@AccountId Long userId, HttpSession session){
 
     return new ResponseEntity<>(lookupReservationService.lookupReservation(userId), HttpStatus.OK);
+//    클라이언트 -> DTO -> SPRING ->   DTO ->  DB ->   DTO ->   SPRING -> DTO -> Client
+//    클라이언트 -> DTO -> SPRING -> Entity -> JPA -> Entity -> SPRING -> DTO -> Client
 
   }
 

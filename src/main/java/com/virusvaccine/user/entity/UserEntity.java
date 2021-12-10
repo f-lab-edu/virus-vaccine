@@ -1,16 +1,14 @@
 package com.virusvaccine.user.entity;
 
-import com.virusvaccine.bookVaccine.entity.BookingEntity;
-import com.virusvaccine.bookVaccine.entity.VaccinatedStateEntity;
+import com.virusvaccine.user.dto.Member;
 import com.virusvaccine.user.dto.User;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "user", schema = "virusvaccine", catalog = "")
-public class UserEntity {
+public class UserEntity implements Member {
     @Id
     @Column(name = "id")
     @GeneratedValue

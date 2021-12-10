@@ -1,6 +1,7 @@
 package com.virusvaccine.user.entity;
 
 import com.virusvaccine.user.dto.Agency;
+import com.virusvaccine.user.dto.Member;
 import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "agency", schema = "virusvaccine", catalog = "")
-public class AgencyEntity {
+public class AgencyEntity implements Member {
     @Id
     @GeneratedValue
     @Column(name = "id")

@@ -5,10 +5,10 @@ import com.virusvaccine.vaccine.entity.VaccineEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 
-@Repository
-public interface AcquiredVaccineRepository extends JpaRepository<AcquiredVaccineEntity, Long> {
+public interface AcquiredVaccineRepository extends JpaRepository<AcquiredVaccineEntity, Long>, AcquiredVaccineRepositoryCustom{
     List<AcquiredVaccineEntity> findByVaccine(VaccineEntity vaccine);
 
 }

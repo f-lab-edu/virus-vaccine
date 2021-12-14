@@ -28,6 +28,7 @@ public class VaccineEntity {
     }
 
     public VaccineEntity(Vaccine vaccine, VirusEntity virus) {
+        this.id = vaccine.getId();
         this.code = vaccine.getCode();
         this.name = vaccine.getName();
         this.dose = vaccine.getDose();

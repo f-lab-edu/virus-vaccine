@@ -75,4 +75,62 @@ public class AcquiredVaccineEntity {
     public int hashCode() {
         return Objects.hash(id, amount, vaccinateAt, restAmount, agency, vaccine);
     }
+
+
+    public static final class AcquiredVaccineEntityBuilder {
+        private Long id;
+        private int amount;
+        private Date vaccinateAt;
+        private int restAmount;
+        private AgencyEntity agency;
+        private VaccineEntity vaccine;
+
+        private AcquiredVaccineEntityBuilder() {
+        }
+
+        public static AcquiredVaccineEntityBuilder anAcquiredVaccineEntity() {
+            return new AcquiredVaccineEntityBuilder();
+        }
+
+        public AcquiredVaccineEntityBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public AcquiredVaccineEntityBuilder amount(int amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public AcquiredVaccineEntityBuilder vaccinateAt(Date vaccinateAt) {
+            this.vaccinateAt = vaccinateAt;
+            return this;
+        }
+
+        public AcquiredVaccineEntityBuilder restAmount(int restAmount) {
+            this.restAmount = restAmount;
+            return this;
+        }
+
+        public AcquiredVaccineEntityBuilder agency(AgencyEntity agency) {
+            this.agency = agency;
+            return this;
+        }
+
+        public AcquiredVaccineEntityBuilder vaccine(VaccineEntity vaccine) {
+            this.vaccine = vaccine;
+            return this;
+        }
+
+        public AcquiredVaccineEntity build() {
+            AcquiredVaccineEntity acquiredVaccineEntity = new AcquiredVaccineEntity();
+            acquiredVaccineEntity.id = this.id;
+            acquiredVaccineEntity.amount = this.amount;
+            acquiredVaccineEntity.vaccinateAt = this.vaccinateAt;
+            acquiredVaccineEntity.agency = this.agency;
+            acquiredVaccineEntity.vaccine = this.vaccine;
+            acquiredVaccineEntity.restAmount = this.restAmount;
+            return acquiredVaccineEntity;
+        }
+    }
 }

@@ -2,7 +2,9 @@ package com.virusvaccine.user.entity;
 
 import com.virusvaccine.user.dto.Agency;
 import com.virusvaccine.user.dto.Member;
-import org.springframework.data.geo.Point;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -36,12 +38,15 @@ public class AgencyEntity implements Member {
     private double lat;
     @Column(name = "lng")
     private double lng;
-    @Column(name = "lat_lon")
-    private Point latLon;
+    @Column(name = "lng_lat", columnDefinition="POINT")
+    private Point lngLat;
 
-    public AgencyEntity(){}
+    public AgencyEntity() {
+    }
 
-    public AgencyEntity(Agency agency){
+    public AgencyEntity(Agency agency) {
+        id = agency.getId();
+        GeometryFactory geometryFactory = new GeometryFactory();
         email = agency.getEmail();
         password = agency.getPassword();
         name = agency.getName();
@@ -53,7 +58,7 @@ public class AgencyEntity implements Member {
         address = agency.getAddress();
         lat = agency.getLat();
         lng = agency.getLng();
-        latLon = new Point(lat,lng);
+        lngLat = geometryFactory.createPoint(new Coordinate(lng, lat));
     }
 
     public Long getId() {
@@ -104,8 +109,8 @@ public class AgencyEntity implements Member {
         return lng;
     }
 
-    public Point getLatLon() {
-        return latLon;
+    public Point getLngLat() {
+        return lngLat;
     }
 
     @Override
@@ -113,11 +118,11 @@ public class AgencyEntity implements Member {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AgencyEntity that = (AgencyEntity) o;
-        return Objects.equals(id, that.id) && Double.compare(that.lat, lat) == 0 && Double.compare(that.lng, lng) == 0 && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(zipCode, that.zipCode) && Objects.equals(siDo, that.siDo) && Objects.equals(siGunGu, that.siGunGu) && Objects.equals(eupMyeonDong, that.eupMyeonDong) && Objects.equals(address, that.address) && Objects.equals(latLon, that.latLon);
+        return Objects.equals(id, that.id) && Double.compare(that.lat, lat) == 0 && Double.compare(that.lng, lng) == 0 && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(zipCode, that.zipCode) && Objects.equals(siDo, that.siDo) && Objects.equals(siGunGu, that.siGunGu) && Objects.equals(eupMyeonDong, that.eupMyeonDong) && Objects.equals(address, that.address) && Objects.equals(lngLat, that.lngLat);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, name, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong, address, lat, lng, latLon);
+        return Objects.hash(id, email, password, name, phoneNumber, zipCode, siDo, siGunGu, eupMyeonDong, address, lat, lng, lngLat);
     }
 }

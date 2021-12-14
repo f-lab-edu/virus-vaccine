@@ -1,56 +1,49 @@
 package com.virusvaccine.lookupAgency.service;
 
+import com.virusvaccine.bookVaccine.entity.AcquiredVaccineEntity;
+import com.virusvaccine.bookVaccine.repository.AcquiredVaccineRepository;
+import com.virusvaccine.common.exception.NotFoundException;
 import com.virusvaccine.lookupAgency.dto.CalculatedReturnedAgency;
 import com.virusvaccine.lookupAgency.dto.LookupRequest;
-import com.virusvaccine.lookupAgency.dto.ReturnedAgency;
-import com.virusvaccine.common.exception.NotFoundException;
-import com.virusvaccine.lookupAgency.mapper.LookupAgencyMapper;
+import com.virusvaccine.user.entity.AgencyEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class LookupAgencyService {
+    private final AcquiredVaccineRepository acquiredVaccineRepository;
 
-    private final LookupAgencyMapper lookupAgencyMapper;
-
-    public LookupAgencyService(LookupAgencyMapper lookupAgencyMapper) {
-        this.lookupAgencyMapper = lookupAgencyMapper;
+    public LookupAgencyService(AcquiredVaccineRepository acquiredVaccineRepository) {
+        this.acquiredVaccineRepository = acquiredVaccineRepository;
     }
 
     public List<CalculatedReturnedAgency> lookup(LookupRequest lookupRequest) {
 
-        List<ReturnedAgency> returnedAgencys;
+        List<AcquiredVaccineEntity> returnedAcquiredVaccines = acquiredVaccineRepository.lookup(lookupRequest);
 
-        int code = lookupRequest.getCode() == null ? -1: lookupRequest.getCode().getType();
-        LocalDate nextDay = lookupRequest.getDate() == null ? null: lookupRequest.getDate().plusDays(1);
-
-        returnedAgencys = lookupAgencyMapper.lookup(lookupRequest, code, nextDay);
-
-        if (returnedAgencys.isEmpty()){
+        if (returnedAcquiredVaccines.isEmpty())
             throw new NotFoundException();
-        }
 
         HashMap<Long, CalculatedReturnedAgency> agencyContainer = new HashMap<>();
-        for (ReturnedAgency returnedAgency : returnedAgencys){
-            if(!agencyContainer.containsKey(returnedAgency.getId())){
-                agencyContainer.put(returnedAgency.getId(), new CalculatedReturnedAgency(returnedAgency.getId(),
-                        returnedAgency.getName(),
-                        returnedAgency.getPhoneNumber(),
-                        returnedAgency.getZipCode(),
-                        returnedAgency.getSiDo(),
-                        returnedAgency.getSiGunGu(),
-                        returnedAgency.getEupMyeonDong(),
-                        returnedAgency.getAddress()));
+        for (AcquiredVaccineEntity v : returnedAcquiredVaccines) {
+            AgencyEntity a = v.getAgency();
+            if (!agencyContainer.containsKey(a.getId())) {
+                agencyContainer.put(a.getId(), new CalculatedReturnedAgency(a.getId(),
+                        a.getName(),
+                        a.getPhoneNumber(),
+                        a.getZipCode(),
+                        a.getSiDo(),
+                        a.getSiGunGu(),
+                        a.getEupMyeonDong(),
+                        a.getAddress()));
             }
-            CalculatedReturnedAgency calculatedReturnedAgency = agencyContainer.get(returnedAgency.getId());
-            calculatedReturnedAgency.getRestAmount()[returnedAgency.getVaccineId()-1] += returnedAgency.getRestAmount();
-            calculatedReturnedAgency.addTotal(returnedAgency.getRestAmount());
+            CalculatedReturnedAgency calculatedReturnedAgency = agencyContainer.get(a.getId());
+            calculatedReturnedAgency.getRestAmount()[(int) (v.getVaccine().getId() - 1)] += v.getRestAmount();
+            calculatedReturnedAgency.addTotal(v.getRestAmount());
         }
-
         return new ArrayList<>(agencyContainer.values());
-
     }
-
 }

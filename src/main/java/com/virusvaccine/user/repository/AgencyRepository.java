@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface AgencyRepository extends JpaRepository<AgencyEntity, Long> {
+public interface AgencyRepository extends JpaRepository<AgencyEntity, Long>, AgencyRepositoryCustom {
     Optional<AgencyEntity> findByEmail(String email);
 }

@@ -10,4 +10,8 @@ public interface AcquiredVaccineRepositoryCustom {
 
     List<AcquiredVaccineEntity> searchAvailable(Long agency_id, Long vaccine_id, Date today);
     List<AcquiredVaccineEntity> lookup(LookupRequest req);
-}
+
+    List<Long> getQuantityOfVaccines();
+    List<Long> getQuantityOfBookedVaccines();
+
+    }

@@ -50,4 +50,22 @@ public class AcquiredVaccineRepositoryImpl implements AcquiredVaccineRepositoryC
 
         return em.createNativeQuery(sql, AcquiredVaccineEntity.class).getResultList();
     }
+
+    public List<Long> getQuantityOfVaccines(){
+        return factory.select(acquiredVaccineEntity.vaccine.id)
+                .from(acquiredVaccineEntity)
+                .groupBy(acquiredVaccineEntity.vaccine)
+                .orderBy(acquiredVaccineEntity.amount.sum().desc())
+                .fetch();
+    }
+
+    public List<Long> getQuantityOfBookedVaccines(){
+        return factory.select(acquiredVaccineEntity.vaccine.id)
+                .from(acquiredVaccineEntity)
+                .where(acquiredVaccineEntity.amount.gt(acquiredVaccineEntity.restAmount))
+                .groupBy(acquiredVaccineEntity.vaccine)
+                .orderBy(acquiredVaccineEntity.restAmount.sum().asc())
+                .limit(5)
+                .fetch();
+    }
 }

@@ -8,11 +8,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface LookupReservationMapper {
-
+  //todo: booking
   List<UserReservationInfo> userReservationLookup(Long userId);
-
+  //todo: agency
   List<AgencyReservationInfo> agencyReservationLookup(Long agencyId);
-
+  //todo: booking
   List<AgencyReservationInfoWithTime> agencyReservationLookupWithTime(Long agencyId);
 
 }

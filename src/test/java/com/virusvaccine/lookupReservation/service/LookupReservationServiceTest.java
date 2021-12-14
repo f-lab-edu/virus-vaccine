@@ -26,6 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+//todo: jpa repository 적용 필요
 @ExtendWith(SpringExtension.class)
 class LookupReservationServiceTest {
 

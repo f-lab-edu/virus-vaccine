@@ -1,5 +1,9 @@
 package com.virusvaccine.lookupReservation.service;
 
+import com.virusvaccine.bookVaccine.entity.AcquiredVaccineEntity;
+import com.virusvaccine.bookVaccine.entity.BookingEntity;
+import com.virusvaccine.bookVaccine.repository.AcquiredVaccineRepository;
+import com.virusvaccine.bookVaccine.repository.BookingRepository;
 import com.virusvaccine.lookupReservation.dto.AgencyReservationInfo;
 import com.virusvaccine.lookupReservation.dto.AgencyReservationInfoWithTime;
 import com.virusvaccine.lookupReservation.dto.CalculatedAgencyReservationInfo;
@@ -9,35 +13,51 @@ import com.virusvaccine.lookupReservation.mapper.LookupReservationMapper;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class LookupReservationService {
 
-  private final LookupReservationMapper lookupReservationMapper;
+  private final BookingRepository bookingRepository;
+  private final AcquiredVaccineRepository acquiredVaccineRepository;
 
-  public LookupReservationService(LookupReservationMapper lookupReservationMapper) {
-    this.lookupReservationMapper = lookupReservationMapper;
+  public LookupReservationService(BookingRepository bookingRepository, AcquiredVaccineRepository acquiredVaccineRepository) {
+    this.bookingRepository = bookingRepository;
+    this.acquiredVaccineRepository = acquiredVaccineRepository;
   }
 
   public List<UserReservationInfo> lookupReservation(Long userId) {
+    List<BookingEntity> userReservationBooking = bookingRepository.userReservationLookup(userId);
 
-    List<UserReservationInfo> userReservationInfos = lookupReservationMapper.userReservationLookup(userId);
-
-    if (userReservationInfos.isEmpty()){
+    if (userReservationBooking.isEmpty()){
       throw new NotFoundException();
     }
 
-    return userReservationInfos;
+    return userReservationBooking.stream()
+            .map(b -> new UserReservationInfo(
+                    b.getVaccinateAt().toLocalDateTime(),
+                    b.getAcquiredVaccine().getVaccine().getId(),
+                    b.getAcquiredVaccine().getAgency().getName(),
+                    b.getAcquiredVaccine().getAgency().getPhoneNumber(),
+                    b.getAcquiredVaccine().getAgency().getZipCode(),
+                    b.getAcquiredVaccine().getAgency().getSiDo(),
+                    b.getAcquiredVaccine().getAgency().getSiGunGu(),
+                    b.getAcquiredVaccine().getAgency().getEupMyeonDong(),
+                    b.getAcquiredVaccine().getAgency().getAddress()
+                    ))
+            .collect(Collectors.toList());
   }
 
   public HashMap<LocalDate, CalculatedAgencyReservationInfo> lookupAgencyReservation(Long agencyId) {
-
-    List<AgencyReservationInfo> agencyReservationInfos = lookupReservationMapper.agencyReservationLookup(agencyId);
-
-    if (agencyReservationInfos.isEmpty()){
+    List<AcquiredVaccineEntity> acquiredVaccineEntities = acquiredVaccineRepository.findByAgency_Id(agencyId);
+    if (acquiredVaccineEntities.isEmpty())
       throw new NotFoundException();
-    }
+
+    List<AgencyReservationInfo> agencyReservationInfos = acquiredVaccineEntities.stream().map(a -> new AgencyReservationInfo(
+            a.getVaccinateAt().toLocalDate(), a.getVaccine().getId().intValue(), (long) a.getAmount(), (long) (a.getAmount()- a.getRestAmount())
+    )).collect(Collectors.toList());
 
     HashMap<LocalDate, CalculatedAgencyReservationInfo> toReturn = new HashMap<>();
 
@@ -49,18 +69,16 @@ public class LookupReservationService {
       toReturn.get(date).getAmount()[agencyReservationInfo.getVaccineId()-1] += agencyReservationInfo.getRestAmount();
       toReturn.get(date).getBookedAmount()[agencyReservationInfo.getVaccineId()-1] += agencyReservationInfo.getBookedAmount();
     }
-
     return toReturn;
-
   }
 
   public HashMap<LocalDate, HashMap<Integer, long[]>> lookupAgencyReservationWithTime(Long agencyId){
-
-    List<AgencyReservationInfoWithTime> agencyReservationInfoWithTimes = lookupReservationMapper.agencyReservationLookupWithTime(agencyId);
-
-    if (agencyReservationInfoWithTimes.isEmpty()){
+    List<BookingEntity> bookingEntities = bookingRepository.agencyReservationLookupWithTime(agencyId);
+    if (bookingEntities.isEmpty())
       throw new NotFoundException();
-    }
+    List<AgencyReservationInfoWithTime> agencyReservationInfoWithTimes = bookingEntities.stream().map(
+            b -> new AgencyReservationInfoWithTime(b.getVaccinateAt().toLocalDateTime(), b.getAcquiredVaccine().getVaccine().getId().intValue())
+    ).collect(Collectors.toList());
 
     HashMap<LocalDate, HashMap<Integer, long[]>> toReturn = new HashMap<>();
 
@@ -77,7 +95,5 @@ public class LookupReservationService {
     }
 
     return toReturn;
-
   }
-
 }

@@ -11,4 +11,6 @@ import java.util.List;
 public interface AcquiredVaccineRepository extends JpaRepository<AcquiredVaccineEntity, Long>, AcquiredVaccineRepositoryCustom{
     List<AcquiredVaccineEntity> findByVaccine(VaccineEntity vaccine);
 
+    List<AcquiredVaccineEntity> findByAgency_Id(Long agencyId);
+
 }

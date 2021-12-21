@@ -101,7 +101,7 @@ class LookupReservationServiceTest {
     @Test
     @DisplayName("lookupReservation 메서드 단위 테스트 : 예약한 내역이 있을경우")
     public void lookupReservationFoundTest() {
-        UserReservationInfo answer = UserReservationInfo.UserReservationInfoBuilder.anUserReservationInfo().withVaccineId(1L).build();
+        UserReservationInfo answer = UserReservationInfo.UserReservationInfoBuilder.anUserReservationInfo().withVaccineId(1L).withName("1").build();
 
         when(bookingRepository.userReservationLookup(1L))
                 .thenReturn(List.of(bookingEntities.get(0)));

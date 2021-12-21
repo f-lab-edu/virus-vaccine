@@ -30,18 +30,14 @@ class AcquiredVaccineRepositoryTest {
     @Test
     @DisplayName("레포지토리 연결 테스트")
     public void findByVaccineTest(){
-        List<AcquiredVaccineEntity> list;
-        Optional<VaccineEntity> vaccineEntityOptional = vaccineRepository.findById(1L);
-        if(vaccineEntityOptional.isPresent()) {
-            list = acquiredVaccineRepository.findByVaccine(vaccineEntityOptional.get());
-        }
-
+        List<AcquiredVaccineEntity> list = acquiredVaccineRepository.findByAgency_Id(1L);
+        System.out.println(list.size());
     }
 
     @Test
     @DisplayName("searchAvailable 테스트")
     public void searchAvailableTest(){
-        List<AcquiredVaccineEntity> list = acquiredVaccineRepository.searchAvailable(1L, null, Date.valueOf(LocalDate.of(1990,1,1)));
+        Optional<AcquiredVaccineEntity> list = acquiredVaccineRepository.searchAvailable(1L, null, Date.valueOf(LocalDate.of(1990,1,1)));
     }
 
     @Test

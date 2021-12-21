@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import java.sql.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 import static com.virusvaccine.bookVaccine.entity.QAcquiredVaccineEntity.acquiredVaccineEntity;
 
@@ -24,12 +25,13 @@ public class AcquiredVaccineRepositoryImpl implements AcquiredVaccineRepositoryC
     }
 
     @Override
-    public List<AcquiredVaccineEntity> searchAvailable(Long agency_id, Long vaccine_id, Date today) {
-        return factory.selectFrom(acquiredVaccineEntity)
+    public Optional<AcquiredVaccineEntity> searchAvailable(Long agency_id, Long vaccine_id, Date today) {
+        return Optional.ofNullable(factory.selectFrom(acquiredVaccineEntity)
                 .where(acquiredVaccineEntity.agency.id.eq(agency_id),
                         eqVaccineId(vaccine_id),
-                        acquiredVaccineEntity.vaccinateAt.goe(today))
-                .fetch();
+                        acquiredVaccineEntity.vaccinateAt.goe(today),
+                        acquiredVaccineEntity.restAmount.gt(0))
+                .fetchFirst());
     }
 
     private BooleanExpression eqVaccineId(Long vaccine_id) {

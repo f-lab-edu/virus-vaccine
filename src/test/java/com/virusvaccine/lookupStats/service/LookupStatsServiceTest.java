@@ -82,7 +82,7 @@ class LookupStatsServiceTest {
     @DisplayName("getQuantityOfBookedVaccines 메서드 단위 테스트")
     public void getQuantityOfBookedVaccinesTest() {
 
-        List<Integer> answer = List.of(5, 4, 3, 2, 1);
+        List<Long> answer = List.of(1L, 3L, 4L, 5L, 2L);
 
         when(acquiredVaccineRepository.getQuantityOfBookedVaccines())
                 .thenReturn(answerOfQuantityOfVaccines);

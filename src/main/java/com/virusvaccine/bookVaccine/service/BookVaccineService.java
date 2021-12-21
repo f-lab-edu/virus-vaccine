@@ -4,7 +4,6 @@ import com.virusvaccine.bookVaccine.dto.ReservationRequest;
 import com.virusvaccine.bookVaccine.entity.AcquiredVaccineEntity;
 import com.virusvaccine.bookVaccine.entity.BookingEntity;
 import com.virusvaccine.bookVaccine.entity.VaccinatedStateEntity;
-import com.virusvaccine.bookVaccine.mapper.ReservationMapper;
 import com.virusvaccine.bookVaccine.repository.AcquiredVaccineRepository;
 import com.virusvaccine.bookVaccine.repository.BookingRepository;
 import com.virusvaccine.bookVaccine.repository.VaccinatedStateRepository;
@@ -19,24 +18,18 @@ import java.util.Random;
 
 import com.virusvaccine.user.entity.UserEntity;
 import com.virusvaccine.user.repository.UserRepository;
-import com.virusvaccine.vaccine.entity.VaccineEntity;
-import com.virusvaccine.vaccine.repository.VaccineRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BookVaccineService {
-
-  private final ReservationMapper reservationMapper;
   private final AcquiredVaccineRepository acquiredVaccineRepository;
   private final UserRepository userRepository;
   private final BookingRepository bookingRepository;
   private final VaccinatedStateRepository vaccinatedStateRepository;
 
-  public BookVaccineService(
-          ReservationMapper reservationMapper, AcquiredVaccineRepository acquiredVaccineRepository, UserRepository userRepository, BookingRepository bookingRepository, VaccinatedStateRepository vaccinatedStateRepository) {
-    this.reservationMapper = reservationMapper;
+  public BookVaccineService( AcquiredVaccineRepository acquiredVaccineRepository, UserRepository userRepository, BookingRepository bookingRepository, VaccinatedStateRepository vaccinatedStateRepository) {
     this.acquiredVaccineRepository = acquiredVaccineRepository;
     this.userRepository = userRepository;
     this.bookingRepository = bookingRepository;
@@ -69,8 +62,5 @@ public class BookVaccineService {
     }
     VaccinatedStateEntity vaccinatedState = new VaccinatedStateEntity(user, result.getVaccine(), 1);
     vaccinatedStateRepository.save(vaccinatedState);
-
   }
-
-
 }

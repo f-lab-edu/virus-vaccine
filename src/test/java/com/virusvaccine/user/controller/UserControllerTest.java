@@ -8,8 +8,10 @@ import com.virusvaccine.user.dto.LoginRequest;
 import com.virusvaccine.user.dto.User;
 import com.virusvaccine.user.dto.UserSignupRequest;
 import com.virusvaccine.common.exception.*;
-import com.virusvaccine.user.mapper.AgencyMapper;
-import com.virusvaccine.user.mapper.UserMapper;
+import com.virusvaccine.user.entity.AgencyEntity;
+import com.virusvaccine.user.entity.UserEntity;
+import com.virusvaccine.user.repository.AgencyRepository;
+import com.virusvaccine.user.repository.UserRepository;
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,10 +50,9 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    AgencyMapper agencyMapper;
-
+    AgencyRepository agencyRepository;
     @MockBean
-    UserMapper userMapper;
+    UserRepository userRepository;
 
     @BeforeClass
     private void setUp() {
@@ -65,8 +66,8 @@ class UserControllerTest {
     void signupTestWhenCorrectUserSignUpRequestThenSuccess() throws Exception {
         UserSignupRequest userSignUpRequest = new UserSignupRequest("random@naver.com", "1234", "1234", "kim", "01033334444", "9505261");
 
-        when(userMapper.getByEmail(userSignUpRequest.getEmail())).thenReturn(Optional.empty());
-        doNothing().when(userMapper).signup(any(User.class));
+        when(userRepository.findByEmail(userSignUpRequest.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.save(any(UserEntity.class))).thenReturn(null);
 
         String content = objectMapper.writeValueAsString(userSignUpRequest);
         mockMvc.perform(post("/api/user")
@@ -75,8 +76,8 @@ class UserControllerTest {
                         .content(content))
                 .andExpect(status().isOk());
 
-        verify(userMapper).signup(any(User.class));
-        verify(userMapper).getByEmail(userSignUpRequest.getEmail());
+        verify(userRepository).save(any(UserEntity.class));
+        verify(userRepository).findByEmail(userSignUpRequest.getEmail());
     }
 
     @Test
@@ -96,9 +97,10 @@ class UserControllerTest {
     @DisplayName("회원가입 실패 : User SignUpRequest 중복된 email")
     void signupTestWhenEmailDuplicatedUserSignUpRequestThenFail() throws Exception {
         User user = new User(1L, "abcd@naver.com", SHA256.getSHA("1234"), "kim", "01022223333", "9804321");
+        UserEntity userEntity = new UserEntity(user);
         UserSignupRequest userSignUpRequest = new UserSignupRequest("random@naver.com", "1234", "1234", "kim", "01033334444", "9505261");
 
-        when(userMapper.getByEmail(userSignUpRequest.getEmail())).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail(userSignUpRequest.getEmail())).thenReturn(Optional.of(userEntity));
 
         String content = objectMapper.writeValueAsString(userSignUpRequest);
         mockMvc.perform(post("/api/user")
@@ -116,8 +118,8 @@ class UserControllerTest {
                 .zipCode("13338").siDo("경기도").siGunGu("성남시 분당구").eupMyeonDong("백현동").address("123-45번지 201호")
                 .lat(37.40205480597614).lng(127.10777810087137)
                 .build();
-        when(agencyMapper.getByEmail(agencySignUpRequest.getEmail())).thenReturn(Optional.empty());
-        doNothing().when(agencyMapper).signUp(any(Agency.class));
+        when(agencyRepository.findByEmail(agencySignUpRequest.getEmail())).thenReturn(Optional.empty());
+        when(agencyRepository.save(any(AgencyEntity.class))).thenReturn(null);
 
         String content = objectMapper.writeValueAsString(agencySignUpRequest);
         mockMvc.perform(post("/api/user")
@@ -157,7 +159,8 @@ class UserControllerTest {
                 .zipCode("13338").siDo("경기도").siGunGu("성남시 분당구").eupMyeonDong("백현동").address("123-45번지 201호")
                 .lat(37.40205480597614).lng(127.10777810087137)
                 .build();
-        when(agencyMapper.getByEmail(agencySignUpRequest.getEmail())).thenReturn(Optional.of(agency));
+        AgencyEntity agencyEntity = new AgencyEntity(agency);
+        when(agencyRepository.findByEmail(agencySignUpRequest.getEmail())).thenReturn(Optional.of(agencyEntity));
 
         String content = objectMapper.writeValueAsString(agencySignUpRequest);
         mockMvc.perform(post("/api/user")
@@ -172,8 +175,8 @@ class UserControllerTest {
     void loginTestWhenCorrectUserLoginRequestThenSuccess() throws Exception {
         LoginRequest userLoginRequest = new LoginRequest("random@naver.com", "1234", false);
         User user = new User(1L, "abcd@naver.com", SHA256.getSHA("1234"), "kim", "01022223333", "9804321");
-
-        when(userMapper.getByEmail(userLoginRequest.getUserEmail())).thenReturn(Optional.of(user));
+        UserEntity userEntity = new UserEntity(user);
+        when(userRepository.findByEmail(userLoginRequest.getUserEmail())).thenReturn(Optional.of(userEntity));
 
         String content = objectMapper.writeValueAsString(userLoginRequest);
         mockMvc.perform(post("/api/login")
@@ -191,8 +194,9 @@ class UserControllerTest {
                 .zipCode("13338").siDo("경기도").siGunGu("성남시 분당구").eupMyeonDong("백현동").address("123-45번지 201호")
                 .lat(37.40205480597614).lng(127.10777810087137)
                 .build();
+        AgencyEntity agencyEntity = new AgencyEntity(agency);
         LoginRequest agencyLoginRequest = new LoginRequest(agency.getEmail(), "1234", true);
-        when(agencyMapper.getByEmail(agencyLoginRequest.getUserEmail())).thenReturn(Optional.of(agency));
+        when(agencyRepository.findByEmail(agencyLoginRequest.getUserEmail())).thenReturn(Optional.of(agencyEntity));
 
         String content = objectMapper.writeValueAsString(agencyLoginRequest);
         mockMvc.perform(post("/api/login")
@@ -206,7 +210,7 @@ class UserControllerTest {
     @DisplayName("로그인 실패 : AgencyLoginRequest 존재하지 않는 사용자")
     void loginTestWhenNotExistEmailAgencyLoginRequestThenFail() throws Exception {
         LoginRequest agencyLoginRequest = new LoginRequest("WrongEmail@test.com", "1234", true);
-        when(agencyMapper.getByEmail(agencyLoginRequest.getUserEmail())).thenReturn(Optional.empty());
+        when(agencyRepository.findByEmail(agencyLoginRequest.getUserEmail())).thenReturn(Optional.empty());
 
         String content = objectMapper.writeValueAsString(agencyLoginRequest);
         mockMvc.perform(post("/api/login")
@@ -224,8 +228,9 @@ class UserControllerTest {
                 .zipCode("13338").siDo("경기도").siGunGu("성남시 분당구").eupMyeonDong("백현동").address("123-45번지 201호")
                 .lat(37.40205480597614).lng(127.10777810087137)
                 .build();
+        AgencyEntity agencyEntity = new AgencyEntity(agency);
         LoginRequest agencyLoginRequest = new LoginRequest(agency.getEmail(), "WrongPassword", true);
-        when(agencyMapper.getByEmail(agencyLoginRequest.getUserEmail())).thenReturn(Optional.of(agency));
+        when(agencyRepository.findByEmail(agencyLoginRequest.getUserEmail())).thenReturn(Optional.of(agencyEntity));
 
         String content = objectMapper.writeValueAsString(agencyLoginRequest);
         mockMvc.perform(post("/api/login")

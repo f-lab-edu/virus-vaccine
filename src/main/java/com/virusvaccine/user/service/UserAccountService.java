@@ -5,7 +5,9 @@ import com.virusvaccine.user.dto.User;
 import com.virusvaccine.user.dto.UserSignupRequest;
 import com.virusvaccine.common.exception.DuplicateUserException;
 import com.virusvaccine.common.exception.NoneExistentUserException;
+import com.virusvaccine.user.entity.UserEntity;
 import com.virusvaccine.user.mapper.UserMapper;
+import com.virusvaccine.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import com.virusvaccine.common.utils.SHA256;
 
@@ -14,10 +16,10 @@ import java.util.Optional;
 @Service
 public class UserAccountService extends AccountService {
 
-    private final UserMapper mapper;
+    private final UserRepository repository;
 
-    public UserAccountService(UserMapper mapper) {
-        this.mapper = mapper;
+    public UserAccountService(UserRepository repository) {
+        this.repository = repository;
     }
 
     @Override
@@ -33,20 +35,20 @@ public class UserAccountService extends AccountService {
             .phoneNumber(signUpRequest.getPhoneNumber())
             .idNumber(signUpRequest.getIdNumber())
             .build();
-        mapper.signup(user);
+        repository.save(new UserEntity(user));
     }
 
     @Override
     public boolean validateDuplicate(String email) {
-        Optional<User> agency = mapper.getByEmail(email);
-        return agency.isPresent();
+        Optional<UserEntity> user = repository.findByEmail(email);
+        return user.isPresent();
     }
 
 
 
     @Override
-    public User getByEmail(String email) {
-        Optional<User> user = mapper.getByEmail(email);
+    public UserEntity getByEmail(String email) {
+        Optional<UserEntity> user = repository.findByEmail(email);
         if (user.isEmpty()) {
             throw new NoneExistentUserException();
         }

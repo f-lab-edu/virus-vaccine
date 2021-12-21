@@ -34,6 +34,9 @@ public class UserSignupRequest implements SignUpRequest {
     @Length(min = 7, max = 7, message = "주민등록번호 앞 6자리와 뒤 1자리를 올바르게 입력해 주세요")
     private String idNumber;
 
+    public UserSignupRequest() {
+    }
+
     public UserSignupRequest(String email, String password1, String password2, String name, String phoneNumber, String idNumber) {
         this.email = email;
         this.password1 = password1;

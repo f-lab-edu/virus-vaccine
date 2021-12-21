@@ -51,6 +51,8 @@ public class AgencySignUpRequest implements SignUpRequest {
     @NotNull
     private Double lng;
 
+    public AgencySignUpRequest(){}
+
     public AgencySignUpRequest(String email, String password, String validPassword, String name, String phoneNumber, String zipCode, String siDo, String siGunGu, String eupMyeonDong, String address, Double lat, Double lng) {
         this.email = email;
         this.password = password;

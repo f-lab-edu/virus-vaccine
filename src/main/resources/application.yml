@@ -2,15 +2,10 @@
 spring:
   profiles:
     active: local
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.spatial.dialect.mysql.MySQL5SpatialDialect
 
-# DB
+  # DB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-
-# Mybatis
-mybatis:
-  type-aliases-package: com.virusvaccine.mapper
-  mapper-locations: classpath:mapper/*.xml
-
-  configuration:
-    map-underscore-to-camel-case: true

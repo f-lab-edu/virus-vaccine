@@ -9,6 +9,9 @@ logs/
 ### local properties file
 src/main/resources/application-local.yml
 
+### QueryDsl ###
+src/main/generated
+
 
 ### STS ###
 .apt_generated
